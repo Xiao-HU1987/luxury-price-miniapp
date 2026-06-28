@@ -1,0 +1,67 @@
+<view class="page">
+  <view class="header">
+    <scroll-view class="country-filter" scroll-x>
+      <view
+        class="country-tag {{country === '' ? 'active' : ''}}"
+        data-country=""
+        bindtap="selectCountry"
+      >
+        全部地区
+      </view>
+      <view
+        class="country-tag {{country === item.code ? 'active' : ''}}"
+        wx:for="{{countries}}"
+        wx:key="code"
+        data-country="{{item.code}}"
+        bindtap="selectCountry"
+      >
+        {{item.flag}} {{item.name}}
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="tabs">
+    <view class="tab {{tab === 'available' ? 'active' : ''}}" data-tab="available" bindtap="onTabTap">可领取</view>
+    <view class="tab {{tab === 'used' ? 'active' : ''}}" data-tab="used" bindtap="onTabTap">已使用</view>
+    <view class="tab {{tab === 'expired' ? 'active' : ''}}" data-tab="expired" bindtap="onTabTap">已过期</view>
+  </view>
+
+  <scroll-view class="coupon-list" scroll-y>
+    <view wx:if="{{getFilteredCoupons().length === 0}}" class="empty">暂无优惠券</view>
+
+    <block wx:for="{{coupons}}" wx:key="id">
+      <view
+        class="coupon-card"
+        wx:if="{{(country === '' || item.country === country) && (tab === 'available' && item.status === 'available')}}"
+      >
+        <view class="coupon-left">
+          <view class="coupon-amount" wx:if="{{item.type === 'discount'}}">
+            <text class="currency">{{item.currencySymbol}}</text>
+            {{item.discount}}
+          </view>
+          <view class="coupon-amount" wx:elif="{{item.type === 'percent'}}">
+            {{item.discount}}
+            <text class="percent">%</text>
+          </view>
+          <view class="coupon-amount" wx:elif="{{item.type === 'cashback'}}">
+            返{{item.discount}}
+            <text class="percent">%</text>
+          </view>
+          <view class="coupon-threshold" wx:if="{{item.threshold > 0}}">满{{item.threshold}}可用</view>
+          <view class="coupon-threshold" wx:else>无门槛</view>
+        </view>
+        <view class="coupon-right">
+          <view class="coupon-title">{{item.title}}</view>
+          <view class="coupon-store">
+            <text class="flag">{{item.flag}}</text>
+            {{item.storeName}}
+          </view>
+          <view class="coupon-expire">有效期至 {{item.expireDate}}</view>
+          <button class="btn-claim" data-id="{{item.id}}" bindtap="claimCoupon">立即领取</button>
+        </view>
+      </view>
+    </block>
+
+    <view style="height: 40rpx;"></view>
+  </scroll-view>
+</view>

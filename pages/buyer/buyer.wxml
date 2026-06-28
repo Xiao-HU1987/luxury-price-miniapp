@@ -1,0 +1,234 @@
+<view class="page">
+  <view class="nav-bar">
+    <view class="nav-center">
+      <text class="nav-title">买手</text>
+    </view>
+    <view class="nav-right">
+      <text class="nav-icon-btn">⋯</text>
+      <text class="nav-icon-btn">−</text>
+      <text class="nav-icon-btn">◎</text>
+    </view>
+  </view>
+
+  <view class="tabs">
+    <view class="tab {{tab === 'buyers' ? 'active' : ''}}" data-tab="buyers" bindtap="onTabTap">找买手</view>
+    <view class="tab {{tab === 'demands' ? 'active' : ''}}" data-tab="demands" bindtap="onTabTap">需求广场</view>
+  </view>
+
+  <view wx:if="{{tab === 'buyers'}}" class="buyers-view">
+    <view class="search-section">
+      <view class="search-bar">
+        <text class="search-icon">🔍</text>
+        <input
+          class="search-input"
+          placeholder="搜索买手名称"
+          value="{{keyword}}"
+          bindinput="onKeywordInput"
+        />
+      </view>
+      <scroll-view class="country-filter" scroll-x>
+        <view
+          class="country-tag {{country === '' ? 'active' : ''}}"
+          data-country=""
+          bindtap="selectCountry"
+        >
+          全部
+        </view>
+        <view
+          class="country-tag {{country === item.code ? 'active' : ''}}"
+          wx:for="{{countries}}"
+          wx:key="code"
+          data-country="{{item.code}}"
+          bindtap="selectCountry"
+        >
+          {{item.flag}} {{item.name}}
+        </view>
+      </scroll-view>
+    </view>
+
+    <scroll-view class="buyer-list" scroll-y>
+      <view wx:if="{{buyers.length === 0}}" class="empty">暂无买手</view>
+      <view
+        class="buyer-card"
+        wx:for="{{buyers}}"
+        wx:key="id"
+        data-buyer="{{item}}"
+        bindtap="onBuyerTap"
+      >
+        <view class="buyer-avatar">
+          <view class="avatar-placeholder">👤</view>
+        </view>
+        <view class="buyer-info">
+          <view class="buyer-top">
+            <text class="buyer-name">{{item.name}}</text>
+            <text class="buyer-rating">⭐ {{item.rating}}</text>
+          </view>
+          <view class="buyer-location">
+            <text class="flag">{{item.flag}}</text>
+            <text class="city">{{item.countryName}} · {{item.city}}</text>
+          </view>
+          <view class="buyer-stats">
+            <text class="stat-item">已完成 {{item.orders}} 单</text>
+            <text class="stat-item">服务费 {{item.feeRate}}%</text>
+            <text class="stat-item">{{item.deliveryDays}}天到货</text>
+          </view>
+          <view class="buyer-specialty">
+            <text class="specialty-label">擅长：</text>
+            <text class="specialty-tags">
+              <text class="mini-tag" wx:for="{{item.specialtyNames}}" wx:key="*this" wx:for-item="tag">
+                {{tag}}
+              </text>
+            </text>
+          </view>
+        </view>
+      </view>
+      <view style="height: 140rpx;"></view>
+    </scroll-view>
+
+    <view class="publish-bar">
+      <button class="btn-publish" bindtap="showPublishModal">+ 发布寻买手需求</button>
+    </view>
+  </view>
+
+  <view wx:if="{{tab === 'demands'}}" class="demands-view">
+    <scroll-view class="demand-list" scroll-y>
+      <view wx:if="{{demands.length === 0}}" class="empty">暂无需求</view>
+      <view
+        class="demand-card"
+        wx:for="{{demands}}"
+        wx:key="id"
+        data-demand="{{item}}"
+        bindtap="onDemandTap"
+      >
+        <view class="demand-header">
+          <text class="demand-product">{{item.productName}}</text>
+          <text class="demand-status {{item.statusClass}}">{{item.statusText}}</text>
+        </view>
+        <view class="demand-info">
+          <view class="info-row">
+            <text class="info-label">目标国家</text>
+            <text class="info-value">{{item.flag}} {{item.countryName}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-label">预算</text>
+            <text class="info-value price">¥{{item.budget}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-label">交期</text>
+            <text class="info-value">{{item.deadline}}</text>
+          </view>
+          <view class="info-row" wx:if="{{item.bids > 0}}">
+            <text class="info-label">已投标</text>
+            <text class="info-value gold-text">{{item.bids}} 位买手</text>
+          </view>
+        </view>
+        <view class="demand-footer">
+          <text class="demand-time">{{item.timeAgo}}发布</text>
+        </view>
+      </view>
+      <view style="height: 140rpx;"></view>
+    </scroll-view>
+
+    <view class="publish-bar">
+      <button class="btn-publish" bindtap="showPublishModal">+ 发布我的需求</button>
+    </view>
+  </view>
+</view>
+
+<view class="modal-mask" wx:if="{{showPublish}}" bindtap="closePublishModal">
+  <view class="modal-content" catchtap="">
+    <view class="modal-header">
+      <text class="modal-title">发布寻买手需求</text>
+      <text class="modal-close" bindtap="closePublishModal">✕</text>
+    </view>
+    <scroll-view class="modal-body" scroll-y>
+      <view class="form-item">
+        <text class="form-label">商品名称 <text class="required">*</text></text>
+        <input
+          class="form-input"
+          placeholder="请输入商品名称"
+          value="{{publishForm.productName}}"
+          data-field="productName"
+          bindinput="onPublishInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">品牌</text>
+        <view class="brand-chips">
+          <view
+            class="brand-chip {{publishForm.brandId === item.id ? 'active' : ''}}"
+            wx:for="{{brands}}"
+            wx:key="id"
+            data-brand-id="{{item.id}}"
+            bindtap="selectPublishBrand"
+          >
+            {{item.nameCn}}
+          </view>
+        </view>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">目标国家/地区</text>
+        <view class="country-chips">
+          <view
+            class="country-chip {{publishForm.country === item.code ? 'active' : ''}}"
+            wx:for="{{countries}}"
+            wx:key="code"
+            data-country="{{item.code}}"
+            bindtap="selectPublishCountry"
+          >
+            {{item.flag}} {{item.name}}
+          </view>
+        </view>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">交期时间 <text class="required">*</text></text>
+        <picker mode="date" value="{{publishForm.deadline}}" start="{{minDate}}" bindchange="onDateChange">
+          <view class="form-input picker-input">
+            {{publishForm.deadline || '请选择交期日期'}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">预算（人民币）</text>
+        <input
+          class="form-input"
+          type="digit"
+          placeholder="请输入预算金额"
+          value="{{publishForm.budget}}"
+          data-field="budget"
+          bindinput="onPublishInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">数量</text>
+        <input
+          class="form-input"
+          type="number"
+          placeholder="1"
+          value="{{publishForm.quantity}}"
+          data-field="quantity"
+          bindinput="onPublishInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">补充说明</text>
+        <textarea
+          class="form-textarea"
+          placeholder="请描述具体需求，如颜色、尺寸、配件等"
+          value="{{publishForm.description}}"
+          data-field="description"
+          bindinput="onPublishInput"
+        ></textarea>
+      </view>
+    </scroll-view>
+    <view class="modal-footer">
+      <button class="btn-submit" bindtap="submitPublish">发布需求</button>
+    </view>
+  </view>
+</view>

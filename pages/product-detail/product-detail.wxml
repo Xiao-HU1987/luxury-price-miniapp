@@ -1,0 +1,92 @@
+<view class="page" wx:if="{{product}}">
+  <view class="product-header">
+    <view class="product-image">
+      <view class="image-placeholder">👜</view>
+    </view>
+    <view class="product-info">
+      <view class="product-brand">{{product.brandName}}</view>
+      <view class="product-name">{{product.name}}</view>
+      <view class="product-name-en">{{product.nameEn}}</view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">选择规格</view>
+    <view class="sku-list">
+      <view
+        class="sku-item {{skuIndex === index ? 'active' : ''}}"
+        wx:for="{{product.skus}}"
+        wx:key="id"
+        data-index="{{index}}"
+        bindtap="onSkuTap"
+      >
+        <view class="sku-color">{{item.color}}</view>
+        <view class="sku-size">{{item.size}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-header">
+      <text class="section-title">全球价格对比</text>
+      <text class="exchange-link" bindtap="goToExchange">去换算 ></text>
+    </view>
+    <view class="price-list">
+      <view
+        class="price-item {{item.isLowest ? 'lowest' : ''}}"
+        wx:for="{{priceList}}"
+        wx:key="countryCode"
+      >
+        <view class="price-left">
+          <text class="country-flag">{{item.flag}}</text>
+          <view class="country-info">
+            <view class="country-name">
+              {{item.countryName}}
+              <text wx:if="{{item.isLowest}}" class="lowest-tag">最低价</text>
+            </view>
+            <view class="store-name">{{item.store}}</view>
+          </view>
+        </view>
+        <view class="price-right">
+          <view class="price-original">
+            {{item.currencySymbol}}{{item.price.toLocaleString()}}
+          </view>
+          <view class="price-cny" wx:if="{{item.cnyPrice > 0}}">
+            约 ¥{{item.cnyPrice.toFixed(0)}}
+          </view>
+          <view class="stock-status {{item.inStock ? 'in-stock' : 'out-stock'}}">
+            {{item.inStock ? '库存 ' + item.stock : '缺货'}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">商品描述</view>
+    <view class="description">{{product.description}}</view>
+  </view>
+
+  <view class="card">
+    <view class="quick-actions">
+      <view class="action-item" bindtap="goToStores">
+        <view class="action-icon">🏬</view>
+        <view class="action-text">附近门店</view>
+      </view>
+      <view class="action-item" bindtap="findBuyer">
+        <view class="action-icon">🤝</view>
+        <view class="action-text">找买手</view>
+      </view>
+      <view class="action-item" bindtap="goToExchange">
+        <view class="action-icon">💱</view>
+        <view class="action-text">汇率计算</view>
+      </view>
+    </view>
+  </view>
+
+  <view style="height: 120rpx;"></view>
+
+  <view class="bottom-bar">
+    <button class="btn-find-buyer" bindtap="findBuyer">发布寻买手</button>
+  </view>
+</view>

@@ -1,0 +1,108 @@
+<view class="page">
+  <view class="nav-bar">
+    <view class="nav-center">
+      <text class="nav-title">到手价计算</text>
+    </view>
+    <view class="nav-right">
+      <text class="nav-icon-btn">⋯</text>
+      <text class="nav-icon-btn">−</text>
+      <text class="nav-icon-btn">◎</text>
+    </view>
+  </view>
+
+  <view class="content">
+    <view class="converter-card card">
+      <view class="amount-section" bindtap="showFromCurrencyPicker">
+        <view class="currency-info">
+          <text class="currency-flag">{{fromCountry.flag}}</text>
+          <view class="currency-text">
+            <view class="currency-name">{{fromCountry.name}}</view>
+            <view class="currency-code">{{fromCurrency}}</view>
+          </view>
+          <text class="arrow">›</text>
+        </view>
+        <input
+          class="amount-input"
+          type="digit"
+          value="{{amount}}"
+          bindinput="onAmountInput"
+          placeholder="输入金额"
+        />
+      </view>
+
+      <view class="swap-btn" bindtap="swapCurrency">
+        <text>⇅</text>
+      </view>
+
+      <view class="amount-section to" bindtap="showToCurrencyPicker">
+        <view class="currency-info">
+          <text class="currency-flag">{{toCountry.flag}}</text>
+          <view class="currency-text">
+            <view class="currency-name">{{toCountry.name}}</view>
+            <view class="currency-code">{{toCurrency}}</view>
+          </view>
+          <text class="arrow">›</text>
+        </view>
+        <view class="amount-display">
+          <text class="converted-amount">{{toCountry.currencySymbol}}{{convertedDisplay}}</text>
+        </view>
+      </view>
+
+      <view class="rate-info">
+        <text class="rate-text">1 {{fromCurrency}} = {{currentRateDisplay}} {{toCurrency}}</text>
+        <text class="refresh-btn" bindtap="refreshRates">🔄 更新</text>
+      </view>
+    </view>
+
+    <view class="update-time text-muted">汇率更新时间：{{updateTime}}</view>
+
+    <view class="section">
+      <view class="section-title">各国汇率（以 {{fromCurrency}} 为基准）</view>
+      <view class="rate-list card">
+        <view
+          class="rate-item"
+          wx:for="{{rateList}}"
+          wx:key="code"
+          data-currency="{{item.currency}}"
+          bindtap="onRateTap"
+        >
+          <view class="rate-left">
+            <text class="rate-flag">{{item.flag}}</text>
+            <view class="rate-info-text">
+              <view class="rate-country">{{item.name}}</view>
+              <view class="rate-currency">{{item.currency}}</view>
+            </view>
+          </view>
+          <view class="rate-right">
+            <view class="rate-value">{{item.currencySymbol}}{{item.rateDisplay}}</view>
+            <view class="rate-hint">1 {{fromCurrency}} = {{item.rateDisplay}} {{item.currency}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="picker-mask" wx:if="{{showFromPicker || showToPicker}}" bindtap="closeFromPicker">
+  <view class="picker-content" catchtap="">
+    <view class="picker-header">
+      <text class="picker-title">选择货币</text>
+      <text class="picker-close" bindtap="closeFromPicker">✕</text>
+    </view>
+    <scroll-view class="picker-list" scroll-y>
+      <view
+        class="picker-item"
+        wx:for="{{countries}}"
+        wx:key="code"
+        data-currency="{{item.currency}}"
+        bindtap="{{showFromPicker ? 'selectFromCurrency' : 'selectToCurrency'}}"
+      >
+        <text class="picker-flag">{{item.flag}}</text>
+        <view class="picker-info">
+          <view class="picker-name">{{item.name}}</view>
+          <view class="picker-code">{{item.currency}} {{item.currencySymbol}}</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

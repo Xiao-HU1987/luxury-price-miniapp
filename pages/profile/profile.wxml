@@ -1,0 +1,72 @@
+<view class="page">
+  <view class="nav-bar">
+    <view class="nav-center">
+      <text class="nav-title">我的</text>
+    </view>
+    <view class="nav-right">
+      <text class="nav-icon-btn">⋯</text>
+      <text class="nav-icon-btn">−</text>
+      <text class="nav-icon-btn">◎</text>
+    </view>
+  </view>
+
+  <view class="profile-header">
+    <view class="user-card">
+      <view class="avatar">
+        <text class="avatar-icon">👤</text>
+      </view>
+      <view class="user-info" bindtap="onEditProfile">
+        <view class="nickname">{{userInfo.nickname}}</view>
+        <view class="user-id" bindtap="copyUserId">
+          ID: {{userInfo.userId}}
+          <text class="copy-tip">点击复制</text>
+        </view>
+      </view>
+      <view class="edit-btn">
+        <text>›</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="menu-section card">
+    <view
+      class="menu-item"
+      wx:for="{{menuItems}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="onMenuTap"
+    >
+      <view class="menu-left">
+        <text class="menu-icon">{{item.icon}}</text>
+        <text class="menu-name">{{item.name}}</text>
+      </view>
+      <view class="menu-right">
+        <text wx:if="{{item.badge > 0}}" class="badge">{{item.badge}}</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="menu-section card">
+    <view class="section-title">设置</view>
+    <view
+      class="menu-item"
+      wx:for="{{settings}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="onSettingTap"
+    >
+      <view class="menu-left">
+        <text class="menu-icon">{{item.icon}}</text>
+        <text class="menu-name">{{item.name}}</text>
+      </view>
+      <view class="menu-right">
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="app-info">
+    <text class="app-version">奢品比价 v1.0.0</text>
+  </view>
+</view>

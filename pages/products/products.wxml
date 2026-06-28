@@ -1,0 +1,113 @@
+<view class="page">
+  <view class="search-header">
+    <view class="search-bar">
+      <text class="search-icon">🔍</text>
+      <input
+        class="search-input"
+        placeholder="搜索品牌、商品"
+        value="{{keyword}}"
+        bindinput="onKeywordInput"
+        bindconfirm="onSearch"
+        confirm-type="search"
+      />
+      <text class="search-btn" bindtap="onSearch">搜索</text>
+    </view>
+    <view class="filter-bar">
+      <view class="filter-item" bindtap="toggleFilter">
+        <text>筛选</text>
+        <text class="filter-arrow">▾</text>
+      </view>
+      <view class="filter-item" bindtap="toggleFilter">
+        <text>排序：{{currentSortLabel}}</text>
+      </view>
+    </view>
+  </view>
+
+  <scroll-view class="product-list" scroll-y>
+    <view class="product-count text-muted">共找到 {{products.length}} 件商品</view>
+
+    <view wx:if="{{products.length === 0}}" class="empty">
+      <text>暂无符合条件的商品</text>
+    </view>
+
+    <view class="product-card" wx:for="{{products}}" wx:key="id" data-id="{{item.id}}" bindtap="onProductTap">
+      <view class="product-img">
+        <view class="product-placeholder">👜</view>
+        <view class="product-country-tag">{{item.countryCount}}国比价</view>
+      </view>
+      <view class="product-info">
+        <view class="product-brand">{{item.brandName}}</view>
+        <view class="product-name">{{item.name}}</view>
+        <view class="product-price-row">
+          <text class="product-price">¥{{item.lowestCny.toFixed(0)}}</text>
+          <text class="price-cny">约人民币</text>
+        </view>
+        <view class="product-location">
+          <text class="location-text">最低价：{{item.lowestCountry}} {{item.lowestCurrency}} {{item.lowestPrice}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view style="height: 40rpx;"></view>
+  </scroll-view>
+</view>
+
+<view class="filter-mask" wx:if="{{showFilter}}" bindtap="closeFilter">
+  <view class="filter-panel" catchtap="">
+    <view class="filter-header">
+      <text class="filter-title">筛选</text>
+      <text class="filter-reset" bindtap="resetFilter">重置</text>
+    </view>
+
+    <scroll-view class="filter-body" scroll-y>
+      <view class="filter-group">
+        <view class="filter-group-title">品牌</view>
+        <view class="filter-options">
+          <view
+            class="filter-option {{brandId === item.id ? 'active' : ''}}"
+            wx:for="{{brands}}"
+            wx:key="id"
+            data-brand-id="{{item.id}}"
+            bindtap="selectBrand"
+          >
+            {{item.nameCn}}
+          </view>
+        </view>
+      </view>
+
+      <view class="filter-group">
+        <view class="filter-group-title">国家/地区</view>
+        <view class="filter-options">
+          <view
+            class="filter-option {{country === item.code ? 'active' : ''}}"
+            wx:for="{{countries}}"
+            wx:key="code"
+            data-country="{{item.code}}"
+            bindtap="selectCountry"
+          >
+            {{item.flag}} {{item.name}}
+          </view>
+        </view>
+      </view>
+
+      <view class="filter-group">
+        <view class="filter-group-title">排序方式</view>
+        <view class="filter-options">
+          <view
+            class="filter-option {{sortBy === item.value ? 'active' : ''}}"
+            wx:for="{{sortOptions}}"
+            wx:key="value"
+            data-value="{{item.value}}"
+            bindtap="selectSort"
+          >
+            {{item.label}}
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="filter-footer">
+      <button class="btn-apply" bindtap="applyFilter">确定</button>
+    </view>
+  </view>
+</view>

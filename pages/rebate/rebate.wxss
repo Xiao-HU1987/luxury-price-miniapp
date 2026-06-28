@@ -1,0 +1,283 @@
+.page {
+  min-height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 顶部导航 */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 20rpx 24rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.nav-center {
+  flex: 1;
+  text-align: center;
+}
+
+.nav-title {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.nav-right {
+  width: 180rpx;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.nav-icon-btn {
+  font-size: 28rpx;
+  color: #999;
+  margin-left: 16rpx;
+}
+
+/* 内容区 */
+.content {
+  flex: 1;
+  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+}
+
+/* 分区 */
+.section {
+  margin-bottom: 24rpx;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 24rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #ff6b00;
+}
+
+.more-btn {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #ff6b00;
+}
+
+.more-btn .arrow {
+  font-size: 32rpx;
+  margin-left: 4rpx;
+}
+
+/* 优惠券列表 */
+.coupon-list {
+  padding: 0 24rpx;
+}
+
+.coupon-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border: 1rpx solid #f0f0f0;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 16rpx;
+}
+
+.coupon-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.coupon-logo {
+  width: 72rpx;
+  height: 72rpx;
+  background: #f5f5f5;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  margin-right: 20rpx;
+}
+
+.coupon-logo.brand {
+  background: #000;
+  color: #fff;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.coupon-info {
+  flex: 1;
+}
+
+.coupon-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.coupon-desc {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 6rpx;
+}
+
+.coupon-right {
+  margin-left: 16rpx;
+}
+
+.btn-action {
+  padding: 12rpx 32rpx;
+  border-radius: 32rpx;
+  font-size: 26rpx;
+  font-weight: 500;
+}
+
+.btn-use {
+  background: #ff6b00;
+  color: #fff;
+}
+
+.btn-get {
+  background: #fff;
+  color: #ff6b00;
+  border: 1rpx solid #ff6b00;
+}
+
+/* 商品列表 */
+.product-list {
+  padding: 0 24rpx;
+}
+
+.product-card {
+  display: flex;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  position: relative;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.product-img {
+  width: 180rpx;
+  height: 180rpx;
+  background: #faf6e9;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 24rpx;
+}
+
+.img-placeholder {
+  font-size: 80rpx;
+}
+
+.product-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.product-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  line-height: 1.4;
+}
+
+.product-article {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 6rpx;
+}
+
+.price-row {
+  margin-top: 12rpx;
+}
+
+.price-cn, .price-jp {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.flag-cn, .flag-jp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 6rpx;
+  font-size: 20rpx;
+  color: #fff;
+  margin-right: 10rpx;
+  flex-shrink: 0;
+}
+
+.flag-cn {
+  background: #e74c3c;
+}
+
+.flag-jp {
+  background: #ff8c00;
+}
+
+.price-num {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-right: 4rpx;
+}
+
+.price-num.red {
+  color: #e74c3c;
+}
+
+.price-num.orange {
+  color: #ff8c00;
+}
+
+.price-unit {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.product-footer {
+  margin-top: 4rpx;
+}
+
+.footer-text {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.tag-arrival {
+  position: absolute;
+  right: 24rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff8f0;
+  border: 1rpx solid #ff8c00;
+  border-radius: 8rpx;
+  padding: 8rpx 16rpx;
+}
+
+.tag-arrival text {
+  font-size: 24rpx;
+  color: #ff8c00;
+  font-weight: 500;
+}

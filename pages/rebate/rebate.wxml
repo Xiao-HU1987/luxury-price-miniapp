@@ -1,0 +1,119 @@
+<view class="page">
+  <!-- 顶部导航 -->
+  <view class="nav-bar">
+    <view class="nav-center">
+      <text class="nav-title">返点优惠</text>
+    </view>
+    <view class="nav-right">
+      <text class="nav-icon-btn">⋯</text>
+      <text class="nav-icon-btn">−</text>
+      <text class="nav-icon-btn">◎</text>
+    </view>
+  </view>
+
+  <scroll-view class="content" scroll-y>
+    <!-- 日本优惠券 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">日本优惠券</text>
+      </view>
+      <view class="coupon-list">
+        <view
+          class="coupon-card"
+          wx:for="{{jpCoupons}}"
+          wx:key="id"
+          data-coupon="{{item}}"
+          bindtap="onCouponTap"
+        >
+          <view class="coupon-left">
+            <view class="coupon-logo">{{item.logo}}</view>
+            <view class="coupon-info">
+              <view class="coupon-name">{{item.name}}</view>
+              <view wx:if="{{item.description}}" class="coupon-desc">{{item.description}}</view>
+            </view>
+          </view>
+          <view class="coupon-right">
+            <view class="btn-action {{item.status === 'used' ? 'btn-use' : 'btn-get'}}">
+              {{item.statusText}}
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 国内优惠券 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">国内优惠券</text>
+      </view>
+      <view class="coupon-list">
+        <view
+          class="coupon-card"
+          wx:for="{{cnCoupons}}"
+          wx:key="id"
+          data-coupon="{{item}}"
+          bindtap="onCouponTap"
+        >
+          <view class="coupon-left">
+            <view class="coupon-logo brand">{{item.logo}}</view>
+            <view class="coupon-info">
+              <view class="coupon-name">{{item.name}}</view>
+              <view wx:if="{{item.description}}" class="coupon-desc">{{item.description}}</view>
+            </view>
+          </view>
+          <view class="coupon-right">
+            <view class="btn-action btn-use">
+              {{item.statusText}}
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 商品比价 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">商品比价</text>
+        <view class="more-btn" bindtap="goToMoreProducts">
+          <text>更多商品</text>
+          <text class="arrow">›</text>
+        </view>
+      </view>
+      <view class="product-list">
+        <view
+          class="product-card"
+          wx:for="{{products}}"
+          wx:key="id"
+          data-product-id="{{item.id}}"
+          bindtap="onProductTap"
+        >
+          <view class="product-img">
+            <view class="img-placeholder">👜</view>
+          </view>
+          <view class="product-info">
+            <view class="product-name">{{item.name}}</view>
+            <view class="product-article">货号：{{item.articleNo}}</view>
+            <view class="price-row">
+              <view class="price-cn">
+                <text class="flag-cn">中</text>
+                <text class="price-num red">{{item.cnPriceStr}}</text>
+                <text class="price-unit">元</text>
+              </view>
+              <view wx:if="{{item.hasJpPrice}}" class="price-jp">
+                <text class="flag-jp">日</text>
+                <text class="price-num orange">{{item.jpPriceCnyStr}}</text>
+                <text class="price-unit">元</text>
+              </view>
+            </view>
+            <view class="product-footer">
+              <text wx:if="{{item.hasJpPrice}}" class="footer-text">日本最低到手价(实时更新)</text>
+            </view>
+          </view>
+          <view class="tag-arrival">
+            <text>到手价</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

@@ -1,0 +1,292 @@
+.page {
+  min-height: 100vh;
+  background: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 20rpx 24rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.nav-center {
+  flex: 1;
+  text-align: center;
+}
+
+.nav-title {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.nav-right {
+  width: 180rpx;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.nav-icon-btn {
+  font-size: 28rpx;
+  color: #999;
+  margin-left: 16rpx;
+}
+
+.content {
+  flex: 1;
+  padding: 24rpx;
+  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+}
+
+.converter-card {
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.amount-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+}
+
+.amount-section.to {
+  background: #faf9f6;
+  margin: 0 -30rpx;
+  padding: 20rpx 30rpx;
+}
+
+.currency-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.currency-flag {
+  font-size: 48rpx;
+  margin-right: 16rpx;
+}
+
+.currency-text {
+  flex: 1;
+}
+
+.currency-name {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.currency-code {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+
+.arrow {
+  font-size: 36rpx;
+  color: #ccc;
+  margin-right: 10rpx;
+}
+
+.amount-input {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+  text-align: right;
+  flex: 1;
+  max-width: 300rpx;
+}
+
+.amount-display {
+  flex: 1;
+  text-align: right;
+}
+
+.converted-amount {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #d4af37;
+}
+
+.swap-btn {
+  display: flex;
+  justify-content: center;
+  padding: 10rpx 0;
+  margin: 10rpx 0;
+}
+
+.swap-btn text {
+  font-size: 40rpx;
+  color: #d4af37;
+}
+
+.rate-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #eee;
+}
+
+.rate-text {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.refresh-btn {
+  font-size: 24rpx;
+  color: #d4af37;
+}
+
+.update-time {
+  text-align: center;
+  margin-bottom: 20rpx;
+  font-size: 22rpx;
+}
+
+.section {
+  margin-bottom: 30rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 16rpx;
+  color: #1a1a1a;
+}
+
+.rate-list {
+  padding: 0 24rpx;
+}
+
+.rate-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.rate-item:last-child {
+  border-bottom: none;
+}
+
+.rate-left {
+  display: flex;
+  align-items: center;
+}
+
+.rate-flag {
+  font-size: 40rpx;
+  margin-right: 16rpx;
+}
+
+.rate-info-text {
+}
+
+.rate-country {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.rate-currency {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+
+.rate-right {
+  text-align: right;
+}
+
+.rate-value {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #d4af37;
+}
+
+.rate-hint {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+
+.picker-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+}
+
+.picker-content {
+  width: 100%;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.picker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.picker-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.picker-close {
+  font-size: 32rpx;
+  color: #999;
+}
+
+.picker-list {
+  flex: 1;
+  padding: 0 30rpx;
+}
+
+.picker-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.picker-flag {
+  font-size: 40rpx;
+  margin-right: 20rpx;
+}
+
+.picker-info {
+  flex: 1;
+}
+
+.picker-name {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.picker-code {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 6rpx;
+}

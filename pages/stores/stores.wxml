@@ -1,0 +1,81 @@
+<view class="page">
+  <view class="nav-bar">
+    <view class="nav-center">
+      <text class="nav-title">快比商城</text>
+    </view>
+    <view class="nav-right">
+      <text class="nav-icon-btn">⋯</text>
+      <text class="nav-icon-btn">−</text>
+      <text class="nav-icon-btn">◎</text>
+    </view>
+  </view>
+
+  <view class="header">
+    <view class="search-bar">
+      <text class="search-icon">🔍</text>
+      <input
+        class="search-input"
+        placeholder="搜索商场名称、城市"
+        value="{{keyword}}"
+        bindinput="onKeywordInput"
+      />
+    </view>
+    <scroll-view class="country-filter" scroll-x>
+      <view
+        class="country-tag {{country === '' ? 'active' : ''}}"
+        data-country=""
+        bindtap="selectCountry"
+      >
+        全部
+      </view>
+      <view
+        class="country-tag {{country === item.code ? 'active' : ''}}"
+        wx:for="{{countries}}"
+        wx:key="code"
+        data-country="{{item.code}}"
+        bindtap="selectCountry"
+      >
+        {{item.flag}} {{item.name}}
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="tabs">
+    <view class="tab {{tab === 'mall' ? 'active' : ''}}" data-tab="mall" bindtap="onTabTap">商场</view>
+    <view class="tab {{tab === 'street' ? 'active' : ''}}" data-tab="street" bindtap="onTabTap">专卖店街</view>
+    <view class="tab {{tab === 'dutyfree' ? 'active' : ''}}" data-tab="dutyfree" bindtap="onTabTap">免税店</view>
+  </view>
+
+  <scroll-view class="store-list" scroll-y>
+    <view wx:if="{{stores.length === 0}}" class="empty">暂无相关门店</view>
+
+    <view
+      class="store-card"
+      wx:for="{{stores}}"
+      wx:key="id"
+      data-store="{{item}}"
+      bindtap="onStoreTap"
+    >
+      <view class="store-img">
+        <view class="store-placeholder">🏬</view>
+      </view>
+      <view class="store-info">
+        <view class="store-top">
+          <text class="store-name">{{item.name}}</text>
+          <text class="store-rating">⭐ {{item.rating}}</text>
+        </view>
+        <view class="store-location">
+          <text class="flag">{{item.flag}}</text>
+          <text class="city">{{item.countryName}} · {{item.city}}</text>
+          <text class="type-tag">{{item.typeLabel}}</text>
+        </view>
+        <view class="store-address">{{item.address}}</view>
+        <view class="store-brands">
+          <text class="brand-count">{{item.brandCount}}个品牌入驻</text>
+        </view>
+      </view>
+    </view>
+
+    <view style="height: 40rpx;"></view>
+  </scroll-view>
+</view>
