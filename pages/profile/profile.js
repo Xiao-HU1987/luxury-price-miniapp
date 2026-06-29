@@ -14,7 +14,12 @@ Page({
       { id: 'currency', icon: '💱', name: '默认货币' },
       { id: 'about', icon: 'ℹ️', name: '关于我们' },
       { id: 'feedback', icon: '📝', name: '意见反馈' }
-    ]
+    ],
+    statusBarHeight: 20
+  },
+
+  onLoad() {
+    this.setData({ statusBarHeight: app.globalData.statusBarHeight || 20 });
   },
 
   onShow() {

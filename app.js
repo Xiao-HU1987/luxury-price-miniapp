@@ -1,30 +1,67 @@
 App({
   onLaunch() {
-    const userInfo = wx.getStorageSync('userInfo') || null;
-    if (!userInfo) {
-      const newUser = {
-        userId: 'U' + Date.now(),
-        nickname: '奢品用户',
-        avatar: '',
-        createTime: new Date().toISOString()
-      };
+    this.initUser();
+    this.initExchangeRates();
+    this.initWindowInfo();
+  },
+
+  initWindowInfo() {
+    try {
+      const info = wx.getWindowInfo();
+      if (info && info.statusBarHeight) {
+        this.globalData.statusBarHeight = info.statusBarHeight;
+      }
+    } catch (e) {}
+  },
+
+  initUser() {
+    try {
+      const userInfo = wx.getStorageSync('userInfo');
+      if (userInfo) {
+        this.globalData.userInfo = userInfo;
+        return;
+      }
+    } catch (e) {}
+
+    const newUser = {
+      userId: 'U' + Date.now(),
+      nickname: '奢品用户',
+      avatar: '',
+      createTime: new Date().toISOString()
+    };
+    try {
       wx.setStorageSync('userInfo', newUser);
-      this.globalData.userInfo = newUser;
-    } else {
-      this.globalData.userInfo = userInfo;
+    } catch (e) {}
+    this.globalData.userInfo = newUser;
+  },
+
+  initExchangeRates() {
+    let cachedRates = null;
+    try {
+      cachedRates = wx.getStorageSync('exchangeRates');
+    } catch (e) {}
+
+    const defaultRates = this.getDefaultRates();
+
+    if (!cachedRates || !cachedRates.updateTime) {
+      this.saveRates(defaultRates);
+      return;
     }
 
-    const exchangeRates = wx.getStorageSync('exchangeRates');
-    if (!exchangeRates || !exchangeRates.updateTime || 
-        (Date.now() - new Date(exchangeRates.updateTime).getTime() > 3600000)) {
-      this.updateExchangeRates();
-    } else {
-      this.globalData.exchangeRates = exchangeRates;
+    try {
+      const diff = Date.now() - new Date(cachedRates.updateTime).getTime();
+      if (diff > 3600000 || isNaN(diff)) {
+        this.saveRates(defaultRates);
+      } else {
+        this.globalData.exchangeRates = cachedRates;
+      }
+    } catch (e) {
+      this.saveRates(defaultRates);
     }
   },
 
-  updateExchangeRates() {
-    const rates = {
+  getDefaultRates() {
+    return {
       updateTime: new Date().toISOString(),
       base: 'CNY',
       rates: {
@@ -42,13 +79,24 @@ App({
         THB: 4.95
       }
     };
-    wx.setStorageSync('exchangeRates', rates);
+  },
+
+  saveRates(rates) {
+    try {
+      wx.setStorageSync('exchangeRates', rates);
+    } catch (e) {}
     this.globalData.exchangeRates = rates;
+  },
+
+  updateExchangeRates() {
+    const rates = this.getDefaultRates();
+    this.saveRates(rates);
     return rates;
   },
 
   globalData: {
     userInfo: null,
-    exchangeRates: null
+    exchangeRates: null,
+    statusBarHeight: 20
   }
 });

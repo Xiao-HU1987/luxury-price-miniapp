@@ -1,4 +1,5 @@
 <view class="page" wx:if="{{product}}">
+  <view class="safe-area-inset-top" style="height: {{statusBarHeight}}px;"></view>
   <view class="product-header">
     <view class="product-image">
       <view class="image-placeholder">👜</view>
@@ -49,10 +50,10 @@
         </view>
         <view class="price-right">
           <view class="price-original">
-            {{item.currencySymbol}}{{item.price.toLocaleString()}}
+            {{item.currencySymbol}}{{item.priceDisplay}}
           </view>
           <view class="price-cny" wx:if="{{item.cnyPrice > 0}}">
-            约 ¥{{item.cnyPrice.toFixed(0)}}
+            约 ¥{{item.cnyPriceDisplay}}
           </view>
           <view class="stock-status {{item.inStock ? 'in-stock' : 'out-stock'}}">
             {{item.inStock ? '库存 ' + item.stock : '缺货'}}

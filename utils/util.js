@@ -3,10 +3,11 @@ const { COUNTRIES } = require('./constants.js');
 function formatPrice(amount, currencyCode) {
   const country = COUNTRIES.find(c => c.currency === currencyCode);
   const symbol = country ? country.currencySymbol : '';
+  const num = Number(amount);
   if (currencyCode === 'JPY' || currencyCode === 'KRW') {
-    return symbol + Math.round(amount).toLocaleString();
+    return symbol + String(Math.round(num)).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
-  return symbol + Number(amount).toFixed(2).toLocaleString();
+  return symbol + num.toFixed(2);
 }
 
 function convertCurrency(amount, fromCurrency, toCurrency, rates) {
@@ -25,7 +26,7 @@ function formatTime(dateStr) {
   if (diff < 3600000) return Math.floor(diff / 60000) + '分钟前';
   if (diff < 86400000) return Math.floor(diff / 3600000) + '小时前';
   if (diff < 2592000000) return Math.floor(diff / 86400000) + '天前';
-  return date.toLocaleDateString();
+  return formatDate(dateStr);
 }
 
 function formatDate(dateStr) {

@@ -1,8 +1,8 @@
 {
   "pages": [
+    "pages/rebate/rebate",
     "pages/index/index",
     "pages/exchange/exchange",
-    "pages/rebate/rebate",
     "pages/products/products",
     "pages/product-detail/product-detail",
     "pages/stores/stores",

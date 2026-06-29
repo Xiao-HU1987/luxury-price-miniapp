@@ -5,12 +5,23 @@
   flex-direction: column;
 }
 
+/* iPhone 刘海屏安全区域适配 - 黑色背景匹配页面风格 */
+.safe-area-inset-top {
+  width: 100%;
+  background: #1a1a1a;
+}
+
 .nav-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: #1a1a1a;
   padding: 20rpx 24rpx;
+}
+
+.nav-left,
+.nav-right {
+  width: 180rpx;
 }
 
 .nav-center {

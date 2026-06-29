@@ -1,6 +1,10 @@
 <view class="page">
+  <!-- 顶部安全区域适配 (iPhone刘海屏) -->
+  <view class="safe-area-inset-top" style="height: {{statusBarHeight}}px;"></view>
+  
   <!-- 顶部导航 -->
   <view class="nav-bar">
+    <view class="nav-left"></view>
     <view class="nav-center">
       <text class="nav-title">返点优惠</text>
     </view>
@@ -110,7 +114,7 @@
             </view>
           </view>
           <view class="tag-arrival">
-            <text>到手价</text>
+            <text class="tag-text">到手价</text>
           </view>
         </view>
       </view>

@@ -1,10 +1,12 @@
 const { STORES } = require('../../data/mock.js');
 const { BRANDS, COUNTRIES } = require('../../utils/constants.js');
 const { getCountryByCode } = require('../../utils/util.js');
+const app = getApp();
 
 Page({
   data: {
     tab: 'mall',
+    statusBarHeight: 20,
     keyword: '',
     country: '',
     stores: [],
@@ -18,6 +20,7 @@ Page({
   },
 
   onLoad() {
+    this.setData({ statusBarHeight: app.globalData.statusBarHeight || 20 });
     this.loadStores();
   },
 

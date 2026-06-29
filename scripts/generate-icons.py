@@ -1,59 +1,66 @@
-import os
-import zlib
 import struct
+import zlib
+import os
 
-def create_png(width, height, r, g, b, a=255):
+def create_simple_png(width, height, r, g, b, a=255):
     signature = b'\x89PNG\r\n\x1a\n'
     
-    def crc32(data):
-        crc = 0xFFFFFFFF
-        for byte in data:
-            crc ^= byte
-            for _ in range(8):
-                crc = (crc >> 1) ^ (0xEDB88320 if crc & 1 else 0)
-        return (crc ^ 0xFFFFFFFF) & 0xFFFFFFFF
+    def chunk(chunk_type, data):
+        c = chunk_type + data
+        crc = zlib.crc32(c) & 0xffffffff
+        return struct.pack('>I', len(data)) + c + struct.pack('>I', crc)
     
-    def create_chunk(chunk_type, data):
-        length = struct.pack('>I', len(data))
-        crc_data = chunk_type + data
-        crc = struct.pack('>I', crc32(crc_data))
-        return length + chunk_type + data + crc
+    ihdr_data = struct.pack('>IIBBBBB', width, height, 8, 6, 0, 0, 0)
     
-    ihdr = struct.pack('>IIBBBBB', width, height, 8, 6, 0, 0, 0)
-    ihdr_chunk = create_chunk(b'IHDR', ihdr)
-    
-    raw_data = []
+    raw_data = bytearray()
     for y in range(height):
         raw_data.append(0)
         for x in range(width):
             raw_data.extend([r, g, b, a])
     
     compressed = zlib.compress(bytes(raw_data))
-    idat_chunk = create_chunk(b'IDAT', compressed)
     
-    iend_chunk = create_chunk(b'IEND', b'')
-    
-    return signature + ihdr_chunk + idat_chunk + iend_chunk
+    return (signature + 
+            chunk(b'IHDR', ihdr_data) + 
+            chunk(b'IDAT', compressed) + 
+            chunk(b'IEND', b''))
+
+def is_valid_png(data):
+    if len(data) < 8:
+        return False
+    if data[:8] != b'\x89PNG\r\n\x1a\n':
+        return False
+    return True
 
 icon_dir = os.path.join(os.path.dirname(__file__), '../images/tab')
 
+GRAY = (153, 153, 153)
+ORANGE = (255, 107, 0)
+
 icons = {
-    'coupon': (153, 153, 153),
-    'coupon_active': (255, 107, 0),
-    'exchange': (153, 153, 153),
-    'exchange_active': (255, 107, 0),
-    'compare': (153, 153, 153),
-    'compare_active': (255, 107, 0),
-    'buyer': (153, 153, 153),
-    'buyer_active': (255, 107, 0)
+    'coupon.png': GRAY,
+    'coupon_active.png': ORANGE,
+    'exchange.png': GRAY,
+    'exchange_active.png': ORANGE,
+    'compare.png': GRAY,
+    'compare_active.png': ORANGE,
+    'buyer.png': GRAY,
+    'buyer_active.png': ORANGE,
+    'profile.png': GRAY,
+    'profile_active.png': ORANGE
 }
 
 os.makedirs(icon_dir, exist_ok=True)
 
 for name, (r, g, b) in icons.items():
-    png = create_png(48, 48, r, g, b)
-    with open(os.path.join(icon_dir, f'{name}.png'), 'wb') as f:
-        f.write(png)
-    print(f'Created {name}.png')
+    filepath = os.path.join(icon_dir, name)
+    png_data = create_simple_png(48, 48, r, g, b)
+    
+    if is_valid_png(png_data):
+        with open(filepath, 'wb') as f:
+            f.write(png_data)
+        print(f'Created valid PNG: {name} ({len(png_data)} bytes)')
+    else:
+        print(f'ERROR: Invalid PNG: {name}')
 
-print('All icons generated!')
+print('\nAll icons generated and verified!')

@@ -1,5 +1,9 @@
 <view class="page">
+  <!-- 顶部安全区域适配 (iPhone刘海屏) -->
+  <view class="safe-area-inset-top" style="height: {{statusBarHeight}}px;"></view>
+  
   <view class="nav-bar">
+    <view class="nav-left"></view>
     <view class="nav-center">
       <text class="nav-title">到手价计算</text>
     </view>
@@ -31,8 +35,8 @@
       </view>
 
       <view class="swap-btn" bindtap="swapCurrency">
-        <text>⇅</text>
-      </view>
+    <text class="swap-icon">⇅</text>
+  </view>
 
       <view class="amount-section to" bindtap="showToCurrencyPicker">
         <view class="currency-info">

@@ -1,15 +1,16 @@
 const { PRODUCTS } = require('../../data/mock.js');
-const { BRANDS, CATEGORIES, COUNTRIES } = require('../../utils/constants.js');
+const { BRANDS, CATEGORIES } = require('../../utils/constants.js');
 const { convertCurrency } = require('../../utils/util.js');
 
 const app = getApp();
+
+const DEFAULT_JP_RATE = 21.58;
 
 Page({
   data: {
     searchKeyword: '',
     products: [],
-    exchangeRates: null,
-    jpRate: 21.58,
+    jpRateDisplay: 22,
     brands: BRANDS,
     categories: CATEGORIES,
     showBrandFilter: false,
@@ -19,57 +20,77 @@ Page({
     selectedCategory: '',
     selectedCategoryName: '',
     sortBy: 'default',
-    sortLabel: '价格'
+    sortLabel: '价格',
+    statusBarHeight: 20
   },
 
+  _productsCache: null,
+
   onLoad() {
-    this.loadData();
+    this.setData({
+      statusBarHeight: app.globalData.statusBarHeight || 20
+    });
+    this.buildProductList();
   },
 
   onShow() {
     const rates = app.globalData.exchangeRates;
-    if (rates) {
-      this.setData({
-        exchangeRates: rates,
-        jpRate: rates.rates.JPY || 21.58
-      });
-      this.loadData();
+    if (rates && rates.rates) {
+      const jpRate = rates.rates.JPY || DEFAULT_JP_RATE;
+      const jpRateDisplay = Math.round(jpRate);
+      if (jpRateDisplay !== this.data.jpRateDisplay) {
+        this.setData({ jpRateDisplay: jpRateDisplay });
+        this._productsCache = null;
+        this.buildProductList();
+      }
     }
   },
 
-  loadData() {
-    const rates = this.data.exchangeRates;
-    const jpRate = rates && rates.rates ? (rates.rates.JPY || 21.58) : 21.58;
-    const jpRateDisplay = Math.round(jpRate);
+  getJpRate() {
+    const rates = app.globalData.exchangeRates;
+    if (rates && rates.rates && rates.rates.JPY) {
+      return rates.rates.JPY;
+    }
+    return DEFAULT_JP_RATE;
+  },
 
-    const products = PRODUCTS.map(p => {
+  buildProductList() {
+    if (this._productsCache) {
+      this.setData({ products: this._productsCache });
+      return;
+    }
+
+    const jpRate = this.getJpRate();
+
+    const products = [];
+    for (let i = 0; i < PRODUCTS.length; i++) {
+      const p = PRODUCTS[i];
       const firstSku = p.skus[0];
+      if (!firstSku) continue;
+      
       const prices = firstSku.prices;
       const cnPrice = prices.CN ? prices.CN.price : 0;
       const jpPriceYen = prices.JP ? prices.JP.price : 0;
+      
       let jpPriceCny = 0;
-      if (jpPriceYen > 0 && rates && rates.rates) {
-        jpPriceCny = convertCurrency(jpPriceYen, 'JPY', 'CNY', rates);
-      } else if (jpPriceYen > 0) {
+      if (jpPriceYen > 0) {
         jpPriceCny = Math.round(jpPriceYen / jpRate);
       }
 
-      return {
+      products.push({
         id: p.id,
         brandId: p.brandId,
         brandName: p.brandName,
         name: p.name,
         articleNo: p.articleNo || '',
-        image: '',
-        cnPrice: cnPrice,
-        cnPriceStr: cnPrice.toLocaleString(),
-        jpPriceCny: jpPriceCny,
-        jpPriceCnyStr: jpPriceCny.toLocaleString(),
+        cnPriceStr: String(cnPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+        jpPriceCnyStr: String(jpPriceCny).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
         hasJpPrice: jpPriceYen > 0
-      };
-    });
+      });
+    }
 
-    this.setData({ products, jpRateDisplay });
+    this._productsCache = products;
+    this.setData({ products });
   },
 
   onSearchInput(e) {
@@ -147,10 +168,12 @@ Page({
       'price-desc': { next: 'default', label: '价格' }
     };
     const current = sortMap[this.data.sortBy];
-    this.setData({
-      sortBy: current.next,
-      sortLabel: current.label
-    });
+    if (current) {
+      this.setData({
+        sortBy: current.next,
+        sortLabel: current.label
+      });
+    }
   },
 
   goToExchange() {

@@ -6,6 +6,7 @@ const app = getApp();
 
 Page({
   data: {
+    statusBarHeight: 20,
     product: null,
     currentSku: null,
     priceList: [],
@@ -15,6 +16,7 @@ Page({
   },
 
   onLoad(options) {
+    this.setData({ statusBarHeight: app.globalData.statusBarHeight || 20 });
     const id = options.id;
     const product = PRODUCTS.find(p => p.id === id);
     if (product) {
@@ -58,11 +60,13 @@ Page({
         countryName: country.name,
         flag: country.flag,
         price: priceInfo.price,
+        priceDisplay: String(priceInfo.price).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
         currency: priceInfo.currency,
         currencySymbol: country.currencySymbol,
         stock: priceInfo.stock,
         store: priceInfo.store,
         cnyPrice: cnyPrice,
+        cnyPriceDisplay: Math.round(cnyPrice).toString(),
         inStock: priceInfo.stock > 0
       };
     });

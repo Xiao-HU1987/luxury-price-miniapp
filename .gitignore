@@ -12,3 +12,19 @@ $RECYCLE.BIN/
 
 # Node.js
 node_modules/
+
+# 文档
+docs/PRD.md
+
+# 微信小程序私有配置
+project.private.config.json
+
+# 日志
+*.log
+npm-debug.log*
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+*.swo

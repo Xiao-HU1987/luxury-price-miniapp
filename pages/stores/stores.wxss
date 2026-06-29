@@ -5,6 +5,11 @@
   flex-direction: column;
 }
 
+.safe-area-inset-top {
+  width: 100%;
+  background: #fff;
+}
+
 .nav-bar {
   display: flex;
   align-items: center;

@@ -18,10 +18,13 @@ Page({
     updateTime: '',
     showFromPicker: false,
     showToPicker: false,
-    countries: COUNTRIES
+    countries: COUNTRIES,
+    statusBarHeight: 20
   },
 
   onLoad() {
+    this.setData({ statusBarHeight: app.globalData.statusBarHeight || 20 });
+    
     const fromCountry = COUNTRIES.find(c => c.currency === this.data.fromCurrency);
     const toCountry = COUNTRIES.find(c => c.currency === this.data.toCurrency);
     this.setData({

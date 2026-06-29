@@ -5,6 +5,12 @@
   flex-direction: column;
 }
 
+/* iPhone 刘海屏安全区域适配 */
+.safe-area-inset-top {
+  width: 100%;
+  background: #fff;
+}
+
 .nav-bar {
   display: flex;
   align-items: center;
@@ -12,6 +18,11 @@
   background: #fff;
   padding: 20rpx 24rpx;
   border-bottom: 1rpx solid #f0f0f0;
+}
+
+.nav-left,
+.nav-right {
+  width: 180rpx;
 }
 
 .nav-center {

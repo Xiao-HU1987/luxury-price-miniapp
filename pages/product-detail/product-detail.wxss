@@ -4,6 +4,11 @@
   padding-bottom: 120rpx;
 }
 
+.safe-area-inset-top {
+  width: 100%;
+  background: #fff;
+}
+
 .product-header {
   background: #fff;
   padding-bottom: 30rpx;

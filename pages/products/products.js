@@ -6,6 +6,7 @@ const app = getApp();
 
 Page({
   data: {
+    statusBarHeight: 20,
     keyword: '',
     brandId: '',
     category: '',
@@ -25,6 +26,7 @@ Page({
   },
 
   onLoad(options) {
+    this.setData({ statusBarHeight: app.globalData.statusBarHeight || 20 });
     const keyword = options.keyword || '';
     const brandId = options.brandId || '';
     const category = options.category || '';
@@ -113,6 +115,7 @@ Page({
         lowestCurrency: lowest ? lowest.currency : 'CNY',
         lowestCountry: lowest ? lowest.country : '',
         lowestCny: lowestCny,
+        lowestCnyDisplay: Math.round(lowestCny).toString(),
         skuCount: p.skus.length,
         countryCount: countrySet.size
       };

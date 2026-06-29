@@ -5,6 +5,11 @@
   flex-direction: column;
 }
 
+.safe-area-inset-top {
+  width: 100%;
+  background: #fff;
+}
+
 .search-header {
   background: #fff;
   padding: 20rpx 24rpx;

@@ -25,10 +25,13 @@ Page({
       description: ''
     },
     minDate: '',
-    userInfo: null
+    userInfo: null,
+    statusBarHeight: 20
   },
 
   onLoad() {
+    this.setData({ statusBarHeight: app.globalData.statusBarHeight || 20 });
+    
     this.loadBuyers();
     this.loadDemands();
     const today = new Date();

@@ -1,6 +1,8 @@
 const { PRODUCTS } = require('../../data/mock.js');
 const app = getApp();
 
+const DEFAULT_JP_RATE = 21.58;
+
 Page({
   data: {
     jpCoupons: [
@@ -48,10 +50,12 @@ Page({
       }
     ],
     products: [],
-    exchangeRates: null
+    exchangeRates: null,
+    statusBarHeight: 20
   },
 
   onLoad() {
+    this.setData({ statusBarHeight: app.globalData.statusBarHeight || 20 });
     this.loadProducts();
   },
 
@@ -65,7 +69,7 @@ Page({
 
   loadProducts() {
     const rates = this.data.exchangeRates;
-    const jpRate = rates && rates.rates ? (rates.rates.JPY || 21.58) : 21.58;
+    const jpRate = rates && rates.rates ? (rates.rates.JPY || DEFAULT_JP_RATE) : DEFAULT_JP_RATE;
 
     const products = PRODUCTS.slice(0, 3).map(p => {
       const firstSku = p.skus[0];
@@ -73,9 +77,7 @@ Page({
       const cnPrice = prices.CN ? prices.CN.price : 0;
       const jpPriceYen = prices.JP ? prices.JP.price : 0;
       let jpPriceCny = 0;
-      if (jpPriceYen > 0 && rates && rates.rates) {
-        jpPriceCny = Math.round(jpPriceYen / jpRate);
-      } else if (jpPriceYen > 0) {
+      if (jpPriceYen > 0) {
         jpPriceCny = Math.round(jpPriceYen / jpRate);
       }
 
@@ -84,9 +86,9 @@ Page({
         name: p.name,
         articleNo: p.articleNo || '',
         cnPrice: cnPrice,
-        cnPriceStr: cnPrice.toLocaleString(),
+        cnPriceStr: String(cnPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
         jpPriceCny: jpPriceCny,
-        jpPriceCnyStr: jpPriceCny.toLocaleString(),
+        jpPriceCnyStr: String(jpPriceCny).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
         hasJpPrice: jpPriceYen > 0
       };
     });
