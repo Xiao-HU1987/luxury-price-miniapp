@@ -168,15 +168,15 @@ Page({
 
   refreshRates() {
     wx.showLoading({ title: '更新中...' });
-    const rates = app.updateExchangeRates();
-    this.setData({ exchangeRates: rates });
-    this.calculate();
-    this.buildRateList();
-    this.updateUpdateTime();
-    setTimeout(() => {
+    const that = this;
+    app.updateExchangeRates().then((rates) => {
+      that.setData({ exchangeRates: rates });
+      that.calculate();
+      that.buildRateList();
+      that.updateUpdateTime();
       wx.hideLoading();
       wx.showToast({ title: '已更新', icon: 'success' });
-    }, 500);
+    });
   },
 
   onRateTap(e) {

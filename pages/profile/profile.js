@@ -32,16 +32,30 @@ Page({
   loadUserData() {
     const favorites = wx.getStorageSync('favorites') || [];
     const history = wx.getStorageSync('browseHistory') || [];
-    const demands = wx.getStorageSync('myDemands') || [];
-    const myCoupons = wx.getStorageSync('myCoupons') || [];
+    const userInfo = this.data.userInfo;
+    
     const menuItems = this.data.menuItems.map(item => {
       if (item.id === 'favorites') return { ...item, badge: favorites.length };
       if (item.id === 'history') return { ...item, badge: history.length };
-      if (item.id === 'demands') return { ...item, badge: demands.length };
-      if (item.id === 'coupons') return { ...item, badge: myCoupons.length };
       return item;
     });
     this.setData({ menuItems });
+
+    if (userInfo && userInfo.userId) {
+      const that = this;
+      request.get('/api/demand/list', { user_id: userInfo.userId, page: 1, page_size: 1 })
+        .then((res) => {
+          const demandCount = res.total || 0;
+          const items = that.data.menuItems.map(item => {
+            if (item.id === 'demands') return { ...item, badge: demandCount };
+            return item;
+          });
+          that.setData({ menuItems: items });
+        })
+        .catch((err) => {
+          console.error('加载用户需求数量失败:', err);
+        });
+    }
   },
 
   onChooseAvatar(e) {

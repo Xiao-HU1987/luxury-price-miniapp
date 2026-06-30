@@ -1,6 +1,6 @@
-const { PRODUCTS } = require('../../data/mock.js');
 const { BRANDS, COUNTRIES } = require('../../utils/constants.js');
-const { formatPrice, convertCurrency, getCountryByCode } = require('../../utils/util.js');
+const { convertCurrency, getCountryByCode } = require('../../utils/util.js');
+const request = require('../../utils/request.js');
 
 const app = getApp();
 
@@ -12,29 +12,24 @@ Page({
     priceList: [],
     exchangeRates: null,
     displayCurrency: 'CNY',
-    skuIndex: 0
+    skuIndex: 0,
+    loading: false,
+    skus: []
   },
 
   onLoad(options) {
     this.setData({ statusBarHeight: app.globalData.statusBarHeight || 20 });
     const id = options.id;
-    const product = PRODUCTS.find(p => p.id === id);
-    if (product) {
-      const currentSku = product.skus[0];
-      this.setData({
-        product,
-        currentSku
-      });
-      this.buildPriceList();
-      this.updateNavigationTitle();
-    }
+    this.loadProductDetail(id);
   },
 
   onShow() {
     const rates = app.globalData.exchangeRates;
     if (rates) {
       this.setData({ exchangeRates: rates });
-      this.buildPriceList();
+      if (this.data.currentSku) {
+        this.buildPriceList();
+      }
     }
   },
 
@@ -44,30 +39,66 @@ Page({
     }
   },
 
+  loadProductDetail(spuId) {
+    this.setData({ loading: true });
+    request.get('/api/product/product-detail/' + spuId)
+      .then((res) => {
+        const spu = res.spu;
+        const skus = res.skus || [];
+        const product = {
+          id: spu.spu_id,
+          brandId: spu.brand_id,
+          brandName: spu.brand_name,
+          name: spu.name,
+          nameEn: spu.name_en,
+          articleNo: spu.article_no,
+          category: spu.category_id,
+          image: spu.image || '',
+          description: spu.description,
+          skus: skus
+        };
+
+        const currentSku = skus[0] || null;
+        this.setData({
+          product,
+          skus,
+          currentSku,
+          loading: false
+        });
+        this.buildPriceList();
+        this.updateNavigationTitle();
+      })
+      .catch((err) => {
+        console.error('加载商品详情失败:', err);
+        this.setData({ loading: false });
+        wx.showToast({ title: '加载失败', icon: 'none' });
+      });
+  },
+
   buildPriceList() {
     const { currentSku, exchangeRates } = this.data;
-    if (!currentSku) return;
+    if (!currentSku || !currentSku.prices) return;
     const prices = currentSku.prices;
-    const list = Object.keys(prices).map(code => {
-      const priceInfo = prices[code];
+    const list = prices.map(p => {
+      const code = p.country;
       const country = getCountryByCode(code);
       let cnyPrice = 0;
       if (exchangeRates && exchangeRates.rates) {
-        cnyPrice = convertCurrency(priceInfo.price, priceInfo.currency, 'CNY', exchangeRates);
+        cnyPrice = convertCurrency(p.price, p.currency, 'CNY', exchangeRates);
       }
       return {
         countryCode: code,
         countryName: country.name,
         flag: country.flag,
-        price: priceInfo.price,
-        priceDisplay: String(priceInfo.price).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-        currency: priceInfo.currency,
+        price: p.price,
+        priceDisplay: String(Math.round(p.price)).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+        currency: p.currency,
         currencySymbol: country.currencySymbol,
-        stock: priceInfo.stock,
-        store: priceInfo.store,
+        stock: p.stock,
+        store: p.store,
         cnyPrice: cnyPrice,
         cnyPriceDisplay: Math.round(cnyPrice).toString(),
-        inStock: priceInfo.stock > 0
+        inStock: p.stock > 0
       };
     });
     list.sort((a, b) => a.cnyPrice - b.cnyPrice);
@@ -79,7 +110,7 @@ Page({
 
   onSkuTap(e) {
     const index = e.currentTarget.dataset.index;
-    const sku = this.data.product.skus[index];
+    const sku = this.data.skus[index];
     this.setData({
       currentSku: sku,
       skuIndex: index

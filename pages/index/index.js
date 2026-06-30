@@ -1,6 +1,6 @@
-const { PRODUCTS } = require('../../data/mock.js');
 const { BRANDS, CATEGORIES } = require('../../utils/constants.js');
 const { convertCurrency } = require('../../utils/util.js');
+const request = require('../../utils/request.js');
 
 const app = getApp();
 
@@ -21,7 +21,8 @@ Page({
     selectedCategoryName: '',
     sortBy: 'default',
     sortLabel: '价格',
-    statusBarHeight: 20
+    statusBarHeight: 20,
+    loading: false
   },
 
   _productsCache: null,
@@ -30,7 +31,7 @@ Page({
     this.setData({
       statusBarHeight: app.globalData.statusBarHeight || 20
     });
-    this.buildProductList();
+    this.loadProducts();
   },
 
   onShow() {
@@ -41,7 +42,7 @@ Page({
       if (jpRateDisplay !== this.data.jpRateDisplay) {
         this.setData({ jpRateDisplay: jpRateDisplay });
         this._productsCache = null;
-        this.buildProductList();
+        this.loadProducts();
       }
     }
   },
@@ -54,43 +55,55 @@ Page({
     return DEFAULT_JP_RATE;
   },
 
-  buildProductList() {
+  loadProducts() {
     if (this._productsCache) {
       this.setData({ products: this._productsCache });
       return;
     }
 
     const jpRate = this.getJpRate();
+    const rates = app.globalData.exchangeRates;
 
-    const products = [];
-    for (let i = 0; i < PRODUCTS.length; i++) {
-      const p = PRODUCTS[i];
-      const firstSku = p.skus[0];
-      if (!firstSku) continue;
-      
-      const prices = firstSku.prices;
-      const cnPrice = prices.CN ? prices.CN.price : 0;
-      const jpPriceYen = prices.JP ? prices.JP.price : 0;
-      
-      let jpPriceCny = 0;
-      if (jpPriceYen > 0) {
-        jpPriceCny = Math.round(jpPriceYen / jpRate);
-      }
+    this.setData({ loading: true });
+    request.get('/api/product/search', { page: 1, page_size: 20 })
+      .then((res) => {
+        const list = res.list || [];
+        const products = list.map(p => {
+          let cnPrice = 0;
+          let jpPriceYen = 0;
+          
+          if (p.countries && p.countries.includes('CN')) {
+            cnPrice = p.min_price || 0;
+          }
+          if (p.countries && p.countries.includes('JP')) {
+            jpPriceYen = p.max_price || 0;
+          }
 
-      products.push({
-        id: p.id,
-        brandId: p.brandId,
-        brandName: p.brandName,
-        name: p.name,
-        articleNo: p.articleNo || '',
-        cnPriceStr: String(cnPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-        jpPriceCnyStr: String(jpPriceCny).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-        hasJpPrice: jpPriceYen > 0
+          let jpPriceCny = 0;
+          if (jpPriceYen > 0 && rates && rates.rates) {
+            jpPriceCny = Math.round(convertCurrency(jpPriceYen, 'JPY', 'CNY', rates));
+          }
+
+          return {
+            id: p.spu_id,
+            brandId: p.brand_id,
+            brandName: p.brand_name,
+            name: p.name,
+            articleNo: p.article_no || '',
+            cnPriceStr: String(Math.round(cnPrice)).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+            jpPriceCnyStr: String(jpPriceCny).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+            hasJpPrice: p.countries && p.countries.includes('JP')
+          };
+        });
+
+        this._productsCache = products;
+        this.setData({ products, loading: false });
+      })
+      .catch((err) => {
+        console.error('加载商品失败:', err);
+        this.setData({ loading: false });
+        wx.showToast({ title: '加载失败', icon: 'none' });
       });
-    }
-
-    this._productsCache = products;
-    this.setData({ products });
   },
 
   onSearchInput(e) {

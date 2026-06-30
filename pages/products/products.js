@@ -1,6 +1,6 @@
-const { PRODUCTS } = require('../../data/mock.js');
 const { BRANDS, COUNTRIES } = require('../../utils/constants.js');
-const { formatPrice, convertCurrency } = require('../../utils/util.js');
+const { convertCurrency } = require('../../utils/util.js');
+const request = require('../../utils/request.js');
 
 const app = getApp();
 
@@ -22,7 +22,8 @@ Page({
       { value: 'price-high', label: '价格从高到低' },
       { value: 'country-count', label: '比价国家多' }
     ],
-    currentSortLabel: '价格从低到高'
+    currentSortLabel: '价格从低到高',
+    loading: false
   },
 
   onLoad(options) {
@@ -56,80 +57,75 @@ Page({
 
   searchProducts() {
     const { keyword, brandId, category, country, sortBy, exchangeRates } = this.data;
-    let results = PRODUCTS.filter(p => {
-      if (brandId && p.brandId !== brandId) return false;
-      if (category && p.category !== category) return false;
-      if (keyword) {
-        const kw = keyword.toLowerCase();
-        const matchName = p.name.toLowerCase().includes(kw) ||
-          (p.nameEn && p.nameEn.toLowerCase().includes(kw));
-        const matchBrand = p.brandName.toLowerCase().includes(kw);
-        if (!matchName && !matchBrand) return false;
-      }
-      if (country) {
-        const hasCountry = p.skus.some(sku => sku.prices[country]);
-        if (!hasCountry) return false;
-      }
-      return true;
-    });
+    
+    this.setData({ loading: true });
+    const params = {
+      page: 1,
+      page_size: 50
+    };
+    if (keyword) params.keyword = keyword;
+    if (brandId) params.brand_id = brandId;
+    if (category) params.category_id = category;
+    if (country) params.country = country;
 
-    const processed = results.map(p => {
-      const allPrices = [];
-      p.skus.forEach(sku => {
-        Object.keys(sku.prices).forEach(code => {
-          const priceInfo = sku.prices[code];
-          allPrices.push({
-            ...priceInfo,
-            country: code,
-            skuId: sku.id,
-            skuName: sku.name
-          });
-        });
-      });
-
-      let lowest = null;
-      let lowestCny = Infinity;
-      if (exchangeRates && exchangeRates.rates) {
-        allPrices.forEach(p => {
-          const cny = convertCurrency(p.price, p.currency, 'CNY', exchangeRates);
-          if (cny < lowestCny) {
-            lowestCny = cny;
-            lowest = { ...p, cnyPrice: cny };
+    request.get('/api/product/search', params)
+      .then((res) => {
+        const list = res.list || [];
+        const processed = list.map(p => {
+          let lowestCny = Infinity;
+          let lowestCurrency = 'CNY';
+          let lowestCountry = '';
+          
+          if (exchangeRates && exchangeRates.rates && p.min_price) {
+            if (p.countries && p.countries.length > 0) {
+              for (let i = 0; i < p.countries.length; i++) {
+                const c = p.countries[i];
+                const rate = exchangeRates.rates[c];
+                if (rate) {
+                  const cny = p.min_price / rate;
+                  if (cny < lowestCny) {
+                    lowestCny = cny;
+                    lowestCurrency = c;
+                    lowestCountry = c;
+                  }
+                }
+              }
+            }
           }
+          
+          if (lowestCny === Infinity) lowestCny = 0;
+
+          return {
+            id: p.spu_id,
+            brandId: p.brand_id,
+            brandName: p.brand_name,
+            name: p.name,
+            nameEn: p.name_en,
+            image: p.image || '',
+            lowestPrice: p.min_price || 0,
+            lowestCurrency: lowestCurrency,
+            lowestCountry: lowestCountry,
+            lowestCny: lowestCny,
+            lowestCnyDisplay: Math.round(lowestCny).toString(),
+            countryCount: p.countries ? p.countries.length : 0
+          };
         });
-      } else {
-        lowest = allPrices[0] || null;
-      }
 
-      const countrySet = new Set();
-      allPrices.forEach(p => countrySet.add(p.country));
+        if (sortBy === 'price-low') {
+          processed.sort((a, b) => a.lowestCny - b.lowestCny);
+        } else if (sortBy === 'price-high') {
+          processed.sort((a, b) => b.lowestCny - a.lowestCny);
+        } else if (sortBy === 'country-count') {
+          processed.sort((a, b) => b.countryCount - a.countryCount);
+        }
 
-      return {
-        id: p.id,
-        brandId: p.brandId,
-        brandName: p.brandName,
-        name: p.name,
-        nameEn: p.nameEn,
-        image: '',
-        lowestPrice: lowest ? lowest.price : 0,
-        lowestCurrency: lowest ? lowest.currency : 'CNY',
-        lowestCountry: lowest ? lowest.country : '',
-        lowestCny: lowestCny,
-        lowestCnyDisplay: Math.round(lowestCny).toString(),
-        skuCount: p.skus.length,
-        countryCount: countrySet.size
-      };
-    });
-
-    if (sortBy === 'price-low') {
-      processed.sort((a, b) => a.lowestCny - b.lowestCny);
-    } else if (sortBy === 'price-high') {
-      processed.sort((a, b) => b.lowestCny - a.lowestCny);
-    } else if (sortBy === 'country-count') {
-      processed.sort((a, b) => b.countryCount - a.countryCount);
-    }
-
-    this.setData({ products: processed });
+        this.setData({ products: processed, loading: false });
+      })
+      .catch((err) => {
+        console.error('搜索商品失败:', err);
+        this.setData({ loading: false });
+        wx.showToast({ title: '加载失败', icon: 'none' });
+      });
   },
 
   onProductTap(e) {
