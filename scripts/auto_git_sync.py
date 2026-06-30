@@ -7,7 +7,22 @@ from datetime import datetime
 PROJECT_DIR = "/Users/huxiao/Public/测试项目-1-26.6.27"
 LOG_DIR = os.path.join(PROJECT_DIR, "logs")
 LOG_FILE = os.path.join(LOG_DIR, "auto_git_sync.log")
+FLAG_FILE = os.path.join(LOG_DIR, ".last_sync_date")
 BRANCH = "master"
+
+
+def already_today():
+    if not os.path.exists(FLAG_FILE):
+        return False
+    with open(FLAG_FILE, "r") as f:
+        last_date = f.read().strip()
+    today = datetime.now().strftime("%Y-%m-%d")
+    return last_date == today
+
+
+def mark_today():
+    with open(FLAG_FILE, "w") as f:
+        f.write(datetime.now().strftime("%Y-%m-%d"))
 
 
 def log(message):
@@ -30,6 +45,10 @@ def run_git_command(args):
 
 
 def main():
+    if already_today():
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 今日已同步，跳过")
+        return True
+    
     log("=" * 50)
     log("开始自动同步到GitHub")
     
@@ -41,6 +60,7 @@ def main():
         
         if not stdout:
             log("没有检测到文件变更，无需同步")
+            mark_today()
             return True
         
         changed_files = stdout.split("\n")
@@ -67,6 +87,7 @@ def main():
             return False
         log("已成功推送到GitHub")
         
+        mark_today()
         log("同步完成 ✓")
         return True
         

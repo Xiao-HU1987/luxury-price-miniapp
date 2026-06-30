@@ -11,16 +11,8 @@
         <string>/Users/huxiao/Public/测试项目-1-26.6.27/scripts/auto_git_sync.py</string>
     </array>
     
-    <key>StartCalendarInterval</key>
-    <dict>
-        <key>Hour</key>
-        <integer>6</integer>
-        <key>Minute</key>
-        <integer>0</integer>
-    </dict>
-    
     <key>RunAtLoad</key>
-    <false/>
+    <true/>
     
     <key>StandardOutPath</key>
     <string>/Users/huxiao/Public/测试项目-1-26.6.27/logs/launchd_stdout.log</string>
