@@ -73,4 +73,5 @@ def health_check():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
+    from config import HOST, PORT, DEBUG
+    uvicorn.run("app:app", host=HOST, port=PORT, reload=DEBUG)
