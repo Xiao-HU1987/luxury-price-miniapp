@@ -1,4 +1,5 @@
-const { PRODUCTS } = require('../../data/mock.js');
+const { convertCurrency } = require('../../utils/util.js');
+const request = require('../../utils/request.js');
 const app = getApp();
 
 const DEFAULT_JP_RATE = 21.58;
@@ -51,11 +52,13 @@ Page({
     ],
     products: [],
     exchangeRates: null,
-    statusBarHeight: 20
+    statusBarHeight: 20,
+    loading: false
   },
 
   onLoad() {
     this.setData({ statusBarHeight: app.globalData.statusBarHeight || 20 });
+    this.loadCoupons();
     this.loadProducts();
   },
 
@@ -67,33 +70,86 @@ Page({
     }
   },
 
+  loadCoupons() {
+    const that = this;
+    request.get('/api/coupon/list', { page: 1, page_size: 50, status: 'active' })
+      .then((res) => {
+        const list = res.list || [];
+        const jpCoupons = [];
+        const cnCoupons = [];
+        
+        list.forEach(c => {
+          const coupon = {
+            id: c.coupon_id,
+            name: c.title,
+            description: c.description || '',
+            logo: c.store_name ? c.store_name.charAt(0) : '🎫',
+            status: 'used',
+            statusText: '使用',
+            discount: c.discount,
+            threshold: c.threshold,
+            type: c.type,
+            storeName: c.store_name
+          };
+          
+          if (c.country === 'JP') {
+            jpCoupons.push(coupon);
+          } else if (c.country === 'CN') {
+            cnCoupons.push(coupon);
+          }
+        });
+
+        that.setData({
+          jpCoupons: jpCoupons.length > 0 ? jpCoupons : that.data.jpCoupons,
+          cnCoupons: cnCoupons.length > 0 ? cnCoupons : that.data.cnCoupons
+        });
+      })
+      .catch((err) => {
+        console.error('加载优惠券失败:', err);
+      });
+  },
+
   loadProducts() {
     const rates = this.data.exchangeRates;
-    const jpRate = rates && rates.rates ? (rates.rates.JPY || DEFAULT_JP_RATE) : DEFAULT_JP_RATE;
+    
+    this.setData({ loading: true });
+    request.get('/api/product/search', { page: 1, page_size: 3 })
+      .then((res) => {
+        const list = res.list || [];
+        const products = list.map(p => {
+          let cnPrice = 0;
+          let jpPriceYen = 0;
+          
+          if (p.countries && p.countries.includes('CN')) {
+            cnPrice = p.min_price || 0;
+          }
+          if (p.countries && p.countries.includes('JP')) {
+            jpPriceYen = p.max_price || 0;
+          }
 
-    const products = PRODUCTS.slice(0, 3).map(p => {
-      const firstSku = p.skus[0];
-      const prices = firstSku.prices;
-      const cnPrice = prices.CN ? prices.CN.price : 0;
-      const jpPriceYen = prices.JP ? prices.JP.price : 0;
-      let jpPriceCny = 0;
-      if (jpPriceYen > 0) {
-        jpPriceCny = Math.round(jpPriceYen / jpRate);
-      }
+          let jpPriceCny = 0;
+          if (jpPriceYen > 0 && rates && rates.rates) {
+            jpPriceCny = Math.round(convertCurrency(jpPriceYen, 'JPY', 'CNY', rates));
+          }
 
-      return {
-        id: p.id,
-        name: p.name,
-        articleNo: p.articleNo || '',
-        cnPrice: cnPrice,
-        cnPriceStr: String(cnPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-        jpPriceCny: jpPriceCny,
-        jpPriceCnyStr: String(jpPriceCny).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-        hasJpPrice: jpPriceYen > 0
-      };
-    });
+          return {
+            id: p.spu_id,
+            name: p.name,
+            articleNo: p.article_no || '',
+            cnPrice: cnPrice,
+            cnPriceStr: String(Math.round(cnPrice)).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+            jpPriceCny: jpPriceCny,
+            jpPriceCnyStr: String(jpPriceCny).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+            hasJpPrice: p.countries && p.countries.includes('JP')
+          };
+        });
 
-    this.setData({ products });
+        this.setData({ products, loading: false });
+      })
+      .catch((err) => {
+        console.error('加载商品失败:', err);
+        this.setData({ loading: false });
+      });
   },
 
   onCouponTap(e) {

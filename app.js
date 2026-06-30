@@ -1,3 +1,5 @@
+const request = require('./utils/request.js');
+
 App({
   onLaunch() {
     try {
@@ -49,24 +51,18 @@ App({
 
   doLogin(code) {
     const that = this;
-    wx.request({
-      url: 'http://localhost:8000/api/auth/wechat-login',
-      method: 'POST',
-      data: { code: code },
-      header: { 'Content-Type': 'application/json' },
-      success: (res) => {
-        if (res.data && res.data.code === 0 && res.data.data) {
-          const data = res.data.data;
+    request.post('/api/auth/wechat-login', { code: code })
+      .then((data) => {
+        if (data && data.access_token) {
           wx.setStorageSync('token', data.access_token);
           wx.setStorageSync('sessionKey', data.session_key);
           that.globalData.userInfo = data.user;
           wx.setStorageSync('userInfo', data.user);
         }
-      },
-      fail: (err) => {
+      })
+      .catch((err) => {
         console.error('登录请求失败:', err);
-      }
-    });
+      });
   },
 
   initExchangeRates() {
@@ -79,6 +75,7 @@ App({
 
     if (!cachedRates || !cachedRates.updateTime) {
       this.saveRates(defaultRates);
+      this.fetchExchangeRatesFromServer();
       return;
     }
 
@@ -86,12 +83,32 @@ App({
       const diff = Date.now() - new Date(cachedRates.updateTime).getTime();
       if (diff > 3600000 || isNaN(diff)) {
         this.saveRates(defaultRates);
+        this.fetchExchangeRatesFromServer();
       } else {
         this.globalData.exchangeRates = cachedRates;
       }
     } catch (e) {
       this.saveRates(defaultRates);
+      this.fetchExchangeRatesFromServer();
     }
+  },
+
+  fetchExchangeRatesFromServer() {
+    const that = this;
+    request.get('/api/exchange/rates')
+      .then((data) => {
+        if (data && data.rates) {
+          const rates = {
+            updateTime: data.update_time || new Date().toISOString(),
+            base: data.base || 'CNY',
+            rates: data.rates
+          };
+          that.saveRates(rates);
+        }
+      })
+      .catch((err) => {
+        console.error('从服务器获取汇率失败:', err);
+      });
   },
 
   getDefaultRates() {
@@ -123,9 +140,31 @@ App({
   },
 
   updateExchangeRates() {
-    const rates = this.getDefaultRates();
-    this.saveRates(rates);
-    return rates;
+    return new Promise((resolve, reject) => {
+      const that = this;
+      request.get('/api/exchange/rates')
+        .then((data) => {
+          if (data && data.rates) {
+            const rates = {
+              updateTime: data.update_time || new Date().toISOString(),
+              base: data.base || 'CNY',
+              rates: data.rates
+            };
+            that.saveRates(rates);
+            resolve(rates);
+          } else {
+            const defaultRates = that.getDefaultRates();
+            that.saveRates(defaultRates);
+            resolve(defaultRates);
+          }
+        })
+        .catch((err) => {
+          console.error('刷新汇率失败:', err);
+          const defaultRates = that.getDefaultRates();
+          that.saveRates(defaultRates);
+          resolve(defaultRates);
+        });
+    });
   },
 
   globalData: {

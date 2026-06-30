@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from pathlib import Path
 
 from database import engine, Base
 from models import *
@@ -31,6 +33,8 @@ from routers.store import router as store_router
 from routers.rebate import router as rebate_router
 from routers.buyer import router as buyer_router
 from routers.demand import router as demand_router
+from routers.admin_auth import router as admin_auth_router
+from routers.admin import router as admin_router
 
 app.include_router(auth_router)
 app.include_router(user_router)
@@ -41,6 +45,12 @@ app.include_router(store_router)
 app.include_router(rebate_router)
 app.include_router(buyer_router)
 app.include_router(demand_router)
+app.include_router(admin_auth_router)
+app.include_router(admin_router)
+
+admin_static_dir = Path(__file__).parent.parent / "admin"
+if admin_static_dir.exists():
+    app.mount("/admin", StaticFiles(directory=str(admin_static_dir), html=True), name="admin")
 
 
 @app.get("/")
@@ -63,4 +73,5 @@ def health_check():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
+    from config import HOST, PORT, DEBUG
+    uvicorn.run("app:app", host=HOST, port=PORT, reload=DEBUG)

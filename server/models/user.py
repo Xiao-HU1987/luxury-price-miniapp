@@ -17,5 +17,6 @@ class User(Base):
     is_admin = Column(Boolean, default=False)
     is_buyer = Column(Boolean, default=False)
     status = Column(String(16), default="active")
+    password_hash = Column(String(255), default="")
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())

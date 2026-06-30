@@ -1,5 +1,19 @@
 const BASE_URL = 'http://localhost:8000';
 
+const ENV = {
+  development: {
+    baseUrl: 'http://localhost:8000',
+    debug: true
+  },
+  production: {
+    baseUrl: 'https://your-api-domain.com',
+    debug: false
+  }
+};
+
+const currentEnv = 'development';
+const config = ENV[currentEnv];
+
 function request(options) {
   return new Promise((resolve, reject) => {
     const token = wx.getStorageSync('token') || '';
@@ -11,12 +25,21 @@ function request(options) {
       header['Authorization'] = 'Bearer ' + token;
     }
 
+    const url = (options.baseUrl || config.baseUrl) + options.url;
+
+    if (config.debug) {
+      console.log('[Request]', options.method || 'GET', url, options.data || {});
+    }
+
     wx.request({
-      url: BASE_URL + options.url,
+      url: url,
       method: options.method || 'GET',
       data: options.data || {},
       header: header,
       success: (res) => {
+        if (config.debug) {
+          console.log('[Response]', res.statusCode, res.data);
+        }
         if (res.statusCode === 401) {
           wx.removeStorageSync('token');
           wx.removeStorageSync('userInfo');
@@ -34,6 +57,9 @@ function request(options) {
         }
       },
       fail: (err) => {
+        if (config.debug) {
+          console.error('[Request Error]', err);
+        }
         reject(err);
       }
     });
@@ -45,5 +71,7 @@ module.exports = {
   post: (url, data) => request({ url, method: 'POST', data }),
   put: (url, data) => request({ url, method: 'PUT', data }),
   del: (url, data) => request({ url, method: 'DELETE', data }),
-  BASE_URL
+  BASE_URL: config.baseUrl,
+  config,
+  setBaseUrl: (url) => { config.baseUrl = url; }
 };

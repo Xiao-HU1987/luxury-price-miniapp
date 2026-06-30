@@ -1,6 +1,6 @@
-const { BUYERS, BUYER_DEMANDS, PRODUCTS } = require('../../data/mock.js');
 const { BRANDS, COUNTRIES } = require('../../utils/constants.js');
 const { getCountryByCode, formatTime, formatDate } = require('../../utils/util.js');
+const request = require('../../utils/request.js');
 
 const app = getApp();
 
@@ -26,7 +26,8 @@ Page({
     },
     minDate: '',
     userInfo: null,
-    statusBarHeight: 20
+    statusBarHeight: 20,
+    loading: false
   },
 
   onLoad() {
@@ -46,40 +47,78 @@ Page({
   },
 
   loadBuyers() {
-    const buyers = BUYERS.map(b => {
-      const country = getCountryByCode(b.country);
-      const specialtyNames = b.specialty.map(id => {
-        const brand = BRANDS.find(br => br.id === id);
-        return brand ? brand.nameCn : '';
-      }).filter(Boolean);
-      return {
-        ...b,
-        countryName: country.name,
-        flag: country.flag,
-        specialtyNames
-      };
-    });
-    this.setData({
-      allBuyers: buyers,
-      buyers
-    });
+    this.setData({ loading: true });
+    request.get('/api/buyer/list', { page: 1, page_size: 50 })
+      .then((res) => {
+        const list = res.list || [];
+        const buyers = list.map(b => {
+          const country = getCountryByCode(b.country);
+          return {
+            id: b.buyer_id,
+            buyer_id: b.buyer_id,
+            name: b.name,
+            avatar: b.avatar,
+            country: b.country,
+            city: b.city,
+            rating: b.rating,
+            orders: b.orders,
+            feeRate: b.fee_rate,
+            deliveryDays: b.delivery_days,
+            intro: b.intro,
+            specialty: [],
+            countryName: country.name,
+            flag: country.flag,
+            specialtyNames: []
+          };
+        });
+        this.setData({
+          allBuyers: buyers,
+          buyers,
+          loading: false
+        });
+      })
+      .catch((err) => {
+        console.error('加载买手列表失败:', err);
+        this.setData({ loading: false });
+      });
   },
 
   loadDemands() {
-    const demands = BUYER_DEMANDS.map(d => {
-      const country = getCountryByCode(d.country);
-      const brand = BRANDS.find(b => b.id === d.brandId);
-      return {
-        ...d,
-        countryName: country.name,
-        flag: country.flag,
-        brandName: brand ? brand.nameCn : '',
-        timeAgo: formatTime(d.createTime),
-        statusText: d.status === 'bidding' ? '招标中' : d.status === 'matched' ? '已匹配' : '已完成',
-        statusClass: d.status === 'bidding' ? 'status-bidding' : d.status === 'matched' ? 'status-matched' : 'status-done'
-      };
-    });
-    this.setData({ demands });
+    request.get('/api/demand/list', { page: 1, page_size: 50 })
+      .then((res) => {
+        const list = res.list || [];
+        const demands = list.map(d => {
+          const country = getCountryByCode(d.country);
+          const brand = BRANDS.find(b => b.id === d.brand_id);
+          return {
+            id: d.demand_id,
+            demand_id: d.demand_id,
+            userId: d.user_id,
+            productName: d.product_name,
+            brandId: d.brand_id,
+            country: d.country,
+            deadline: d.deadline,
+            budget: d.budget,
+            budgetCurrency: d.budget_currency,
+            quantity: d.quantity,
+            status: d.status,
+            bids: d.bids,
+            matchedBuyer: d.matched_buyer_id,
+            createTime: d.created_at,
+            description: d.description,
+            countryName: country.name,
+            flag: country.flag,
+            brandName: brand ? brand.nameCn : '',
+            timeAgo: d.created_at ? formatTime(d.created_at) : '',
+            statusText: d.status === 'bidding' ? '招标中' : d.status === 'matched' ? '已匹配' : '已完成',
+            statusClass: d.status === 'bidding' ? 'status-bidding' : d.status === 'matched' ? 'status-matched' : 'status-done'
+          };
+        });
+        this.setData({ demands });
+      })
+      .catch((err) => {
+        console.error('加载需求列表失败:', err);
+      });
   },
 
   onTabTap(e) {
@@ -174,24 +213,49 @@ Page({
       wx.showToast({ title: '请选择交期时间', icon: 'none' });
       return;
     }
-    wx.showToast({
-      title: '发布成功',
-      icon: 'success',
-      duration: 2000
-    });
-    setTimeout(() => {
-      this.setData({
-        showPublish: false,
-        publishForm: {
-          productName: '',
-          brandId: '',
-          country: '',
-          deadline: '',
-          budget: '',
-          quantity: 1,
-          description: ''
-        }
+
+    const that = this;
+    const demandId = 'demand_' + Date.now();
+    const userId = app.globalData.userInfo && app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 'user_default';
+
+    wx.showLoading({ title: '发布中...' });
+    request.post('/api/demand', {
+      demand_id: demandId,
+      user_id: userId,
+      product_name: form.productName,
+      brand_id: form.brandId,
+      country: form.country,
+      deadline: form.deadline,
+      budget: parseFloat(form.budget) || 0,
+      budget_currency: 'CNY',
+      quantity: form.quantity || 1,
+      description: form.description
+    })
+      .then(() => {
+        wx.hideLoading();
+        wx.showToast({
+          title: '发布成功',
+          icon: 'success',
+          duration: 2000
+        });
+        that.setData({
+          showPublish: false,
+          publishForm: {
+            productName: '',
+            brandId: '',
+            country: '',
+            deadline: '',
+            budget: '',
+            quantity: 1,
+            description: ''
+          }
+        });
+        that.loadDemands();
+      })
+      .catch((err) => {
+        wx.hideLoading();
+        console.error('发布需求失败:', err);
+        wx.showToast({ title: '发布失败', icon: 'none' });
       });
-    }, 1500);
   }
 });
