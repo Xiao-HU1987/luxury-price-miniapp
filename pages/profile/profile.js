@@ -1,8 +1,9 @@
 const app = getApp();
+const request = require('../../utils/request.js');
 
 Page({
   data: {
-    userInfo: null,
+    userInfo: {},
     menuItems: [
       { id: 'favorites', icon: '❤️', name: '我的收藏', badge: 0 },
       { id: 'history', icon: '🕐', name: '浏览历史', badge: 0 },
@@ -23,7 +24,7 @@ Page({
   },
 
   onShow() {
-    const userInfo = app.globalData.userInfo || wx.getStorageSync('userInfo');
+    const userInfo = app.globalData.userInfo || wx.getStorageSync('userInfo') || {};
     this.setData({ userInfo });
     this.loadUserData();
   },
@@ -43,8 +44,71 @@ Page({
     this.setData({ menuItems });
   },
 
-  onEditProfile() {
-    wx.showToast({ title: '编辑资料', icon: 'none' });
+  onChooseAvatar(e) {
+    if (!e.detail || !e.detail.avatarUrl) return;
+    const avatar = e.detail.avatarUrl;
+    this.updateProfile({ avatar });
+  },
+
+  onNicknameConfirm(e) {
+    const nickname = e.detail.value && e.detail.value.trim();
+    if (!nickname) return;
+    this.updateProfile({ nickname });
+  },
+
+  updateProfile(data) {
+    const token = wx.getStorageSync('token');
+    const userInfo = { ...this.data.userInfo, ...data };
+
+    app.globalData.userInfo = userInfo;
+    wx.setStorageSync('userInfo', userInfo);
+    this.setData({ userInfo });
+
+    if (!token) {
+      wx.showToast({ title: '保存成功', icon: 'success' });
+      return;
+    }
+
+    wx.showLoading({ title: '保存中...' });
+    request.put('/api/user/profile', data)
+      .then((res) => {
+        wx.hideLoading();
+        wx.showToast({ title: '保存成功', icon: 'success' });
+      })
+      .catch((err) => {
+        wx.hideLoading();
+        wx.showToast({ title: '保存失败', icon: 'none' });
+      });
+  },
+
+  onGetPhone(e) {
+    if (e.detail.errMsg !== 'getPhoneNumber:ok') {
+      return;
+    }
+
+    const token = wx.getStorageSync('token');
+    const sessionKey = wx.getStorageSync('sessionKey') || '';
+
+    if (!token) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
+
+    request.put('/api/user/phone', {
+      encrypted_data: e.detail.encryptedData,
+      iv: e.detail.iv,
+      session_key: sessionKey
+    })
+      .then((data) => {
+        const userInfo = { ...this.data.userInfo, phone: data.phone };
+        app.globalData.userInfo = userInfo;
+        wx.setStorageSync('userInfo', userInfo);
+        this.setData({ userInfo });
+        wx.showToast({ title: '手机号绑定成功', icon: 'success' });
+      })
+      .catch((err) => {
+        wx.showToast({ title: '手机号绑定失败', icon: 'none' });
+      });
   },
 
   onMenuTap(e) {
@@ -76,9 +140,9 @@ Page({
   },
 
   copyUserId() {
-    if (this.data.userInfo && this.data.userInfo.userId) {
+    if (this.data.userInfo && this.data.userInfo.user_id) {
       wx.setClipboardData({
-        data: this.data.userInfo.userId,
+        data: this.data.userInfo.user_id,
         success: () => {
           wx.showToast({ title: 'ID已复制', icon: 'success' });
         }

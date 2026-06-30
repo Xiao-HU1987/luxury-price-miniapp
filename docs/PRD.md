@@ -1,6 +1,6 @@
-# 测试项目 - 全球奢侈品价格比价小程序
+# 全球奢侈品价格比价小程序
 
-## PRD 文档 v1.0
+## PRD 文档 v1.1
 
 ---
 
@@ -8,11 +8,13 @@
 
 ### 1.1 产品简介
 
-**产品名称：** 测试项目
+**产品名称：** luxury-price-miniapp（奢侈品价格比价小程序）
 
 **产品类型：** 微信小程序
 
 **一句话描述：** 实时搜索奢侈品品牌各SKU在属地国家的价格，支持多国汇率换算、返点优惠、寻买手等一站式服务。
+
+**项目地址：** https://github.com/Xiao-HU1987/luxury-price-miniapp
 
 ### 1.2 目标用户
 
@@ -83,21 +85,22 @@
 
 **功能概述：** 支持13种货币的实时汇率计算
 
-**支持货币：**
-| 货币代码 | 货币名称 | 货币符号 | 国旗 |
-|----------|----------|----------|------|
-| CNY | 人民币 | ¥ | 🇨🇳 |
-| USD | 美元 | $ | 🇺🇸 |
-| EUR | 欧元 | € | 🇪🇺 |
-| GBP | 英镑 | £ | 🇬🇧 |
-| JPY | 日元 | ¥ | 🇯🇵 |
-| KRW | 韩元 | ₩ | 🇰🇷 |
-| HKD | 港币 | HK$ | 🇭🇰 |
-| SGD | 新加坡元 | S$ | 🇸🇬 |
-| AUD | 澳元 | A$ | 🇦🇺 |
-| CHF | 瑞士法郎 | CHF | 🇨🇭 |
-| CAD | 加元 | C$ | 🇨🇦 |
-| THB | 泰铢 | ฿ | 🇹🇭 |
+**支持国家/货币（13个）：**
+| 国家代码 | 国家名称 | 货币代码 | 货币名称 | 货币符号 | 国旗 |
+|----------|----------|----------|----------|----------|------|
+| CN | 中国 | CNY | 人民币 | ¥ | 🇨🇳 |
+| US | 美国 | USD | 美元 | $ | 🇺🇸 |
+| FR | 法国 | EUR | 欧元 | € | 🇫🇷 |
+| IT | 意大利 | EUR | 欧元 | € | 🇮🇹 |
+| UK | 英国 | GBP | 英镑 | £ | 🇬🇧 |
+| JP | 日本 | JPY | 日元 | ¥ | 🇯🇵 |
+| KR | 韩国 | KRW | 韩元 | ₩ | 🇰🇷 |
+| HK | 中国香港 | HKD | 港币 | HK$ | 🇭🇰 |
+| SG | 新加坡 | SGD | 新加坡元 | S$ | 🇸🇬 |
+| AU | 澳大利亚 | AUD | 澳元 | A$ | 🇦🇺 |
+| CH | 瑞士 | CHF | 瑞士法郎 | CHF | 🇨🇭 |
+| CA | 加拿大 | CAD | 加元 | C$ | 🇨🇦 |
+| TH | 泰国 | THB | 泰铢 | ฿ | 🇹🇭 |
 
 **核心功能：**
 
@@ -185,25 +188,27 @@
 }
 ```
 
-**品牌数据：**
-| 品牌ID | 品牌名称 | 英文名 |
-|--------|----------|--------|
-| b001 | 路易威登 | Louis Vuitton |
-| b002 | 爱马仕 | Hermès |
-| b003 | 古驰 | Gucci |
-| b004 | 卡地亚 | Cartier |
-| b005 | 香奈儿 | Chanel |
-| b006 | 劳力士 | Rolex |
+**品牌数据（8个）：**
+| 品牌ID | 品牌名称 | 英文名 | 简称 | 品类 |
+|--------|----------|--------|------|------|
+| b001 | 路易威登 | Louis Vuitton | LV | 箱包 |
+| b002 | 古驰 | Gucci | G | 箱包服饰 |
+| b003 | 爱马仕 | Hermès | H | 箱包 |
+| b004 | 香奈儿 | Chanel | C | 箱包服饰 |
+| b005 | 迪奥 | Dior | D | 服饰箱包 |
+| b006 | 劳力士 | Rolex | R | 腕表 |
+| b007 | 卡地亚 | Cartier | Ca | 珠宝腕表 |
+| b008 | 普拉达 | Prada | P | 箱包 |
 
-**品类数据：**
+**品类数据（6个）：**
 | 品类ID | 品类名称 | 图标 |
 |--------|----------|------|
 | c001 | 箱包 | 👜 |
 | c002 | 腕表 | ⌚ |
 | c003 | 珠宝 | 💎 |
-| c004 | 服饰 | 👔 |
+| c004 | 服饰 | 👗 |
 | c005 | 鞋履 | 👠 |
-| c006 | 配饰 | 🕶 |
+| c006 | 配饰 | 🕶️ |
 
 ---
 
@@ -273,14 +278,13 @@
   name: String,
   avatar: String,
   rating: Number,        // 4.0-5.0
-  flag: String,          // 国旗emoji
-  countryName: String,
+  country: String,       // 国家代码
   city: String,
   orders: Number,        // 已完成订单数
   feeRate: Number,       // 服务费比例 %
   deliveryDays: Number,  // 到货天数
-  specialtyIds: [String], // 擅长品牌ID列表
-  specialtyNames: [String]
+  specialty: [String],   // 擅长品牌ID列表
+  intro: String          // 个人简介
 }
 ```
 
@@ -296,6 +300,26 @@
 | 交期 | 截止日期 |
 | 已投标 | 投标买手数量 |
 | 发布时间 | 相对时间 |
+
+**需求数据字段：**
+```javascript
+{
+  id: String,
+  userId: String,            // 发布用户ID
+  productName: String,       // 商品名称
+  brandId: String,           // 品牌ID
+  country: String,           // 目标国家代码
+  deadline: String,          // 截止日期 YYYY-MM-DD
+  budget: Number,            // 预算金额
+  budgetCurrency: String,    // 预算货币
+  quantity: Number,          // 数量
+  status: String,            // bidding/matched/completed
+  bids: Number,              // 投标买手数量
+  matchedBuyer: String,      // 已匹配买手ID
+  createTime: String,        // 创建时间 ISO
+  description: String        // 补充说明
+}
+```
 
 #### 3.5.4 发布需求
 - 商品名称（必填）
@@ -345,15 +369,12 @@
 {
   id: String,
   name: String,          // 商场名称
-  type: String,          // mall/street/dutyfree
-  typeLabel: String,     // 商场/专卖店街/免税店
-  flag: String,          // 国旗
-  countryName: String,   // 国家
-  countryCode: String,   // 国家代码
+  type: String,          // mall/street/dutyfree 商场/专卖店街/免税店
+  country: String,       // 国家代码
   city: String,          // 城市
   address: String,       // 地址
+  brands: [String],      // 入驻品牌ID列表
   rating: Number,        // 评分
-  brandCount: Number,    // 入驻品牌数
   image: String          // 图片
 }
 ```
@@ -363,13 +384,15 @@
 ```javascript
 {
   id: String,
-  name: String,
-  description: String,
-  type: String,          // discount/cashback/rebate
-  region: String,        // 地区
-  logo: String,          // Logo
-  status: String,         // unused/used/expired
-  expireTime: String     // 过期时间
+  title: String,         // 优惠券标题
+  type: String,          // discount/percent/cashback 满减/折扣/返现
+  discount: Number,      // 优惠额度（金额或百分比）
+  threshold: Number,     // 满减门槛
+  country: String,       // 国家代码
+  storeId: String,       // 门店ID
+  storeName: String,     // 门店名称
+  expireDate: String,    // 过期日期 YYYY-MM-DD
+  status: String         // available/used/expired
 }
 ```
 
@@ -377,17 +400,10 @@
 
 ```javascript
 {
-  userId: String,         // 用户ID（自动生成）
+  userId: String,         // 用户ID（自动生成，U+时间戳）
   nickname: String,      // 昵称
   avatar: String,         // 头像
-  favorites: [String],    // 收藏商品ID列表
-  history: [String],      // 浏览历史
-  demands: [String],      // 发布的需求ID列表
-  coupons: [String],      // 领取的优惠券ID列表
-  settings: {
-    defaultCurrency: String,  // 默认货币
-    notifications: Boolean    // 消息通知开关
-  }
+  createTime: String      // 创建时间 ISO
 }
 ```
 
@@ -396,10 +412,12 @@
 ## 5. 技术实现
 
 ### 5.1 技术栈
-- **框架**：微信小程序
+- **框架**：微信小程序（基础库 2.32.3+）
 - **样式**：WXSS
-- **逻辑**：JavaScript
-- **数据**：本地模拟数据
+- **逻辑**：JavaScript (ES6+)
+- **数据**：本地模拟数据（Mock）
+- **存储**：wx.storage 本地缓存
+- **图标生成**：Python 脚本（纯 PNG 生成，无需依赖）
 
 ### 5.2 文件结构
 ```
@@ -409,29 +427,31 @@
 ├── project.config.json       # 项目配置
 ├── sitemap.json              # 站点地图
 ├── data/
-│   └── mock.js               # 模拟数据
+│   └── mock.js               # 模拟数据（商品/门店/优惠券/买手/需求）
 ├── utils/
-│   ├── constants.js          # 常量定义
-│   └── util.js              # 工具函数
+│   ├── constants.js          # 常量定义（国家/品牌/品类）
+│   └── util.js              # 工具函数（价格格式化等）
 ├── images/
-│   └── tab/                  # TabBar图标
+│   └── tab/                  # TabBar图标（选中/未选中各5个）
+├── scripts/
+│   └── generate_icons.py    # TabBar图标生成脚本
 └── pages/
-    ├── index/                # 比价首页
-    ├── exchange/             # 汇率计算
-    ├── rebate/               # 返点优惠
+    ├── rebate/               # 返点优惠（TabBar启动页）
+    ├── index/                # 商品比价（TabBar）
+    ├── exchange/             # 汇率计算（TabBar）
+    ├── buyer/                # 寻买手（TabBar）
+    ├── profile/              # 个人中心（TabBar）
     ├── products/             # 商品列表
     ├── product-detail/       # 商品详情
     ├── stores/               # 商场门店
-    ├── coupons/              # 优惠券
-    ├── buyer/               # 寻买手
-    └── profile/              # 个人中心
+    └── coupons/              # 优惠券
 ```
 
 ### 5.3 核心算法
 
 #### 汇率换算
 ```javascript
-// 将源货币转换为目标货币
+// 将源货币转换为目标货币（基准货币为 CNY）
 function convertCurrency(amount, fromCurrency, toCurrency, rates) {
   const fromRate = rates.rates[fromCurrency];
   const toRate = rates.rates[toCurrency];
@@ -446,15 +466,48 @@ function convertCurrency(amount, fromCurrency, toCurrency, rates) {
 到手价 = 原价 × 汇率 + 服务费 + 运费 - 返点
 ```
 
+#### 价格格式化
+```javascript
+// 千分位格式化（不使用 toLocaleString，避免 WXML 模板限制）
+function formatPrice(num) {
+  return String(num).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+```
+
+### 5.4 性能优化
+
+#### 数据缓存
+- **汇率数据**：本地缓存 1 小时，过期自动刷新
+- **商品列表**：`_productsCache` 内存缓存，避免重复计算
+- **用户信息**：wx.storage 持久化存储
+
+#### WXML 模板约束
+- WXML 不支持方法调用（如 `.toFixed()`、`.toLocaleString()`）
+- 所有格式化数据需在 JS 中预处理后再绑定到模板
+- 避免在 WXML 中使用复杂表达式
+
+### 5.5 适配方案
+
+#### iPhone 刘海屏适配
+- 使用 `wx.getWindowInfo()` 获取状态栏高度（替代已弃用的 `wx.getSystemInfoSync()`）
+- 页面顶部添加安全区域占位元素
+- 导航栏使用三栏对称布局（左/中/右）确保标题居中
+
+#### TabBar 规范
+- 图标尺寸：81×81px PNG
+- 未选中颜色：#999999（浅灰色）
+- 选中颜色：#ff6b00（橙色）
+- 每个 Tab 独立图标，样式与文字含义对应
+
 ---
 
 ## 6. 页面路由
 
 | 页面 | 路由 | 参数 | 说明 |
 |------|------|------|------|
+| 优惠页 | /pages/rebate/rebate | - | TabBar（启动页） |
 | 比价首页 | /pages/index/index | - | TabBar |
 | 汇率页 | /pages/exchange/exchange | - | TabBar |
-| 优惠页 | /pages/rebate/rebate | - | TabBar |
 | 买手页 | /pages/buyer/buyer | - | TabBar |
 | 我的页 | /pages/profile/profile | - | TabBar |
 | 商品列表 | /pages/products/products | keyword, brandId, category | 搜索结果 |
@@ -500,25 +553,32 @@ function convertCurrency(amount, fromCurrency, toCurrency, rates) {
 
 ## 8. 版本规划
 
-### v1.0 当前版本
-- [x] 底部TabBar导航（5个页面）
-- [x] 返点优惠页
-- [x] 实时汇率计算
-- [x] 商品比价首页
+### v1.1 当前版本
+- [x] 底部TabBar导航（5个页面，独立图标）
+- [x] 返点优惠页（启动页）
+- [x] 实时汇率计算（13种货币，13个国家）
+- [x] 商品比价首页（8个品牌，6个品类）
 - [x] 商品搜索功能
-- [x] 商品详情页
-- [x] 寻买手功能
+- [x] 商品详情页（全球价格对比）
+- [x] 寻买手功能（买手列表 + 需求广场）
 - [x] 个人中心页
+- [x] 商场/门店列表页
+- [x] 优惠券列表页
+- [x] iPhone 刘海屏安全区域适配
+- [x] 导航栏标题居中布局
+- [x] 本地数据缓存机制
 
 ### v2.0 规划功能
 - [ ] 真实汇率API接入
-- [ ] 用户登录注册
+- [ ] 用户登录注册（微信授权）
 - [ ] 后端数据同步
 - [ ] 商品图片展示
 - [ ] 在线支付功能
 - [ ] 订单管理系统
 - [ ] 消息推送功能
 - [ ] 社交分享功能
+- [ ] 收藏/浏览历史功能
+- [ ] 买手投标/竞价功能
 
 ---
 
@@ -546,7 +606,8 @@ function convertCurrency(amount, fromCurrency, toCurrency, rates) {
 ---
 
 **文档信息**
-- 版本：v1.0
-- 更新日期：2026-06-27
+- 版本：v1.1
+- 更新日期：2026-06-29
+- 项目地址：https://github.com/Xiao-HU1987/luxury-price-miniapp
 - 编写人：AI Assistant
 - 审核状态：待审核

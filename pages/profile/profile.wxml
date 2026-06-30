@@ -1,5 +1,4 @@
 <view class="page">
-  <!-- 顶部安全区域适配 (iPhone刘海屏) -->
   <view class="safe-area-inset-top" style="height: {{statusBarHeight}}px;"></view>
   
   <view class="nav-bar">
@@ -9,27 +8,45 @@
     </view>
     <view class="nav-right">
       <text class="nav-icon-btn">⋯</text>
-      <text class="nav-icon-btn">−</text>
-      <text class="nav-icon-btn">◎</text>
     </view>
   </view>
 
   <view class="profile-header">
     <view class="user-card">
-      <view class="avatar">
-        <text class="avatar-icon">👤</text>
-      </view>
-      <view class="user-info" bindtap="onEditProfile">
-        <view class="nickname">{{userInfo.nickname}}</view>
-        <view class="user-id" bindtap="copyUserId">
-          ID: {{userInfo.userId}}
-          <text class="copy-tip">点击复制</text>
+      <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+        <image wx:if="{{userInfo.avatar}}" class="avatar-img" src="{{userInfo.avatar}}"></image>
+        <view wx:else class="avatar">
+          <text class="avatar-icon">👤</text>
         </view>
+      </button>
+      <view class="user-info">
+        <input
+          wx:if="{{!userInfo.nickname}}"
+          class="nickname-input"
+          type="nickname"
+          placeholder="请输入昵称"
+          bindconfirm="onNicknameConfirm"
+        />
+        <view wx:else class="nickname">
+          <text>{{userInfo.nickname}}</text>
+        </view>
+        <view class="user-id" catchtap="copyUserId">
+          ID: {{userInfo.user_id || '未登录'}}
+          <text wx:if="{{userInfo.user_id}}" class="copy-tip">点击复制</text>
+        </view>
+        <view wx:if="{{userInfo.is_vip}}" class="vip-tag">VIP会员</view>
       </view>
       <view class="edit-btn">
         <text>›</text>
       </view>
     </view>
+  </view>
+
+  <view wx:if="{{!userInfo.phone}}" class="phone-bind-card">
+    <view class="phone-bind-text">绑定手机号，享受更多服务</view>
+    <button class="phone-bind-btn" open-type="getPhoneNumber" bindgetphonenumber="onGetPhone">
+      立即绑定
+    </button>
   </view>
 
   <view class="menu-section card">

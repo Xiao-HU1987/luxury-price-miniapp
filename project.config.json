@@ -1,7 +1,24 @@
 {
   "description": "奢侈品价格搜索微信小程序",
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      {
+        "type": "folder",
+        "value": "server"
+      },
+      {
+        "type": "folder",
+        "value": "docs"
+      },
+      {
+        "type": "folder",
+        "value": "scripts"
+      },
+      {
+        "type": "file",
+        "value": ".gitignore"
+      }
+    ],
     "include": []
   },
   "setting": {

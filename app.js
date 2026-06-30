@@ -1,8 +1,20 @@
 App({
   onLaunch() {
-    this.initUser();
-    this.initExchangeRates();
-    this.initWindowInfo();
+    try {
+      this.initWindowInfo();
+    } catch (e) {
+      console.error('初始化窗口信息失败:', e);
+    }
+    try {
+      this.initExchangeRates();
+    } catch (e) {
+      console.error('初始化汇率失败:', e);
+    }
+    try {
+      this.silentLogin();
+    } catch (e) {
+      console.error('静默登录失败:', e);
+    }
   },
 
   initWindowInfo() {
@@ -14,25 +26,47 @@ App({
     } catch (e) {}
   },
 
-  initUser() {
-    try {
-      const userInfo = wx.getStorageSync('userInfo');
-      if (userInfo) {
-        this.globalData.userInfo = userInfo;
-        return;
-      }
-    } catch (e) {}
+  silentLogin() {
+    const token = wx.getStorageSync('token');
+    const userInfo = wx.getStorageSync('userInfo');
+    if (token && userInfo) {
+      this.globalData.userInfo = userInfo;
+      return;
+    }
 
-    const newUser = {
-      userId: 'U' + Date.now(),
-      nickname: '奢品用户',
-      avatar: '',
-      createTime: new Date().toISOString()
-    };
-    try {
-      wx.setStorageSync('userInfo', newUser);
-    } catch (e) {}
-    this.globalData.userInfo = newUser;
+    const that = this;
+    wx.login({
+      success: (res) => {
+        if (res.code) {
+          that.doLogin(res.code);
+        }
+      },
+      fail: () => {
+        console.error('wx.login 失败');
+      }
+    });
+  },
+
+  doLogin(code) {
+    const that = this;
+    wx.request({
+      url: 'http://localhost:8000/api/auth/wechat-login',
+      method: 'POST',
+      data: { code: code },
+      header: { 'Content-Type': 'application/json' },
+      success: (res) => {
+        if (res.data && res.data.code === 0 && res.data.data) {
+          const data = res.data.data;
+          wx.setStorageSync('token', data.access_token);
+          wx.setStorageSync('sessionKey', data.session_key);
+          that.globalData.userInfo = data.user;
+          wx.setStorageSync('userInfo', data.user);
+        }
+      },
+      fail: (err) => {
+        console.error('登录请求失败:', err);
+      }
+    });
   },
 
   initExchangeRates() {
