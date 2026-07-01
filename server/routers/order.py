@@ -11,11 +11,13 @@ from schemas import (
     OrderUpdateRequest,
     OrderResponse,
 )
-from utils.security import get_current_user_optional
+from utils.security import get_current_user_optional, get_current_user
+from utils.trino_db import TrinoClient, TrinoUnavailableError
 from utils.wechat_pay import create_vip_payment, verify_payment_notify, generate_out_trade_no
 from config import DEBUG
 
 router = APIRouter(prefix="/api/order", tags=["订单管理"])
+trino_client = TrinoClient()
 
 
 @router.get("/list", response_model=ApiResponse)
@@ -25,8 +27,21 @@ def get_orders(
     status: str = Query(None, description="订单状态"),
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
+    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
+    if trino_client.is_enabled():
+        try:
+            if not current_user.is_admin:
+                user_id = current_user.user_id
+            data = trino_client.get_order_list(user_id=user_id, buyer_id=buyer_id, status=status, page=page, page_size=page_size)
+            return ApiResponse(code=0, message="success", data=data)
+        except TrinoUnavailableError:
+            pass
+
+    if not current_user.is_admin:
+        user_id = current_user.user_id
+
     query = db.query(Order)
 
     if user_id:
@@ -53,13 +68,36 @@ def get_orders(
 
 
 @router.get("/{order_id}", response_model=ApiResponse)
-def get_order(order_id: str, db: Session = Depends(get_db)):
+def get_order(order_id: str, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    if trino_client.is_enabled():
+        try:
+            order = trino_client.get_order_detail(order_id)
+            if not order:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="订单不存在"
+                )
+            if not current_user.is_admin and order.get("user_id") and order.get("user_id") != current_user.user_id:
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail="无权查看该订单"
+                )
+            return ApiResponse(code=0, message="success", data=order)
+        except TrinoUnavailableError:
+            pass
+
     order = db.query(Order).filter(Order.order_id == order_id).first()
 
     if not order:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="订单不存在"
+        )
+
+    if not current_user.is_admin and order.user_id and order.user_id != current_user.user_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="无权查看该订单"
         )
 
     return ApiResponse(
@@ -70,7 +108,7 @@ def get_order(order_id: str, db: Session = Depends(get_db)):
 
 
 @router.post("", response_model=ApiResponse)
-def create_order(request: OrderCreateRequest, db: Session = Depends(get_db)):
+def create_order(request: OrderCreateRequest, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     order_id = "ORD" + str(int(datetime.now().timestamp() * 1000))
 
     buyer_name = ""
@@ -89,7 +127,7 @@ def create_order(request: OrderCreateRequest, db: Session = Depends(get_db)):
 
     order = Order(
         order_id=order_id,
-        user_id=request.user_id,
+        user_id=request.user_id or current_user.user_id,
         buyer_id=request.buyer_id or "",
         buyer_name=buyer_name,
         spu_id=request.spu_id or "",
@@ -126,13 +164,19 @@ def create_order(request: OrderCreateRequest, db: Session = Depends(get_db)):
 
 
 @router.put("/{order_id}", response_model=ApiResponse)
-def update_order(order_id: str, request: OrderUpdateRequest, db: Session = Depends(get_db)):
+def update_order(order_id: str, request: OrderUpdateRequest, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     order = db.query(Order).filter(Order.order_id == order_id).first()
 
     if not order:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="订单不存在"
+        )
+
+    if not current_user.is_admin and order.user_id and order.user_id != current_user.user_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="无权修改该订单"
         )
 
     if request.status is not None:
@@ -174,6 +218,7 @@ def update_order(order_id: str, request: OrderUpdateRequest, db: Session = Depen
 def update_order_status(
     order_id: str,
     status_value: str = Query(..., description="订单状态"),
+    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     order = db.query(Order).filter(Order.order_id == order_id).first()
@@ -182,6 +227,12 @@ def update_order_status(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="订单不存在"
+        )
+
+    if not current_user.is_admin and order.user_id and order.user_id != current_user.user_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="无权修改该订单"
         )
 
     valid_statuses = ["pending", "paid", "shipped", "completed", "cancelled", "refunded"]
@@ -213,13 +264,19 @@ def update_order_status(
 
 
 @router.delete("/{order_id}", response_model=ApiResponse)
-def delete_order(order_id: str, db: Session = Depends(get_db)):
+def delete_order(order_id: str, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     order = db.query(Order).filter(Order.order_id == order_id).first()
 
     if not order:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="订单不存在"
+        )
+
+    if not current_user.is_admin and order.user_id and order.user_id != current_user.user_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="无权删除该订单"
         )
 
     db.delete(order)

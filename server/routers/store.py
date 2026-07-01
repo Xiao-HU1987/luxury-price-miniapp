@@ -9,8 +9,10 @@ from schemas import (
     StoreUpdateRequest,
     StoreResponse,
 )
+from utils.trino_db import TrinoClient, TrinoUnavailableError
 
 router = APIRouter(prefix="/api/store", tags=["商场店铺"])
+trino_client = TrinoClient()
 
 
 @router.get("/list", response_model=ApiResponse)
@@ -22,6 +24,13 @@ def get_stores(
     page_size: int = Query(20, ge=1, le=100),
     db: Session = Depends(get_db)
 ):
+    if trino_client.is_enabled():
+        try:
+            data = trino_client.get_store_list(country=country, city=city, type=type, page=page, page_size=page_size)
+            return ApiResponse(code=0, message="success", data=data)
+        except TrinoUnavailableError:
+            pass
+
     query = db.query(Store)
     
     if country:
@@ -51,6 +60,18 @@ def get_stores(
 
 @router.get("/{store_id}", response_model=ApiResponse)
 def get_store(store_id: str, db: Session = Depends(get_db)):
+    if trino_client.is_enabled():
+        try:
+            store = trino_client.get_store_detail(store_id)
+            if not store:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="店铺不存在"
+                )
+            return ApiResponse(code=0, message="success", data=store)
+        except TrinoUnavailableError:
+            pass
+
     store = db.query(Store).filter(Store.store_id == store_id).first()
     
     if not store:

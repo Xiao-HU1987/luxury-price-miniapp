@@ -8,7 +8,7 @@ from typing import Optional
 from database import get_db
 from models import User, Order, SPU, Brand, Buyer, Demand, AccessLog, Coupon, Store
 from schemas import ApiResponse
-from utils.security import create_access_token, get_password_hash, verify_password, get_current_user
+from utils.security import create_access_token, get_password_hash, verify_password, get_current_admin
 
 router = APIRouter(prefix="/api/admin", tags=["管理后台"])
 
@@ -105,7 +105,8 @@ def get_users(
     role: str = Query(None),
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    admin: dict = Depends(get_current_admin)
 ):
     """获取用户列表"""
     query = db.query(User)
@@ -146,7 +147,7 @@ def get_users(
 
 
 @router.put("/users", response_model=ApiResponse)
-def admin_update_user(request: AdminUserUpdateRequest, db: Session = Depends(get_db)):
+def admin_update_user(request: AdminUserUpdateRequest, db: Session = Depends(get_db), admin: dict = Depends(get_current_admin)):
     """管理员编辑用户"""
     user = db.query(User).filter(User.user_id == request.user_id).first()
     if not user:
@@ -181,7 +182,7 @@ def admin_update_user(request: AdminUserUpdateRequest, db: Session = Depends(get
 
 
 @router.get("/dashboard/stats", response_model=ApiResponse)
-def get_dashboard_stats(db: Session = Depends(get_db)):
+def get_dashboard_stats(db: Session = Depends(get_db), admin: dict = Depends(get_current_admin)):
     today = datetime.now().date()
     today_start = datetime.combine(today, datetime.min.time())
     yesterday = today - timedelta(days=1)
@@ -268,7 +269,8 @@ def get_dashboard_stats(db: Session = Depends(get_db)):
 @router.get("/dashboard/order-trend", response_model=ApiResponse)
 def get_order_trend(
     days: int = Query(7, description="天数", ge=1, le=30),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    admin: dict = Depends(get_current_admin)
 ):
     today = datetime.now().date()
     result = []
@@ -305,7 +307,8 @@ def get_order_trend(
 @router.get("/dashboard/traffic-trend", response_model=ApiResponse)
 def get_traffic_trend(
     days: int = Query(7, description="天数", ge=1, le=30),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    admin: dict = Depends(get_current_admin)
 ):
     today = datetime.now().date()
     result = []
@@ -342,7 +345,8 @@ def get_traffic_trend(
 @router.get("/dashboard/hot-products", response_model=ApiResponse)
 def get_hot_products(
     limit: int = Query(10, description="数量", ge=1, le=50),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    admin: dict = Depends(get_current_admin)
 ):
     spus = db.query(SPU).order_by(SPU.created_at.desc()).limit(limit).all()
     result = []
