@@ -143,6 +143,24 @@
   margin-top: 6rpx;
 }
 
+.vip-tag {
+  display: inline-block;
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  color: #fff;
+  font-size: 20rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+  margin-top: 8rpx;
+  font-weight: 500;
+}
+
+.empty-tip {
+  text-align: center;
+  color: #999;
+  font-size: 26rpx;
+  padding: 60rpx 0;
+}
+
 .coupon-right {
   margin-left: 16rpx;
 }

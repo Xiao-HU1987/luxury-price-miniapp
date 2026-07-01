@@ -1,4 +1,4 @@
-const { STORES } = require('../../data/mock.js');
+const request = require('../../utils/request.js');
 const { BRANDS, COUNTRIES } = require('../../utils/constants.js');
 const { getCountryByCode } = require('../../utils/util.js');
 const app = getApp();
@@ -14,7 +14,7 @@ Page({
     countries: COUNTRIES,
     typeLabels: {
       mall: '商场',
-      street: '专卖店街',
+      store: '专卖店',
       dutyfree: '免税店'
     }
   },
@@ -24,28 +24,48 @@ Page({
     this.loadStores();
   },
 
+  onShow() {
+    this.loadStores();
+  },
+
   loadStores() {
-    const stores = STORES.map(s => {
-      const country = getCountryByCode(s.country);
-      return {
-        ...s,
-        countryName: country.name,
-        flag: country.flag,
-        typeLabel: this.data.typeLabels[s.type] || s.type,
-        brandCount: s.brands.length
-      };
+    const that = this;
+    const typeMap = { mall: 'mall', street: 'store', dutyfree: 'dutyfree' };
+    const type = typeMap[that.data.tab] || '';
+    
+    request.get('/api/store/list', { 
+      page: 1, 
+      page_size: 100,
+      country: that.data.country || undefined,
+      type: type || undefined
+    }).then((data) => {
+      if (data && data.list) {
+        const stores = data.list.map(s => {
+          const country = getCountryByCode(s.country);
+          return {
+            id: s.store_id,
+            ...s,
+            countryName: country ? country.name : s.country,
+            flag: country ? country.flag : '',
+            typeLabel: that.data.typeLabels[s.type] || s.type,
+            brandCount: 0
+          };
+        });
+        that.setData({
+          allStores: stores,
+          stores
+        });
+        that.filterStores();
+      }
+    }).catch(() => {
+      console.log('店铺加载失败');
     });
-    this.setData({
-      allStores: stores,
-      stores
-    });
-    this.filterStores();
   },
 
   onTabTap(e) {
     const tab = e.currentTarget.dataset.tab;
     this.setData({ tab });
-    this.filterStores();
+    this.loadStores();
   },
 
   onKeywordInput(e) {
@@ -57,16 +77,12 @@ Page({
     const country = e.currentTarget.dataset.country;
     const current = this.data.country === country ? '' : country;
     this.setData({ country: current });
-    this.filterStores();
+    this.loadStores();
   },
 
   filterStores() {
-    const { tab, keyword, country, allStores } = this.data;
+    const { keyword, allStores } = this.data;
     let filtered = allStores.filter(s => {
-      if (tab === 'mall' && s.type !== 'mall') return false;
-      if (tab === 'street' && s.type !== 'street') return false;
-      if (tab === 'dutyfree' && s.type !== 'dutyfree') return false;
-      if (country && s.country !== country) return false;
       if (keyword) {
         const kw = keyword.toLowerCase();
         if (!s.name.toLowerCase().includes(kw) && !s.city.toLowerCase().includes(kw)) {

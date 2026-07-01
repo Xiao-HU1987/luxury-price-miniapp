@@ -70,6 +70,10 @@
 
   <view class="card">
     <view class="quick-actions">
+      <view class="action-item {{isFavorited ? 'active' : ''}}" bindtap="toggleFavorite">
+        <view class="action-icon">{{isFavorited ? '❤️' : '🤍'}}</view>
+        <view class="action-text">{{isFavorited ? '已收藏' : '收藏'}}</view>
+      </view>
       <view class="action-item" bindtap="goToStores">
         <view class="action-icon">🏬</view>
         <view class="action-text">附近门店</view>

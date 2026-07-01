@@ -49,6 +49,21 @@
     </button>
   </view>
 
+  <view class="vip-entry-card" bindtap="goToVip">
+    <view class="vip-entry-left">
+      <text class="vip-entry-icon">👑</text>
+      <view class="vip-entry-info">
+        <text wx:if="{{userInfo.is_vip}}" class="vip-entry-title">VIP会员有效期至 {{vipExpireDate}}</text>
+        <text wx:else class="vip-entry-title">开通VIP会员，尊享更多特权</text>
+        <text class="vip-entry-desc">{{userInfo.is_vip ? '点击续费查看会员权益' : '全球比价 · 专属优惠 · 买手对接'}}</text>
+      </view>
+    </view>
+    <view class="vip-entry-right">
+      <text class="vip-entry-btn">{{userInfo.is_vip ? '续费' : '立即开通'}}</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
   <view class="menu-section card">
     <view
       class="menu-item"

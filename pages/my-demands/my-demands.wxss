@@ -1,0 +1,154 @@
+.container {
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+.header {
+  padding: 30rpx;
+  background: #fff;
+  text-align: center;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.tabs {
+  display: flex;
+  background: #fff;
+  padding: 0 30rpx;
+  border-bottom: 1px solid #eee;
+}
+
+.tab {
+  flex: 1;
+  padding: 24rpx 0;
+  text-align: center;
+  font-size: 28rpx;
+  color: #666;
+  position: relative;
+}
+
+.tab.active {
+  color: #ff6b00;
+  font-weight: bold;
+}
+
+.tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60rpx;
+  height: 4rpx;
+  background: #ff6b00;
+  border-radius: 2rpx;
+}
+
+.content {
+  padding: 20rpx;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 200rpx 0;
+}
+
+.empty-icon {
+  font-size: 120rpx;
+}
+
+.empty-text {
+  margin-top: 30rpx;
+  font-size: 32rpx;
+  color: #666;
+}
+
+.empty-hint {
+  margin-top: 16rpx;
+  font-size: 26rpx;
+  color: #999;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.demand-item {
+  padding: 24rpx;
+  background: #fff;
+  border-radius: 16rpx;
+}
+
+.demand-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.demand-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  flex: 1;
+  margin-right: 20rpx;
+}
+
+.demand-status {
+  font-size: 24rpx;
+  padding: 8rpx 16rpx;
+  background: #f5f5f5;
+  border-radius: 8rpx;
+}
+
+.demand-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.info-item {
+  font-size: 24rpx;
+  color: #666;
+  padding: 8rpx 16rpx;
+  background: #f9f9f9;
+  border-radius: 8rpx;
+}
+
+.demand-footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 16rpx;
+  border-top: 1px solid #f0f0f0;
+}
+
+.demand-time, .demand-deadline {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.demand-buyer {
+  margin-top: 16rpx;
+  padding: 12rpx 16rpx;
+  background: #fff7e6;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  color: #ff9800;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 200rpx;
+  color: #999;
+  font-size: 28rpx;
+}

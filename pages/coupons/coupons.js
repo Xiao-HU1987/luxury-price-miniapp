@@ -1,6 +1,6 @@
-const { COUPONS } = require('../../data/mock.js');
 const { COUNTRIES } = require('../../utils/constants.js');
 const { getCountryByCode } = require('../../utils/util.js');
+const request = require('../../utils/request.js');
 const app = getApp();
 
 Page({
@@ -18,18 +18,32 @@ Page({
     this.loadCoupons();
   },
 
+  onShow() {
+    this.loadCoupons();
+  },
+
   loadCoupons() {
-    const coupons = COUPONS.map(c => {
-      const country = getCountryByCode(c.country);
-      return {
-        ...c,
-        countryName: country.name,
-        flag: country.flag,
-        currencySymbol: country.currencySymbol
-      };
-    });
-    this.setData({ coupons });
-    this.updateFilteredCoupons();
+    const that = this;
+    request.get('/api/coupon/list', { page: 1, page_size: 100 })
+      .then((data) => {
+        if (data && data.list) {
+          const coupons = data.list.map(c => {
+            const country = getCountryByCode(c.country);
+            return {
+              ...c,
+              id: c.coupon_id,
+              countryName: country ? country.name : c.country,
+              flag: country ? country.flag : '',
+              currencySymbol: country ? country.currencySymbol : ''
+            };
+          });
+          that.setData({ coupons });
+          that.updateFilteredCoupons();
+        }
+      })
+      .catch(() => {
+        wx.showToast({ title: '加载失败', icon: 'error' });
+      });
   },
 
   updateFilteredCoupons() {
@@ -56,10 +70,24 @@ Page({
   },
 
   claimCoupon(e) {
-    const id = e.currentTarget.dataset.id;
-    wx.showToast({
-      title: '领取成功',
-      icon: 'success'
-    });
+    const couponId = e.currentTarget.dataset.id;
+    const userInfo = app.globalData.userInfo || wx.getStorageSync('userInfo') || {};
+    if (!userInfo.user_id) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
+
+    const that = this;
+    request.post('/api/user/my-coupons/claim', { coupon_id: couponId })
+      .then(() => {
+        wx.showToast({ title: '领取成功', icon: 'success' });
+        that.loadCoupons();
+      })
+      .catch(err => {
+        wx.showToast({
+          title: err?.message || '领取失败',
+          icon: 'none'
+        });
+      });
   }
 });

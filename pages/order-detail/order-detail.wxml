@@ -1,0 +1,121 @@
+<view class="detail-page">
+  <view class="status-banner {{order.status}}">
+    <text class="status-icon">{{statusIcon}}</text>
+    <text class="status-text">{{statusText}}</text>
+  </view>
+
+  <view class="section" wx:if="{{order.product_name}}">
+    <view class="section-title">商品信息</view>
+    <view class="product-card">
+      <image wx:if="{{order.product_image}}" class="product-img" src="{{order.product_image}}" mode="aspectFill" />
+      <view wx:else class="product-img placeholder">
+        <text class="placeholder-icon">👜</text>
+      </view>
+      <view class="product-info">
+        <text class="product-name">{{order.product_name}}</text>
+        <text class="product-spec" wx:if="{{order.sku_spec}}">{{order.sku_spec}}</text>
+        <text class="product-qty">x{{order.quantity}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">订单金额</view>
+    <view class="amount-row">
+      <text class="amount-label">商品金额</text>
+      <text class="amount-value">¥{{order.cnyPriceDisplay}}</text>
+    </view>
+    <view class="amount-row" wx:if="{{order.fee_amount > 0}}">
+      <text class="amount-label">手续费</text>
+      <text class="amount-value">¥{{order.feeAmountDisplay}}</text>
+    </view>
+    <view class="amount-row" wx:if="{{order.shipping_fee > 0}}">
+      <text class="amount-label">运费</text>
+      <text class="amount-value">¥{{order.shippingFeeDisplay}}</text>
+    </view>
+    <view class="amount-row total">
+      <text class="amount-label">实付金额</text>
+      <text class="amount-value total-value">¥{{order.totalAmountDisplay}}</text>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{order.receiver_name || order.receiver_phone || order.receiver_address}}">
+    <view class="section-title">收货信息</view>
+    <view class="info-row">
+      <text class="info-label">收货人</text>
+      <text class="info-value">{{order.receiver_name}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">手机号</text>
+      <text class="info-value">{{order.receiver_phone}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">地址</text>
+      <text class="info-value">{{order.receiver_address}}</text>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{order.tracking_no}}">
+    <view class="section-title">物流信息</view>
+    <view class="info-row">
+      <text class="info-label">快递公司</text>
+      <text class="info-value">{{order.tracking_company}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">运单号</text>
+      <text class="info-value">{{order.tracking_no}}</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">订单信息</view>
+    <view class="info-row">
+      <text class="info-label">订单编号</text>
+      <text class="info-value">{{order.order_id}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">下单时间</text>
+      <text class="info-value">{{formatDateTime(order.created_at)}}</text>
+    </view>
+    <view class="info-row" wx:if="{{order.paid_at}}">
+      <text class="info-label">支付时间</text>
+      <text class="info-value">{{formatDateTime(order.paid_at)}}</text>
+    </view>
+    <view class="info-row" wx:if="{{order.shipped_at}}">
+      <text class="info-label">发货时间</text>
+      <text class="info-value">{{formatDateTime(order.shipped_at)}}</text>
+    </view>
+    <view class="info-row" wx:if="{{order.completed_at}}">
+      <text class="info-label">完成时间</text>
+      <text class="info-value">{{formatDateTime(order.completed_at)}}</text>
+    </view>
+    <view class="info-row" wx:if="{{order.remark}}">
+      <text class="info-label">备注</text>
+      <text class="info-value">{{order.remark}}</text>
+    </view>
+  </view>
+
+  <view class="footer-bar">
+    <button
+      wx:if="{{order.status === 'pending'}}"
+      class="btn btn-primary"
+      bindtap="payOrder"
+    >
+      去支付 ¥{{order.totalAmountDisplay}}
+    </button>
+    <button
+      wx:if="{{order.status === 'shipped'}}"
+      class="btn btn-primary"
+      bindtap="confirmReceive"
+    >
+      确认收货
+    </button>
+    <button
+      wx:if="{{order.status === 'pending'}}"
+      class="btn btn-outline"
+      bindtap="cancelOrder"
+    >
+      取消订单
+    </button>
+  </view>
+</view>

@@ -1,0 +1,31 @@
+<view class="container" style="padding-top: {{statusBarHeight}}px;">
+  <view class="header">
+    <text class="title">浏览历史</text>
+    <text class="clear-btn" bindtap="onClear">清空</text>
+  </view>
+
+  <view class="content" wx:if="{{!loading}}">
+    <view class="empty" wx:if="{{empty}}">
+      <text class="empty-icon">🕐</text>
+      <text class="empty-text">暂无浏览记录</text>
+      <text class="empty-hint">去看看喜欢的商品吧</text>
+    </view>
+
+    <view class="list" wx:else>
+      <view class="item" wx:for="{{list}}" wx:key="id" bindtap="onItemTap" data-id="{{item.id}}" data-type="{{item.type}}">
+        <image class="item-image" src="{{item.image || '/images/default-product.png'}}" mode="aspectFill" />
+        <view class="item-info">
+          <text class="item-name">{{item.name}}</text>
+          <text class="item-time">{{item.time}}</text>
+        </view>
+        <view class="item-action" catchtap="onRemove" data-id="{{item.id}}">
+          <text class="remove-btn">删除</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+</view>

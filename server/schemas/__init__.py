@@ -27,6 +27,26 @@ from schemas.product import (
     ProductSearchResponse,
 )
 
+from schemas.favorite import (
+    FavoriteCreateRequest,
+    FavoriteResponse,
+    BrowseHistoryCreateRequest,
+    BrowseHistoryResponse,
+)
+
+from schemas.splash_ad import (
+    SplashAdCreateRequest,
+    SplashAdUpdateRequest,
+    SplashAdResponse,
+)
+
+from schemas.vip import (
+    VipPlanResponse,
+    VipOrderCreateRequest,
+    VipOrderResponse,
+    VipPayResponse,
+)
+
 from schemas.exchange import (
     ExchangeRateUpdateRequest,
     ExchangeRateResponse,
@@ -64,6 +84,19 @@ from schemas.demand import (
     DemandResponse,
 )
 
+from schemas.order import (
+    OrderCreateRequest,
+    OrderUpdateRequest,
+    OrderResponse,
+)
+
+from schemas.log import (
+    AccessLogCreateRequest,
+    AccessLogResponse,
+    OperationLogCreateRequest,
+    OperationLogResponse,
+)
+
 __all__ = [
     "WechatLoginRequest",
     "PhoneUpdateRequest",
@@ -88,6 +121,17 @@ __all__ = [
     "SKUPriceResponse",
     "ProductSearchRequest",
     "ProductSearchResponse",
+    "FavoriteCreateRequest",
+    "FavoriteResponse",
+    "BrowseHistoryCreateRequest",
+    "BrowseHistoryResponse",
+    "SplashAdCreateRequest",
+    "SplashAdUpdateRequest",
+    "SplashAdResponse",
+    "VipPlanResponse",
+    "VipOrderCreateRequest",
+    "VipOrderResponse",
+    "VipPayResponse",
     "ExchangeRateUpdateRequest",
     "ExchangeRateResponse",
     "ExchangeConvertRequest",
@@ -107,4 +151,11 @@ __all__ = [
     "DemandCreateRequest",
     "DemandUpdateRequest",
     "DemandResponse",
+    "OrderCreateRequest",
+    "OrderUpdateRequest",
+    "OrderResponse",
+    "AccessLogCreateRequest",
+    "AccessLogResponse",
+    "OperationLogCreateRequest",
+    "OperationLogResponse",
 ]

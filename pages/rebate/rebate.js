@@ -1,99 +1,105 @@
-const { PRODUCTS } = require('../../data/mock.js');
 const app = getApp();
+const request = require('../../utils/request.js');
 
 const DEFAULT_JP_RATE = 21.58;
 
 Page({
   data: {
-    jpCoupons: [
-      {
-        id: 'jp001',
-        name: '近铁百货返点二维码(6/10-28)',
-        description: '免税+当天返3.1%(LV卡地亚等可用)',
-        logo: '🚇',
-        status: 'used',
-        statusText: '使用'
-      },
-      {
-        id: 'jp002',
-        name: '近铁百货9折黑卡(白金卡)',
-        description: '',
-        logo: '🃏',
-        status: 'unused',
-        statusText: '领取'
-      },
-      {
-        id: 'jp003',
-        name: 'Bic Camera',
-        description: '最大17%折扣+免税',
-        logo: '📷',
-        status: 'used',
-        statusText: '使用'
-      },
-      {
-        id: 'jp004',
-        name: '日本威士忌LINXAS 大阪',
-        description: '当天返现5%+免税',
-        logo: '🥃',
-        status: 'used',
-        statusText: '使用'
-      }
-    ],
-    cnCoupons: [
-      {
-        id: 'cn001',
-        name: 'Gucci返现(广州K11店)',
-        description: '当天返现2%',
-        logo: 'G',
-        status: 'used',
-        statusText: '使用'
-      }
-    ],
+    rebates: [],
     products: [],
     exchangeRates: null,
-    statusBarHeight: 20
+    statusBarHeight: 20,
+    isVip: false
   },
 
   onLoad() {
     this.setData({ statusBarHeight: app.globalData.statusBarHeight || 20 });
-    this.loadProducts();
+    this.checkUserVip();
   },
 
   onShow() {
     const rates = app.globalData.exchangeRates;
     if (rates) {
       this.setData({ exchangeRates: rates });
-      this.loadProducts();
     }
+    this.checkUserVip();
+    this.loadRebates();
+  },
+
+  checkUserVip() {
+    const userInfo = app.globalData.userInfo;
+    const isVip = userInfo && userInfo.role === 'vip';
+    this.setData({ isVip });
+  },
+
+  loadRebates() {
+    const that = this;
+    const isVip = that.data.isVip;
+    
+    request.get('/api/rebate/list', { is_vip: isVip, page: 1, page_size: 50 }).then((data) => {
+      if (data && data.list) {
+        const rebates = data.list.map(r => ({
+          id: r.rebate_id,
+          name: r.title,
+          description: r.description || '',
+          brandName: r.brand_name || '',
+          storeName: r.store_name || '',
+          country: r.country,
+          rate: r.rate,
+          isVipOnly: r.is_vip_only,
+          status: r.status === 'available' ? 'unused' : 'used',
+          statusText: r.status === 'available' ? '领取' : '已结束',
+          logo: that.getRebateLogo(r.country)
+        }));
+        that.setData({ rebates });
+      }
+    }).catch(() => {
+      console.log('返点数据加载失败');
+    });
+  },
+
+  getRebateLogo(country) {
+    const logos = {
+      'JP': '🚇',
+      'FR': '🗼',
+      'IT': '🎭',
+      'UK': '🇬🇧',
+      'US': '🗽',
+      'HK': '🏙️',
+      'KR': '🎎',
+      'CN': '🇨🇳'
+    };
+    return logos[country] || '🏪';
   },
 
   loadProducts() {
     const rates = this.data.exchangeRates;
     const jpRate = rates && rates.rates ? (rates.rates.JPY || DEFAULT_JP_RATE) : DEFAULT_JP_RATE;
-
-    const products = PRODUCTS.slice(0, 3).map(p => {
-      const firstSku = p.skus[0];
-      const prices = firstSku.prices;
-      const cnPrice = prices.CN ? prices.CN.price : 0;
-      const jpPriceYen = prices.JP ? prices.JP.price : 0;
-      let jpPriceCny = 0;
-      if (jpPriceYen > 0) {
-        jpPriceCny = Math.round(jpPriceYen / jpRate);
+    
+    const that = this;
+    request.get('/api/product/spus', { page: 1, page_size: 3 }).then((data) => {
+      if (data && data.list) {
+        const products = data.list.slice(0, 3).map(p => {
+          let jpPriceCny = 0;
+          if (p.min_jp_price && p.min_jp_price > 0) {
+            jpPriceCny = Math.round(p.min_jp_price / jpRate);
+          }
+          return {
+            id: p.spu_id,
+            name: p.name || p.name_cn || '未知商品',
+            articleNo: p.article_no || '',
+            cnPrice: p.min_cn_price || 0,
+            cnPriceStr: String(p.min_cn_price || 0).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+            jpPriceCny: jpPriceCny,
+            jpPriceCnyStr: String(jpPriceCny).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+            hasJpPrice: p.min_jp_price && p.min_jp_price > 0
+          };
+        });
+        that.setData({ products });
       }
-
-      return {
-        id: p.id,
-        name: p.name,
-        articleNo: p.articleNo || '',
-        cnPrice: cnPrice,
-        cnPriceStr: String(cnPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-        jpPriceCny: jpPriceCny,
-        jpPriceCnyStr: String(jpPriceCny).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-        hasJpPrice: jpPriceYen > 0
-      };
+    }).catch(() => {
+      console.log('商品加载失败');
     });
-
-    this.setData({ products });
   },
 
   onCouponTap(e) {
@@ -101,7 +107,7 @@ Page({
     if (coupon.status === 'unused') {
       wx.showToast({ title: '已领取', icon: 'success' });
     } else {
-      wx.showToast({ title: '使用中', icon: 'none' });
+      wx.showToast({ title: '已结束', icon: 'none' });
     }
   },
 

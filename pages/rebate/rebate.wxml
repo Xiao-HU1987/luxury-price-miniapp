@@ -16,15 +16,15 @@
   </view>
 
   <scroll-view class="content" scroll-y>
-    <!-- 日本优惠券 -->
+    <!-- 返点列表 -->
     <view class="section">
       <view class="section-header">
-        <text class="section-title">日本优惠券</text>
+        <text class="section-title">返点优惠</text>
       </view>
       <view class="coupon-list">
         <view
           class="coupon-card"
-          wx:for="{{jpCoupons}}"
+          wx:for="{{rebates}}"
           wx:key="id"
           data-coupon="{{item}}"
           bindtap="onCouponTap"
@@ -34,6 +34,8 @@
             <view class="coupon-info">
               <view class="coupon-name">{{item.name}}</view>
               <view wx:if="{{item.description}}" class="coupon-desc">{{item.description}}</view>
+              <view wx:if="{{item.rate}}" class="coupon-desc">返点比例：{{item.rate}}%</view>
+              <view wx:if="{{item.isVipOnly}}" class="vip-tag">VIP专属</view>
             </view>
           </view>
           <view class="coupon-right">
@@ -42,34 +44,8 @@
             </view>
           </view>
         </view>
-      </view>
-    </view>
-
-    <!-- 国内优惠券 -->
-    <view class="section">
-      <view class="section-header">
-        <text class="section-title">国内优惠券</text>
-      </view>
-      <view class="coupon-list">
-        <view
-          class="coupon-card"
-          wx:for="{{cnCoupons}}"
-          wx:key="id"
-          data-coupon="{{item}}"
-          bindtap="onCouponTap"
-        >
-          <view class="coupon-left">
-            <view class="coupon-logo brand">{{item.logo}}</view>
-            <view class="coupon-info">
-              <view class="coupon-name">{{item.name}}</view>
-              <view wx:if="{{item.description}}" class="coupon-desc">{{item.description}}</view>
-            </view>
-          </view>
-          <view class="coupon-right">
-            <view class="btn-action btn-use">
-              {{item.statusText}}
-            </view>
-          </view>
+        <view wx:if="{{rebates.length === 0}}" class="empty-tip">
+          <text>暂无返点数据</text>
         </view>
       </view>
     </view>

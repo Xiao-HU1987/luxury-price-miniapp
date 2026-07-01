@@ -1,6 +1,6 @@
-const { PRODUCTS } = require('../../data/mock.js');
+const request = require('../../utils/request.js');
 const { BRANDS, COUNTRIES } = require('../../utils/constants.js');
-const { formatPrice, convertCurrency } = require('../../utils/util.js');
+const { convertCurrency } = require('../../utils/util.js');
 
 const app = getApp();
 
@@ -19,8 +19,7 @@ Page({
     countries: COUNTRIES,
     sortOptions: [
       { value: 'price-low', label: '价格从低到高' },
-      { value: 'price-high', label: '价格从高到低' },
-      { value: 'country-count', label: '比价国家多' }
+      { value: 'price-high', label: '价格从高到低' }
     ],
     currentSortLabel: '价格从低到高'
   },
@@ -42,8 +41,8 @@ Page({
     const rates = app.globalData.exchangeRates;
     if (rates) {
       this.setData({ exchangeRates: rates });
-      this.searchProducts();
     }
+    this.searchProducts();
   },
 
   onKeywordInput(e) {
@@ -55,81 +54,66 @@ Page({
   },
 
   searchProducts() {
-    const { keyword, brandId, category, country, sortBy, exchangeRates } = this.data;
-    let results = PRODUCTS.filter(p => {
-      if (brandId && p.brandId !== brandId) return false;
-      if (category && p.category !== category) return false;
-      if (keyword) {
-        const kw = keyword.toLowerCase();
-        const matchName = p.name.toLowerCase().includes(kw) ||
-          (p.nameEn && p.nameEn.toLowerCase().includes(kw));
-        const matchBrand = p.brandName.toLowerCase().includes(kw);
-        if (!matchName && !matchBrand) return false;
-      }
-      if (country) {
-        const hasCountry = p.skus.some(sku => sku.prices[country]);
-        if (!hasCountry) return false;
-      }
-      return true;
-    });
-
-    const processed = results.map(p => {
-      const allPrices = [];
-      p.skus.forEach(sku => {
-        Object.keys(sku.prices).forEach(code => {
-          const priceInfo = sku.prices[code];
-          allPrices.push({
-            ...priceInfo,
-            country: code,
-            skuId: sku.id,
-            skuName: sku.name
-          });
-        });
-      });
-
-      let lowest = null;
-      let lowestCny = Infinity;
-      if (exchangeRates && exchangeRates.rates) {
-        allPrices.forEach(p => {
-          const cny = convertCurrency(p.price, p.currency, 'CNY', exchangeRates);
-          if (cny < lowestCny) {
-            lowestCny = cny;
-            lowest = { ...p, cnyPrice: cny };
+    const that = this;
+    const { keyword, brandId, category, country, sortBy } = this.data;
+    
+    request.get('/api/product/search', {
+      page: 1, 
+      page_size: 50,
+      keyword: keyword || undefined,
+      brand_id: brandId || undefined,
+      category_id: category || undefined,
+      country: country || undefined
+    }).then((data) => {
+      if (data && data.list) {
+        const rates = that.data.exchangeRates;
+        let processed = data.list.map(p => {
+          const cnPrice = p.min_cn_price || 0;
+          const jpPrice = p.min_jp_price || 0;
+          
+          let lowestCny = cnPrice;
+          let lowestPrice = cnPrice;
+          let lowestCurrency = 'CNY';
+          let lowestCountry = 'CN';
+          
+          if (rates && rates.rates && jpPrice > 0) {
+            const jpCny = jpPrice / (rates.rates.JPY || 1);
+            if (jpCny < lowestCny) {
+              lowestCny = jpCny;
+              lowestPrice = jpPrice;
+              lowestCurrency = 'JPY';
+              lowestCountry = 'JP';
+            }
           }
+          
+          return {
+            id: p.spu_id,
+            brandId: p.brand_id,
+            brandName: p.brand_name,
+            name: p.name || p.name_cn,
+            nameEn: p.name,
+            image: '',
+            lowestPrice: lowestPrice,
+            lowestCurrency: lowestCurrency,
+            lowestCountry: lowestCountry,
+            lowestCny: lowestCny,
+            lowestCnyDisplay: Math.round(lowestCny).toString(),
+            skuCount: p.sku_count || 0,
+            countryCount: p.country_count || 0
+          };
         });
-      } else {
-        lowest = allPrices[0] || null;
+        
+        if (sortBy === 'price-low') {
+          processed.sort((a, b) => a.lowestCny - b.lowestCny);
+        } else if (sortBy === 'price-high') {
+          processed.sort((a, b) => b.lowestCny - a.lowestCny);
+        }
+        
+        that.setData({ products: processed });
       }
-
-      const countrySet = new Set();
-      allPrices.forEach(p => countrySet.add(p.country));
-
-      return {
-        id: p.id,
-        brandId: p.brandId,
-        brandName: p.brandName,
-        name: p.name,
-        nameEn: p.nameEn,
-        image: '',
-        lowestPrice: lowest ? lowest.price : 0,
-        lowestCurrency: lowest ? lowest.currency : 'CNY',
-        lowestCountry: lowest ? lowest.country : '',
-        lowestCny: lowestCny,
-        lowestCnyDisplay: Math.round(lowestCny).toString(),
-        skuCount: p.skus.length,
-        countryCount: countrySet.size
-      };
+    }).catch(() => {
+      console.log('商品搜索失败');
     });
-
-    if (sortBy === 'price-low') {
-      processed.sort((a, b) => a.lowestCny - b.lowestCny);
-    } else if (sortBy === 'price-high') {
-      processed.sort((a, b) => b.lowestCny - a.lowestCny);
-    } else if (sortBy === 'country-count') {
-      processed.sort((a, b) => b.countryCount - a.countryCount);
-    }
-
-    this.setData({ products: processed });
   },
 
   onProductTap(e) {

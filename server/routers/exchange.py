@@ -72,11 +72,30 @@ def update_exchange_rates(request: ExchangeRateUpdateRequest, db: Session = Depe
         base=request.base,
         rates=request.rates
     )
-    
+
     db.add(rate)
     db.commit()
     db.refresh(rate)
-    
+
+    return ApiResponse(
+        code=0,
+        message="汇率更新成功",
+        data=ExchangeRateResponse.from_orm(rate)
+    )
+
+
+@router.put("/rates", response_model=ApiResponse)
+def put_exchange_rates(request: ExchangeRateUpdateRequest, db: Session = Depends(get_db)):
+    """更新汇率（与 POST /rates 功能一致，供管理后台 PUT 调用）"""
+    rate = ExchangeRate(
+        base=request.base,
+        rates=request.rates
+    )
+
+    db.add(rate)
+    db.commit()
+    db.refresh(rate)
+
     return ApiResponse(
         code=0,
         message="汇率更新成功",

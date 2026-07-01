@@ -1,0 +1,27 @@
+<view class="splash-container">
+  <view class="splash-content" wx:if="{{adData}}">
+    <image 
+      class="splash-image" 
+      src="{{adData.image_url}}" 
+      mode="aspectFill"
+      bindtap="onAdClick"
+    />
+    
+    <view class="splash-logo">
+      <text class="logo-text">奢侈品比价</text>
+      <text class="logo-slogan">全球奢侈品比价</text>
+    </view>
+    
+    <view class="skip-btn" wx:if="{{adData.skip_enabled}}" bindtap="onSkip">
+      <text class="skip-text">{{countdown}}s 跳过</text>
+    </view>
+  </view>
+  
+  <view class="splash-loading" wx:else>
+    <view class="loading-logo">
+      <text class="logo-text">奢侈品比价</text>
+      <text class="logo-slogan">全球奢侈品比价</text>
+    </view>
+    <view class="loading-spinner"></view>
+  </view>
+</view>

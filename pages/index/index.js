@@ -1,7 +1,5 @@
-const { PRODUCTS } = require('../../data/mock.js');
+const request = require('../../utils/request.js');
 const { BRANDS, CATEGORIES } = require('../../utils/constants.js');
-const { convertCurrency } = require('../../utils/util.js');
-
 const app = getApp();
 
 const DEFAULT_JP_RATE = 21.58;
@@ -24,13 +22,11 @@ Page({
     statusBarHeight: 20
   },
 
-  _productsCache: null,
-
   onLoad() {
     this.setData({
       statusBarHeight: app.globalData.statusBarHeight || 20
     });
-    this.buildProductList();
+    this.loadProducts();
   },
 
   onShow() {
@@ -40,8 +36,7 @@ Page({
       const jpRateDisplay = Math.round(jpRate);
       if (jpRateDisplay !== this.data.jpRateDisplay) {
         this.setData({ jpRateDisplay: jpRateDisplay });
-        this._productsCache = null;
-        this.buildProductList();
+        this.loadProducts();
       }
     }
   },
@@ -54,43 +49,41 @@ Page({
     return DEFAULT_JP_RATE;
   },
 
-  buildProductList() {
-    if (this._productsCache) {
-      this.setData({ products: this._productsCache });
-      return;
-    }
-
+  loadProducts() {
+    const that = this;
     const jpRate = this.getJpRate();
-
-    const products = [];
-    for (let i = 0; i < PRODUCTS.length; i++) {
-      const p = PRODUCTS[i];
-      const firstSku = p.skus[0];
-      if (!firstSku) continue;
-      
-      const prices = firstSku.prices;
-      const cnPrice = prices.CN ? prices.CN.price : 0;
-      const jpPriceYen = prices.JP ? prices.JP.price : 0;
-      
-      let jpPriceCny = 0;
-      if (jpPriceYen > 0) {
-        jpPriceCny = Math.round(jpPriceYen / jpRate);
+    
+    request.get('/api/product/search', {
+      page: 1, 
+      page_size: 20,
+      brand_id: that.data.selectedBrand || undefined,
+      category_id: that.data.selectedCategory || undefined,
+      keyword: that.data.searchKeyword || undefined
+    }).then((data) => {
+      if (data && data.list) {
+        const products = data.list.map(p => {
+          const cnPrice = p.min_cn_price || 0;
+          const jpPriceYen = p.min_jp_price || 0;
+          let jpPriceCny = 0;
+          if (jpPriceYen > 0) {
+            jpPriceCny = Math.round(jpPriceYen / jpRate);
+          }
+          return {
+            id: p.spu_id,
+            brandId: p.brand_id,
+            brandName: p.brand_name,
+            name: p.name || p.name_cn,
+            articleNo: p.article_no || '',
+            cnPriceStr: String(cnPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+            jpPriceCnyStr: String(jpPriceCny).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+            hasJpPrice: jpPriceYen > 0
+          };
+        });
+        that.setData({ products });
       }
-
-      products.push({
-        id: p.id,
-        brandId: p.brandId,
-        brandName: p.brandName,
-        name: p.name,
-        articleNo: p.articleNo || '',
-        cnPriceStr: String(cnPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-        jpPriceCnyStr: String(jpPriceCny).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-        hasJpPrice: jpPriceYen > 0
-      });
-    }
-
-    this._productsCache = products;
-    this.setData({ products });
+    }).catch(() => {
+      console.log('商品加载失败');
+    });
   },
 
   onSearchInput(e) {
@@ -155,10 +148,12 @@ Page({
 
   confirmBrandFilter() {
     this.setData({ showBrandFilter: false });
+    this.loadProducts();
   },
 
   confirmCategoryFilter() {
     this.setData({ showCategoryFilter: false });
+    this.loadProducts();
   },
 
   onSortTap() {

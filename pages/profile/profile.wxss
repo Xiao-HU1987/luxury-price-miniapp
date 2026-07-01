@@ -171,6 +171,61 @@
   border: none;
 }
 
+.vip-entry-card {
+  margin: -40rpx 24rpx 20rpx;
+  padding: 28rpx 30rpx;
+  background: linear-gradient(135deg, #2d2d44 0%, #1a1a2e 100%);
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+}
+
+.vip-entry-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.vip-entry-icon {
+  font-size: 48rpx;
+  margin-right: 20rpx;
+}
+
+.vip-entry-info {
+  flex: 1;
+}
+
+.vip-entry-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #ffd700;
+  margin-bottom: 6rpx;
+}
+
+.vip-entry-desc {
+  display: block;
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.vip-entry-right {
+  display: flex;
+  align-items: center;
+}
+
+.vip-entry-btn {
+  font-size: 24rpx;
+  color: #1a1a2e;
+  background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+  padding: 10rpx 24rpx;
+  border-radius: 24rpx;
+  font-weight: bold;
+  margin-right: 8rpx;
+}
+
 .menu-section {
   margin: -40rpx 24rpx 20rpx;
   padding: 10rpx 0;

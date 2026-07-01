@@ -4,7 +4,9 @@ const request = require('../../utils/request.js');
 Page({
   data: {
     userInfo: {},
+    vipExpireDate: '',
     menuItems: [
+      { id: 'orders', icon: '📦', name: '我的订单', badge: 0 },
       { id: 'favorites', icon: '❤️', name: '我的收藏', badge: 0 },
       { id: 'history', icon: '🕐', name: '浏览历史', badge: 0 },
       { id: 'demands', icon: '📋', name: '我的需求', badge: 0 },
@@ -13,6 +15,7 @@ Page({
     settings: [
       { id: 'notification', icon: '🔔', name: '消息通知' },
       { id: 'currency', icon: '💱', name: '默认货币' },
+      { id: 'privacy', icon: '🔒', name: '隐私政策' },
       { id: 'about', icon: 'ℹ️', name: '关于我们' },
       { id: 'feedback', icon: '📝', name: '意见反馈' }
     ],
@@ -25,8 +28,21 @@ Page({
 
   onShow() {
     const userInfo = app.globalData.userInfo || wx.getStorageSync('userInfo') || {};
-    this.setData({ userInfo });
+    let vipExpireDate = '';
+    if (userInfo.vip_expire_time) {
+      vipExpireDate = this.formatVipDate(userInfo.vip_expire_time);
+    }
+    this.setData({ userInfo, vipExpireDate });
     this.loadUserData();
+  },
+
+  formatVipDate(dateStr) {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}.${month}.${day}`;
   },
 
   loadUserData() {
@@ -111,22 +127,39 @@ Page({
       });
   },
 
+  goToVip() {
+    wx.navigateTo({ url: '/pages/vip/vip' });
+  },
+
   onMenuTap(e) {
     const id = e.currentTarget.dataset.id;
-    const map = {
-      favorites: '我的收藏',
-      history: '浏览历史',
-      demands: '我的需求',
-      coupons: '我的优惠券'
+    const userInfo = app.globalData.userInfo || wx.getStorageSync('userInfo') || {};
+    
+    if (!userInfo.user_id) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
+    
+    const urlMap = {
+      orders: '/pages/orders/orders',
+      favorites: '/pages/favorites/favorites',
+      history: '/pages/history/history',
+      demands: '/pages/my-demands/my-demands',
+      coupons: '/pages/my-coupons/my-coupons'
     };
-    wx.showToast({
-      title: map[id] || id,
-      icon: 'none'
-    });
+    
+    const url = urlMap[id];
+    if (url) {
+      wx.navigateTo({ url });
+    }
   },
 
   onSettingTap(e) {
     const id = e.currentTarget.dataset.id;
+    if (id === 'privacy') {
+      wx.navigateTo({ url: '/pages/privacy/privacy' });
+      return;
+    }
     const map = {
       notification: '消息通知',
       currency: '默认货币',

@@ -1,0 +1,73 @@
+<view class="orders-page">
+  <view class="tabs">
+    <view
+      class="tab-item {{currentTab === item.status ? 'active' : ''}}"
+      wx:for="{{tabs}}"
+      wx:key="status"
+      data-status="{{item.status}}"
+      bindtap="switchTab"
+    >
+      {{item.name}}
+    </view>
+  </view>
+
+  <view class="order-list" wx:if="{{orders.length > 0}}">
+    <view
+      class="order-card"
+      wx:for="{{orders}}"
+      wx:key="order_id"
+      data-order-id="{{item.order_id}}"
+      bindtap="goToDetail"
+    >
+      <view class="order-header">
+        <text class="order-id">订单号：{{item.order_id}}</text>
+        <text class="order-status {{item.status}}">{{getStatusText(item.status)}}</text>
+      </view>
+      <view class="order-content">
+        <image wx:if="{{item.product_image}}" class="product-img" src="{{item.product_image}}" mode="aspectFill" />
+        <view wx:else class="product-img placeholder">
+          <text class="placeholder-icon">👜</text>
+        </view>
+        <view class="product-info">
+          <text class="product-name">{{item.product_name}}</text>
+          <text class="product-spec">{{item.sku_spec}}</text>
+          <text class="product-price">¥{{item.totalAmountDisplay}}</text>
+        </view>
+      </view>
+      <view class="order-footer">
+        <text class="order-time">{{formatDate(item.created_at)}}</text>
+        <view class="order-actions">
+          <button
+            wx:if="{{item.status === 'pending'}}"
+            class="btn btn-primary"
+            catchtap="payOrder"
+            data-order-id="{{item.order_id}}"
+          >
+            去支付
+          </button>
+          <button
+            wx:if="{{item.status === 'paid'}}"
+            class="btn btn-outline"
+            catchtap="viewLogistics"
+            data-order-id="{{item.order_id}}"
+          >
+            查看物流
+          </button>
+          <button
+            wx:if="{{item.status === 'shipped'}}"
+            class="btn btn-primary"
+            catchtap="confirmReceive"
+            data-order-id="{{item.order_id}}"
+          >
+            确认收货
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:else>
+    <text class="empty-icon">📦</text>
+    <text class="empty-text">暂无订单</text>
+  </view>
+</view>

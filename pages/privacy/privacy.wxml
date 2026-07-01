@@ -1,0 +1,72 @@
+<view class="privacy-page">
+  <view class="section">
+    <view class="section-title">隐私政策</view>
+    <view class="update-time">更新日期：2026年7月1日</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">一、我们收集的信息</view>
+    <view class="content">
+      为了向您提供比价服务，我们可能收集以下信息：
+      <view class="list-item">1. 微信授权信息：头像、昵称（用于展示用户身份）</view>
+      <view class="list-item">2. 手机号码：用于账号绑定和安全验证</view>
+      <view class="list-item">3. 浏览记录：用于展示浏览历史和个性化推荐</view>
+      <view class="list-item">4. 收藏信息：用于保存您收藏的商品</view>
+      <view class="list-item">5. 订单信息：用于处理您的购物需求</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">二、信息的使用</view>
+    <view class="content">
+      我们收集的信息将用于：
+      <view class="list-item">1. 提供商品比价、汇率换算等核心功能</view>
+      <view class="list-item">2. 保存您的收藏、浏览历史</view>
+      <view class="list-item">3. 处理订单和支付</view>
+      <view class="list-item">4. VIP会员权益管理</view>
+      <view class="list-item">5. 改进产品体验和服务质量</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">三、信息的存储</view>
+    <view class="content">
+      <view class="list-item">1. 您的信息存储于中国境内的服务器</view>
+      <view class="list-item">2. 我们采用业界标准的安全措施保护您的数据</view>
+      <view class="list-item">3. 未经您的同意，我们不会向第三方共享您的个人信息</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">四、您的权利</view>
+    <view class="content">
+      您对个人信息享有以下权利：
+      <view class="list-item">1. 查询和更正您的个人信息</view>
+      <view class="list-item">2. 删除您的浏览历史和收藏记录</view>
+      <view class="list-item">3. 注销账号并删除所有相关数据</view>
+      <view class="list-item">4. 撤回已授予的授权</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">五、未成年人保护</view>
+    <view class="content">
+      <view class="list-item">1. 我们重视未成年人的个人信息保护</view>
+      <view class="list-item">2. 如您是未成年人，请在监护人指导下使用本小程序</view>
+      <view class="list-item">3. 我们不会主动收集未成年人的个人信息</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">六、联系我们</view>
+    <view class="content">
+      如您对本隐私政策有任何疑问，可通过以下方式联系我们：
+      <view class="list-item">客服邮箱：service@example.com</view>
+      <view class="list-item">我们会尽快处理您的反馈</view>
+    </view>
+  </view>
+
+  <view class="footer">
+    <text class="footer-text">本隐私政策将根据法律法规变化和业务发展适时更新</text>
+  </view>
+</view>

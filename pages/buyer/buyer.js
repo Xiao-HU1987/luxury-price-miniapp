@@ -1,4 +1,4 @@
-const { BUYERS, BUYER_DEMANDS, PRODUCTS } = require('../../data/mock.js');
+const request = require('../../utils/request.js');
 const { BRANDS, COUNTRIES } = require('../../utils/constants.js');
 const { getCountryByCode, formatTime, formatDate } = require('../../utils/util.js');
 
@@ -43,47 +43,82 @@ Page({
 
   onShow() {
     this.setData({ userInfo: app.globalData.userInfo });
+    if (this.data.tab === 'buyers') {
+      this.loadBuyers();
+    } else {
+      this.loadDemands();
+    }
   },
 
   loadBuyers() {
-    const buyers = BUYERS.map(b => {
-      const country = getCountryByCode(b.country);
-      const specialtyNames = b.specialty.map(id => {
-        const brand = BRANDS.find(br => br.id === id);
-        return brand ? brand.nameCn : '';
-      }).filter(Boolean);
-      return {
-        ...b,
-        countryName: country.name,
-        flag: country.flag,
-        specialtyNames
-      };
-    });
-    this.setData({
-      allBuyers: buyers,
-      buyers
-    });
+    const that = this;
+    request.get('/api/buyer/list', { 
+      page: 1, 
+      page_size: 50,
+      country: that.data.country || undefined
+    })
+      .then((data) => {
+        if (data && data.list) {
+          const buyers = data.list.map(b => {
+            const country = getCountryByCode(b.country);
+            return {
+              id: b.buyer_id,
+              ...b,
+              countryName: country ? country.name : b.country,
+              flag: country ? country.flag : '',
+              specialtyNames: []
+            };
+          });
+          that.setData({
+            allBuyers: buyers,
+            buyers
+          });
+          that.filterBuyers();
+        }
+      })
+      .catch(() => {
+        console.log('买手加载失败');
+      });
   },
 
   loadDemands() {
-    const demands = BUYER_DEMANDS.map(d => {
-      const country = getCountryByCode(d.country);
-      const brand = BRANDS.find(b => b.id === d.brandId);
-      return {
-        ...d,
-        countryName: country.name,
-        flag: country.flag,
-        brandName: brand ? brand.nameCn : '',
-        timeAgo: formatTime(d.createTime),
-        statusText: d.status === 'bidding' ? '招标中' : d.status === 'matched' ? '已匹配' : '已完成',
-        statusClass: d.status === 'bidding' ? 'status-bidding' : d.status === 'matched' ? 'status-matched' : 'status-done'
-      };
-    });
-    this.setData({ demands });
+    const that = this;
+    
+    request.get('/api/demand/list', { page: 1, page_size: 20 })
+      .then((data) => {
+        if (data && data.list) {
+          const demands = data.list.map(d => {
+            const country = getCountryByCode(d.country);
+            const brand = BRANDS.find(b => b.id === d.brand_id);
+            const statusText = d.status === 'bidding' ? '招标中' : d.status === 'matched' ? '已匹配' : '已完成';
+            const statusClass = d.status === 'bidding' ? 'status-bidding' : d.status === 'matched' ? 'status-matched' : 'status-done';
+            return {
+              id: d.demand_id,
+              ...d,
+              countryName: country ? country.name : d.country,
+              flag: country ? country.flag : '',
+              brandName: brand ? brand.nameCn : (d.brand_id || ''),
+              timeAgo: d.created_at ? formatTime(new Date(d.created_at).getTime()) : '',
+              statusText,
+              statusClass
+            };
+          });
+          that.setData({ demands });
+        }
+      })
+      .catch(() => {
+        console.log('需求加载失败');
+      });
   },
 
   onTabTap(e) {
-    this.setData({ tab: e.currentTarget.dataset.tab });
+    const tab = e.currentTarget.dataset.tab;
+    this.setData({ tab });
+    if (tab === 'buyers') {
+      this.loadBuyers();
+    } else {
+      this.loadDemands();
+    }
   },
 
   onKeywordInput(e) {
@@ -95,13 +130,12 @@ Page({
     const country = e.currentTarget.dataset.country;
     const current = this.data.country === country ? '' : country;
     this.setData({ country: current });
-    this.filterBuyers();
+    this.loadBuyers();
   },
 
   filterBuyers() {
-    const { keyword, country, allBuyers } = this.data;
+    const { keyword, allBuyers } = this.data;
     let filtered = allBuyers.filter(b => {
-      if (country && b.country !== country) return false;
       if (keyword) {
         const kw = keyword.toLowerCase();
         if (!b.name.toLowerCase().includes(kw)) return false;
@@ -115,7 +149,7 @@ Page({
     const buyer = e.currentTarget.dataset.buyer;
     wx.showModal({
       title: buyer.name,
-      content: buyer.intro + '\n\n服务费：' + buyer.feeRate + '%\n预计时效：' + buyer.deliveryDays + '天',
+      content: buyer.intro + '\n\n服务费：' + buyer.fee_rate + '%\n预计时效：' + buyer.delivery_days + '天',
       showCancel: false
     });
   },
@@ -165,7 +199,14 @@ Page({
   },
 
   submitPublish() {
-    const form = this.data.publishForm;
+    const that = this;
+    const form = that.data.publishForm;
+    const userInfo = app.globalData.userInfo || wx.getStorageSync('userInfo') || {};
+
+    if (!userInfo.user_id) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
     if (!form.productName) {
       wx.showToast({ title: '请填写商品名称', icon: 'none' });
       return;
@@ -174,24 +215,45 @@ Page({
       wx.showToast({ title: '请选择交期时间', icon: 'none' });
       return;
     }
-    wx.showToast({
-      title: '发布成功',
-      icon: 'success',
-      duration: 2000
-    });
-    setTimeout(() => {
-      this.setData({
-        showPublish: false,
-        publishForm: {
-          productName: '',
-          brandId: '',
-          country: '',
-          deadline: '',
-          budget: '',
-          quantity: 1,
-          description: ''
-        }
+
+    const demandId = 'DEM' + Date.now();
+
+    request.post('/api/demand', {
+      demand_id: demandId,
+      user_id: userInfo.user_id,
+      product_name: form.productName,
+      brand_id: form.brandId || '',
+      country: form.country || '',
+      deadline: form.deadline,
+      budget: parseFloat(form.budget) || 0,
+      budget_currency: 'CNY',
+      quantity: form.quantity,
+      description: form.description || ''
+    })
+      .then(() => {
+        wx.showToast({
+          title: '发布成功',
+          icon: 'success',
+          duration: 2000
+        });
+        setTimeout(() => {
+          that.setData({
+            showPublish: false,
+            publishForm: {
+              productName: '',
+              brandId: '',
+              country: '',
+              deadline: '',
+              budget: '',
+              quantity: 1,
+              description: ''
+            }
+          });
+          that.loadDemands();
+        }, 1500);
+      })
+      .catch((err) => {
+        wx.showToast({ title: err?.message || '发布失败', icon: 'none' });
       });
-    }, 1500);
   }
 });

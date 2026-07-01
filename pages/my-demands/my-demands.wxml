@@ -1,0 +1,45 @@
+<view class="container" style="padding-top: {{statusBarHeight}}px;">
+  <view class="header">
+    <text class="title">我的需求</text>
+  </view>
+
+  <view class="tabs">
+    <view class="tab {{tab === item.key ? 'active' : ''}}" wx:for="{{tabs}}" wx:key="key" bindtap="onTabTap" data-tab="{{item.key}}">
+      {{item.name}}
+    </view>
+  </view>
+
+  <view class="content" wx:if="{{!loading}}">
+    <view class="empty" wx:if="{{empty}}">
+      <text class="empty-icon">📋</text>
+      <text class="empty-text">暂无需求</text>
+      <text class="empty-hint">去买手页发布需求吧</text>
+    </view>
+
+    <view class="list" wx:else>
+      <view class="demand-item" wx:for="{{list}}" wx:key="id">
+        <view class="demand-header">
+          <text class="demand-name">{{item.productName}}</text>
+          <text class="demand-status" style="color: {{getStatusColor(item.status)}}">{{getStatusText(item.status)}}</text>
+        </view>
+        <view class="demand-info">
+          <text class="info-item">品牌: {{item.brandId}}</text>
+          <text class="info-item">采购地: {{item.country}}</text>
+          <text class="info-item">预算: ¥{{item.budget}}</text>
+          <text class="info-item">数量: {{item.quantity}}</text>
+        </view>
+        <view class="demand-footer">
+          <text class="demand-time">{{item.time}}</text>
+          <text class="demand-deadline">截止: {{item.deadline}}</text>
+        </view>
+        <view class="demand-buyer" wx:if="{{item.buyerName}}">
+          <text>已匹配买手: {{item.buyerName}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+</view>

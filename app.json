@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/splash/splash",
     "pages/rebate/rebate",
     "pages/index/index",
     "pages/exchange/exchange",
@@ -8,12 +9,20 @@
     "pages/stores/stores",
     "pages/coupons/coupons",
     "pages/buyer/buyer",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/favorites/favorites",
+    "pages/history/history",
+    "pages/my-coupons/my-coupons",
+    "pages/my-demands/my-demands",
+    "pages/vip/vip",
+    "pages/orders/orders",
+    "pages/order-detail/order-detail",
+    "pages/privacy/privacy"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTitleText": "快比",
+    "navigationBarTitleText": "奢侈品比价",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#ffffff"
   },

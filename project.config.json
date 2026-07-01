@@ -8,6 +8,10 @@
       },
       {
         "type": "folder",
+        "value": "admin"
+      },
+      {
+        "type": "folder",
         "value": "docs"
       },
       {
@@ -15,14 +19,26 @@
         "value": "scripts"
       },
       {
+        "type": "folder",
+        "value": "node_modules"
+      },
+      {
         "type": "file",
         "value": ".gitignore"
+      },
+      {
+        "type": "file",
+        "value": "README.md"
+      },
+      {
+        "type": "file",
+        "value": "package.json"
       }
     ],
     "include": []
   },
   "setting": {
-    "urlCheck": false,
+    "urlCheck": true,
     "es6": true,
     "enhance": true,
     "postcss": true,
@@ -34,10 +50,10 @@
     "autoAudits": false,
     "showShadowRootInWxmlPanel": true,
     "scopeDataCheck": false,
-    "uglifyFileName": false,
+    "uglifyFileName": true,
     "checkInvalidKey": true,
     "checkSiteMap": true,
-    "uploadWithSourceMap": true,
+    "uploadWithSourceMap": false,
     "compileHotReLoad": false,
     "useMultiFrameRuntime": true,
     "useApiHook": true,

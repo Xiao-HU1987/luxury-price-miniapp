@@ -32,3 +32,6 @@ logs/
 *.log
 
 node_modules/
+
+# PRD文档不上传
+docs/PRD.md

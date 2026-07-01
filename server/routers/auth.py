@@ -4,9 +4,9 @@ import uuid
 
 from database import get_db
 from models import User
-from schemas import WechatLoginRequest, LoginResponse
+from schemas import WechatLoginRequest, LoginResponse, ApiResponse
 from utils.wechat import wechat_login
-from utils.security import create_access_token
+from utils.security import create_access_token, get_current_user
 
 router = APIRouter(prefix="/api/auth", tags=["认证"])
 
@@ -69,7 +69,56 @@ async def wechat_login_endpoint(request: WechatLoginRequest, db: Session = Depen
                 "is_vip": user.is_vip,
                 "is_admin": user.is_admin,
                 "is_buyer": user.is_buyer,
-                "status": user.status
+                "status": user.status,
+                "vip_expire_time": user.vip_expire_time.isoformat() if user.vip_expire_time else None
+            }
+        }
+    )
+
+
+@router.get("/check", response_model=ApiResponse)
+def check_login(current_user: User = Depends(get_current_user)):
+    return ApiResponse(
+        code=0,
+        message="success",
+        data={
+            "is_logged_in": True,
+            "user": {
+                "user_id": current_user.user_id,
+                "nickname": current_user.nickname,
+                "avatar": current_user.avatar,
+                "phone": current_user.phone,
+                "is_vip": current_user.is_vip,
+                "is_admin": current_user.is_admin,
+                "is_buyer": current_user.is_buyer,
+                "status": current_user.status,
+                "vip_expire_time": current_user.vip_expire_time.isoformat() if current_user.vip_expire_time else None
+            }
+        }
+    )
+
+
+@router.post("/refresh", response_model=LoginResponse)
+def refresh_token(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    access_token = create_access_token(data={"sub": current_user.user_id})
+    
+    return LoginResponse(
+        code=0,
+        message="success",
+        data={
+            "access_token": access_token,
+            "token_type": "bearer",
+            "is_new": False,
+            "user": {
+                "user_id": current_user.user_id,
+                "nickname": current_user.nickname,
+                "avatar": current_user.avatar,
+                "phone": current_user.phone,
+                "is_vip": current_user.is_vip,
+                "is_admin": current_user.is_admin,
+                "is_buyer": current_user.is_buyer,
+                "status": current_user.status,
+                "vip_expire_time": current_user.vip_expire_time.isoformat() if current_user.vip_expire_time else None
             }
         }
     )

@@ -1,3 +1,5 @@
+const request = require('./utils/request.js');
+
 App({
   onLaunch() {
     try {
@@ -31,9 +33,14 @@ App({
     const userInfo = wx.getStorageSync('userInfo');
     if (token && userInfo) {
       this.globalData.userInfo = userInfo;
+      this.checkAndRefreshToken();
       return;
     }
 
+    this.doWxLogin();
+  },
+
+  doWxLogin() {
     const that = this;
     wx.login({
       success: (res) => {
@@ -49,49 +56,106 @@ App({
 
   doLogin(code) {
     const that = this;
-    wx.request({
-      url: 'http://localhost:8000/api/auth/wechat-login',
-      method: 'POST',
-      data: { code: code },
-      header: { 'Content-Type': 'application/json' },
-      success: (res) => {
-        if (res.data && res.data.code === 0 && res.data.data) {
-          const data = res.data.data;
-          wx.setStorageSync('token', data.access_token);
-          wx.setStorageSync('sessionKey', data.session_key);
+    request.post('/api/auth/wechat-login', { code: code })
+      .then(data => {
+        if (data) {
+          that.saveLoginInfo(data);
+        }
+      })
+      .catch(err => {
+        console.warn('登录请求失败:', err?.message || err);
+      });
+  },
+
+  saveLoginInfo(data) {
+    wx.setStorageSync('token', data.access_token);
+    if (data.session_key) {
+      wx.setStorageSync('sessionKey', data.session_key);
+    }
+    this.globalData.userInfo = data.user;
+    wx.setStorageSync('userInfo', data.user);
+    if (typeof this.loginCallback === 'function') {
+      this.loginCallback(data.user);
+    }
+  },
+
+  checkAndRefreshToken() {
+    const that = this;
+    const token = wx.getStorageSync('token');
+    if (!token) return;
+
+    request.get('/api/auth/check')
+      .then(data => {
+        if (data && data.user) {
           that.globalData.userInfo = data.user;
           wx.setStorageSync('userInfo', data.user);
         }
-      },
-      fail: (err) => {
-        console.error('登录请求失败:', err);
-      }
+      })
+      .catch(() => {
+        that.doWxLogin();
+      });
+  },
+
+  refreshToken() {
+    const that = this;
+    const token = wx.getStorageSync('token');
+    if (!token) {
+      that.doWxLogin();
+      return Promise.reject('无token');
+    }
+
+    return new Promise((resolve, reject) => {
+      request.post('/api/auth/refresh')
+        .then(data => {
+          if (data) {
+            that.saveLoginInfo(data);
+            resolve(data.access_token);
+          } else {
+            that.doWxLogin();
+            reject('刷新失败');
+          }
+        })
+        .catch(err => {
+          that.doWxLogin();
+          reject(err);
+        });
     });
   },
 
   initExchangeRates() {
-    let cachedRates = null;
+    const that = this;
+    
+    const defaultRates = that.getDefaultRates();
+    that.globalData.exchangeRates = defaultRates;
     try {
-      cachedRates = wx.getStorageSync('exchangeRates');
-    } catch (e) {}
-
-    const defaultRates = this.getDefaultRates();
-
-    if (!cachedRates || !cachedRates.updateTime) {
-      this.saveRates(defaultRates);
-      return;
-    }
-
-    try {
-      const diff = Date.now() - new Date(cachedRates.updateTime).getTime();
-      if (diff > 3600000 || isNaN(diff)) {
-        this.saveRates(defaultRates);
-      } else {
-        this.globalData.exchangeRates = cachedRates;
+      const cached = wx.getStorageSync('exchangeRates');
+      if (cached && cached.rates) {
+        that.globalData.exchangeRates = cached;
       }
-    } catch (e) {
-      this.saveRates(defaultRates);
-    }
+    } catch(e) {}
+    
+    that.fetchExchangeRates();
+  },
+
+  fetchExchangeRates() {
+    const that = this;
+    request.get('/api/exchange/rates')
+      .then(data => {
+        if (data && data.rates) {
+          const ratesData = {
+            updateTime: data.update_time || data.updateTime || new Date().toISOString(),
+            base: data.base || 'CNY',
+            rates: data.rates
+          };
+          try {
+            wx.setStorageSync('exchangeRates', ratesData);
+          } catch(e) {}
+          that.globalData.exchangeRates = ratesData;
+        }
+      })
+      .catch(() => {
+        console.log('汇率获取失败，使用缓存或默认数据');
+      });
   },
 
   getDefaultRates() {

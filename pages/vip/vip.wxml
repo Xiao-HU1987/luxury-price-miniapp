@@ -1,0 +1,83 @@
+<view class="vip-page">
+  <view class="vip-header">
+    <view class="vip-badge">
+      <text class="badge-icon">👑</text>
+      <text class="badge-text">VIP会员</text>
+    </view>
+    
+    <view wx:if="{{isVip}}" class="vip-info">
+      <text class="vip-status">尊享VIP特权</text>
+      <text class="vip-expire">有效期至 {{vipExpireDate}}</text>
+    </view>
+    <view wx:else class="vip-info">
+      <text class="vip-status">开通VIP会员</text>
+      <text class="vip-desc">解锁全部奢侈品比价特权</text>
+    </view>
+  </view>
+
+  <view class="vip-privileges">
+    <view class="privilege-title">会员特权</view>
+    <view class="privilege-list">
+      <view class="privilege-item">
+        <text class="privilege-icon">💰</text>
+        <view class="privilege-content">
+          <text class="privilege-name">全球价格对比</text>
+          <text class="privilege-desc">实时对比全球各国专柜价格</text>
+        </view>
+      </view>
+      <view class="privilege-item">
+        <text class="privilege-icon">🎫</text>
+        <view class="privilege-content">
+          <text class="privilege-name">专属优惠券</text>
+          <text class="privilege-desc">VIP专属百货优惠券与返点</text>
+        </view>
+      </view>
+      <view class="privilege-item">
+        <text class="privilege-icon">📉</text>
+        <view class="privilege-content">
+          <text class="privilege-name">降价提醒</text>
+          <text class="privilege-desc">收藏商品降价第一时间通知</text>
+        </view>
+      </view>
+      <view class="privilege-item">
+        <text class="privilege-icon">👜</text>
+        <view class="privilege-content">
+          <text class="privilege-name">认证买手</text>
+          <text class="privilege-desc">对接优质认证买手代购服务</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="vip-plans">
+    <view class="plans-title">选择套餐</view>
+    <view class="plans-list">
+      <view
+        class="plan-item {{selectedPlan === item.plan_id ? 'active' : ''}}"
+        wx:for="{{plans}}"
+        wx:key="plan_id"
+        data-plan="{{item}}"
+        bindtap="selectPlan"
+      >
+        <view wx:if="{{item.is_popular}}" class="popular-tag">最受欢迎</view>
+        <view class="plan-name">{{item.name}}</view>
+        <view class="plan-price">
+          <text class="price-symbol">¥</text>
+          <text class="price-value">{{item.priceDisplay}}</text>
+        </view>
+        <view class="plan-original">¥{{item.originalPriceDisplay}}</view>
+        <view class="plan-desc">{{item.description}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="vip-footer">
+    <view class="footer-tip">
+      <text class="tip-icon">🔒</text>
+      <text class="tip-text">微信安全支付 到期可续费</text>
+    </view>
+    <button class="pay-btn" bindtap="handlePay" loading="{{paying}}">
+      {{isVip ? '续费会员' : '立即开通'}}
+    </button>
+  </view>
+</view>

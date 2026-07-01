@@ -216,6 +216,10 @@
   align-items: center;
 }
 
+.action-item.active .action-text {
+  color: #ff6b6b;
+}
+
 .action-icon {
   font-size: 48rpx;
   margin-bottom: 10rpx;
