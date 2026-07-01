@@ -106,7 +106,7 @@ def get_browse_history(
     total = query.count()
     offset = (page - 1) * page_size
 
-    favorites = db.query(Bavorite).filter(
+    favorites = db.query(Favorite).filter(
         and_(
             Favorite.user_id == user_id,
             BrowseHistory.target_id == Favorite.target_id

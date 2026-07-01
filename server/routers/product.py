@@ -4,6 +4,7 @@ from sqlalchemy import func
 
 from database import get_db
 from models import Brand, Category, SPU, SKU, SKUPrice
+from utils.trino_db import TrinoClient, TrinoUnavailableError
 from schemas import (
     ApiResponse,
     BrandCreateRequest,
@@ -24,6 +25,7 @@ from schemas import (
 )
 
 router = APIRouter(prefix="/api/product", tags=["商品管理"])
+trino_client = TrinoClient()
 
 
 @router.get("/brands", response_model=ApiResponse)
@@ -32,6 +34,13 @@ def get_brands(
     category: str = Query(None, description="品牌分类"),
     db: Session = Depends(get_db)
 ):
+    if trino_client.is_enabled():
+        try:
+            brands = trino_client.get_brands(keyword=keyword, category=category)
+            return ApiResponse(code=0, message="success", data=brands)
+        except TrinoUnavailableError:
+            pass
+
     query = db.query(Brand)
     
     if keyword:
@@ -148,6 +157,13 @@ def delete_brand(brand_id: str, db: Session = Depends(get_db)):
 
 @router.get("/categories", response_model=ApiResponse)
 def get_categories(db: Session = Depends(get_db)):
+    if trino_client.is_enabled():
+        try:
+            categories = trino_client.get_categories()
+            return ApiResponse(code=0, message="success", data=categories)
+        except TrinoUnavailableError:
+            pass
+
     categories = db.query(Category).order_by(Category.name).all()
     
     return ApiResponse(
@@ -636,6 +652,20 @@ def search_products(
     page_size: int = Query(20, ge=1, le=100),
     db: Session = Depends(get_db)
 ):
+    if trino_client.is_enabled():
+        try:
+            data = trino_client.search_products(
+                keyword=keyword,
+                brand_id=brand_id,
+                category_id=category_id,
+                country=country,
+                page=page,
+                page_size=page_size,
+            )
+            return ApiResponse(code=0, message="success", data=data)
+        except TrinoUnavailableError:
+            pass
+
     spu_query = db.query(SPU)
     
     if keyword:
@@ -717,6 +747,18 @@ def search_products(
 
 @router.get("/product-detail/{spu_id}", response_model=ApiResponse)
 def get_product_detail(spu_id: str, db: Session = Depends(get_db)):
+    if trino_client.is_enabled():
+        try:
+            detail = trino_client.get_product_detail(spu_id)
+            if not detail:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="商品不存在"
+                )
+            return ApiResponse(code=0, message="success", data=detail)
+        except TrinoUnavailableError:
+            pass
+
     spu = db.query(SPU).filter(SPU.spu_id == spu_id).first()
     
     if not spu:

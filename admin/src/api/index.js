@@ -119,3 +119,15 @@ export const createSplashAd = (data) => request.post('/api/admin/splash-ads', da
 export const updateSplashAd = (id, data) => request.put(`/api/admin/splash-ads/${id}`, data)
 export const deleteSplashAd = (id) => request.delete(`/api/admin/splash-ads/${id}`)
 export const toggleSplashAd = (id) => request.patch(`/api/admin/splash-ads/${id}/toggle`)
+
+// Trino 数据
+export const getTrinoHealth = () => request.get('/api/trino/health')
+export const getTrinoSummary = () => request.get('/api/trino/summary')
+export const getTrinoBuyers = (params) => request.get('/api/trino/buyers', { params })
+export const getTrinoStores = (params) => request.get('/api/trino/stores', { params })
+export const getTrinoCoupons = (params) => request.get('/api/trino/coupons', { params })
+export const getTrinoOrders = (params) => request.get('/api/trino/orders', { params })
+export const getTrinoBuyerById = (id) => request.get(`/api/trino/buyers/${id}`)
+export const getTrinoStoreById = (id) => request.get(`/api/trino/stores/${id}`)
+export const getTrinoCouponById = (id) => request.get(`/api/trino/coupons/${id}`)
+export const getTrinoOrderById = (id) => request.get(`/api/trino/orders/${id}`)

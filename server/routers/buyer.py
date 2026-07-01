@@ -9,8 +9,10 @@ from schemas import (
     BuyerUpdateRequest,
     BuyerResponse,
 )
+from utils.trino_db import TrinoClient, TrinoUnavailableError
 
 router = APIRouter(prefix="/api/buyer", tags=["买手"])
+trino_client = TrinoClient()
 
 
 @router.get("/list", response_model=ApiResponse)
@@ -21,6 +23,13 @@ def get_buyers(
     page_size: int = Query(20, ge=1, le=100),
     db: Session = Depends(get_db)
 ):
+    if trino_client.is_enabled():
+        try:
+            data = trino_client.get_buyer_list(country=country, city=city, page=page, page_size=page_size)
+            return ApiResponse(code=0, message="success", data=data)
+        except TrinoUnavailableError:
+            pass
+
     query = db.query(Buyer)
     
     if country:
@@ -47,6 +56,18 @@ def get_buyers(
 
 @router.get("/{buyer_id}", response_model=ApiResponse)
 def get_buyer(buyer_id: str, db: Session = Depends(get_db)):
+    if trino_client.is_enabled():
+        try:
+            buyer = trino_client.get_buyer_detail(buyer_id)
+            if not buyer:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="买手不存在"
+                )
+            return ApiResponse(code=0, message="success", data=buyer)
+        except TrinoUnavailableError:
+            pass
+
     buyer = db.query(Buyer).filter(Buyer.buyer_id == buyer_id).first()
     
     if not buyer:

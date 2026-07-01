@@ -5,6 +5,7 @@ from sqlalchemy import and_, func
 from database import get_db
 from models import SplashAd, SplashAdLog
 from schemas import ApiResponse, SplashAdCreateRequest, SplashAdUpdateRequest, SplashAdResponse
+from utils.security import get_current_admin
 
 router = APIRouter(tags=["开屏广告"])
 
@@ -102,7 +103,8 @@ def get_splash_ads(
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
     is_active: bool = Query(None),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    admin: dict = Depends(get_current_admin)
 ):
     query = db.query(SplashAd)
     if is_active is not None:
@@ -125,7 +127,7 @@ def get_splash_ads(
 
 
 @router.get("/api/admin/splash-ads/{ad_id}", response_model=ApiResponse)
-def get_splash_ad_detail(ad_id: int, db: Session = Depends(get_db)):
+def get_splash_ad_detail(ad_id: int, db: Session = Depends(get_db), admin: dict = Depends(get_current_admin)):
     ad = db.query(SplashAd).filter(SplashAd.id == ad_id).first()
     if not ad:
         return ApiResponse(code=1, message="广告不存在")
@@ -134,7 +136,7 @@ def get_splash_ad_detail(ad_id: int, db: Session = Depends(get_db)):
 
 
 @router.post("/api/admin/splash-ads", response_model=ApiResponse)
-def create_splash_ad(request: SplashAdCreateRequest, db: Session = Depends(get_db)):
+def create_splash_ad(request: SplashAdCreateRequest, db: Session = Depends(get_db), admin: dict = Depends(get_current_admin)):
     ad = SplashAd(
         title=request.title or "",
         image_url=request.image_url or "",
@@ -159,7 +161,7 @@ def create_splash_ad(request: SplashAdCreateRequest, db: Session = Depends(get_d
 
 
 @router.put("/api/admin/splash-ads/{ad_id}", response_model=ApiResponse)
-def update_splash_ad(ad_id: int, request: SplashAdUpdateRequest, db: Session = Depends(get_db)):
+def update_splash_ad(ad_id: int, request: SplashAdUpdateRequest, db: Session = Depends(get_db), admin: dict = Depends(get_current_admin)):
     ad = db.query(SplashAd).filter(SplashAd.id == ad_id).first()
     if not ad:
         return ApiResponse(code=1, message="广告不存在")
@@ -176,7 +178,7 @@ def update_splash_ad(ad_id: int, request: SplashAdUpdateRequest, db: Session = D
 
 
 @router.delete("/api/admin/splash-ads/{ad_id}", response_model=ApiResponse)
-def delete_splash_ad(ad_id: int, db: Session = Depends(get_db)):
+def delete_splash_ad(ad_id: int, db: Session = Depends(get_db), admin: dict = Depends(get_current_admin)):
     ad = db.query(SplashAd).filter(SplashAd.id == ad_id).first()
     if not ad:
         return ApiResponse(code=1, message="广告不存在")
@@ -188,7 +190,7 @@ def delete_splash_ad(ad_id: int, db: Session = Depends(get_db)):
 
 
 @router.patch("/api/admin/splash-ads/{ad_id}/toggle", response_model=ApiResponse)
-def toggle_splash_ad(ad_id: int, db: Session = Depends(get_db)):
+def toggle_splash_ad(ad_id: int, db: Session = Depends(get_db), admin: dict = Depends(get_current_admin)):
     ad = db.query(SplashAd).filter(SplashAd.id == ad_id).first()
     if not ad:
         return ApiResponse(code=1, message="广告不存在")
