@@ -67,6 +67,12 @@ const routes = [
         meta: { title: '汇率管理', icon: 'Coin' }
       },
       {
+        path: 'trino',
+        name: 'TrinoData',
+        component: () => import('../views/TrinoData.vue'),
+        meta: { title: 'Trino数据', icon: 'Coin' }
+      },
+      {
         path: 'logs',
         name: 'Logs',
         component: () => import('../views/Logs.vue'),

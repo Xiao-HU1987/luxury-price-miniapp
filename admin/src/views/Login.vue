@@ -47,7 +47,7 @@
       </el-form>
       
       <div class="login-tips">
-        <p>测试账号：admin / admin123</p>
+        <p>请使用已配置的管理员账号登录</p>
       </div>
     </div>
   </div>

@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from database import get_db
 from models import ExchangeRate
+from utils.trino_db import TrinoClient, TrinoUnavailableError
 from schemas import (
     ApiResponse,
     ExchangeRateUpdateRequest,
@@ -12,10 +13,21 @@ from schemas import (
 )
 
 router = APIRouter(prefix="/api/exchange", tags=["汇率"])
+trino_client = TrinoClient()
 
 
 @router.get("/rates", response_model=ApiResponse)
 def get_exchange_rates(db: Session = Depends(get_db)):
+    if trino_client.is_enabled():
+        try:
+            return ApiResponse(
+                code=0,
+                message="success",
+                data=trino_client.get_exchange_rates()
+            )
+        except TrinoUnavailableError:
+            pass
+
     latest = db.query(ExchangeRate).order_by(ExchangeRate.update_time.desc()).first()
     
     if not latest:
@@ -38,6 +50,28 @@ def get_exchange_rates(db: Session = Depends(get_db)):
 
 @router.get("/rates/{currency}", response_model=ApiResponse)
 def get_exchange_rate(currency: str, db: Session = Depends(get_db)):
+    if trino_client.is_enabled():
+        try:
+            latest = trino_client.get_exchange_rates()
+            rate = latest.get("rates", {}).get(currency.upper())
+            if rate is None:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail=f"不支持的货币: {currency}"
+                )
+            return ApiResponse(
+                code=0,
+                message="success",
+                data={
+                    "currency": currency.upper(),
+                    "rate": rate,
+                    "base": latest.get("base", "CNY"),
+                    "update_time": latest.get("update_time")
+                }
+            )
+        except TrinoUnavailableError:
+            pass
+
     latest = db.query(ExchangeRate).order_by(ExchangeRate.update_time.desc()).first()
     
     if not latest:

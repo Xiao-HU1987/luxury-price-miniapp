@@ -65,6 +65,11 @@
           <template #title>汇率管理</template>
         </el-menu-item>
         
+        <el-menu-item index="/trino">
+          <el-icon><ele-Coin /></el-icon>
+          <template #title>Trino数据</template>
+        </el-menu-item>
+
         <el-menu-item index="/logs">
           <el-icon><ele-DocumentCopy /></el-icon>
           <template #title>日志管理</template>

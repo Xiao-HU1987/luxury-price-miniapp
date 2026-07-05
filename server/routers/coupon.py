@@ -9,8 +9,10 @@ from schemas import (
     CouponUpdateRequest,
     CouponResponse,
 )
+from utils.trino_db import TrinoClient, TrinoUnavailableError
 
 router = APIRouter(prefix="/api/coupon", tags=["优惠券"])
+trino_client = TrinoClient()
 
 
 @router.get("/list", response_model=ApiResponse)
@@ -22,6 +24,13 @@ def get_coupons(
     page_size: int = Query(20, ge=1, le=100),
     db: Session = Depends(get_db)
 ):
+    if trino_client.is_enabled():
+        try:
+            data = trino_client.get_coupon_list(country=country, store_id=store_id, status=status, page=page, page_size=page_size)
+            return ApiResponse(code=0, message="success", data=data)
+        except TrinoUnavailableError:
+            pass
+
     query = db.query(Coupon)
     
     if country:
@@ -51,6 +60,18 @@ def get_coupons(
 
 @router.get("/{coupon_id}", response_model=ApiResponse)
 def get_coupon(coupon_id: str, db: Session = Depends(get_db)):
+    if trino_client.is_enabled():
+        try:
+            coupon = trino_client.get_coupon_detail(coupon_id)
+            if not coupon:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="优惠券不存在"
+                )
+            return ApiResponse(code=0, message="success", data=coupon)
+        except TrinoUnavailableError:
+            pass
+
     coupon = db.query(Coupon).filter(Coupon.coupon_id == coupon_id).first()
     
     if not coupon:
