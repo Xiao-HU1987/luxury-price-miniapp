@@ -9,4 +9,4 @@ if [ ! -f "database.db" ]; then
     python init_data.py
 fi
 
-uvicorn app:app --host 0.0.0.0 --port ${PORT:-8000} --workers 2
+uvicorn app:app --host 0.0.0.0 --port ${PORT:-8080}
