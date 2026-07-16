@@ -1,4 +1,4 @@
-const ENV = 'development';
+const ENV = 'production';
 
 const config = {
   development: {
@@ -6,7 +6,8 @@ const config = {
     DEBUG: true
   },
   production: {
-    BASE_URL: 'https://api.kuaibi.com',
+    // 上线前替换为你的 HTTPS 域名（必须在微信公众平台配置为 request 合法域名）
+    BASE_URL: 'https://flask-ie22-282058-9-1453887688.sh.run.tcloudbase.com',
     DEBUG: false
   }
 };
