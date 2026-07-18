@@ -4,12 +4,9 @@ const request = require('../../utils/request.js');
 Page({
   data: {
     userInfo: {},
-    vipExpireDate: '',
     menuItems: [
-      { id: 'orders', icon: '📦', name: '我的订单', badge: 0 },
       { id: 'favorites', icon: '❤️', name: '我的收藏', badge: 0 },
       { id: 'history', icon: '🕐', name: '浏览历史', badge: 0 },
-      { id: 'demands', icon: '📋', name: '我的需求', badge: 0 },
       { id: 'coupons', icon: '🎫', name: '我的优惠券', badge: 0 }
     ],
     settings: [
@@ -27,33 +24,21 @@ Page({
   },
 
   onShow() {
-    const userInfo = app.globalData.userInfo || wx.getStorageSync('userInfo') || {};
-    let vipExpireDate = '';
-    if (userInfo.vip_expire_time) {
-      vipExpireDate = this.formatVipDate(userInfo.vip_expire_time);
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 3 });
     }
-    this.setData({ userInfo, vipExpireDate });
+    const userInfo = app.globalData.userInfo || wx.getStorageSync('userInfo') || {};
+    this.setData({ userInfo });
     this.loadUserData();
-  },
-
-  formatVipDate(dateStr) {
-    if (!dateStr) return '';
-    const date = new Date(dateStr);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}.${month}.${day}`;
   },
 
   loadUserData() {
     const favorites = wx.getStorageSync('favorites') || [];
     const history = wx.getStorageSync('browseHistory') || [];
-    const demands = wx.getStorageSync('myDemands') || [];
     const myCoupons = wx.getStorageSync('myCoupons') || [];
     const menuItems = this.data.menuItems.map(item => {
       if (item.id === 'favorites') return { ...item, badge: favorites.length };
       if (item.id === 'history') return { ...item, badge: history.length };
-      if (item.id === 'demands') return { ...item, badge: demands.length };
       if (item.id === 'coupons') return { ...item, badge: myCoupons.length };
       return item;
     });
@@ -99,6 +84,9 @@ Page({
 
   onGetPhone(e) {
     if (e.detail.errMsg !== 'getPhoneNumber:ok') {
+      if (e.detail.errMsg && e.detail.errMsg.indexOf('deny') > -1) {
+        wx.showToast({ title: '已拒绝授权，可稍后手动绑定', icon: 'none' });
+      }
       return;
     }
 
@@ -110,12 +98,14 @@ Page({
       return;
     }
 
+    wx.showLoading({ title: '绑定中...' });
     request.put('/api/user/phone', {
       encrypted_data: e.detail.encryptedData,
       iv: e.detail.iv,
       session_key: sessionKey
     })
       .then((data) => {
+        wx.hideLoading();
         const userInfo = { ...this.data.userInfo, phone: data.phone };
         app.globalData.userInfo = userInfo;
         wx.setStorageSync('userInfo', userInfo);
@@ -123,12 +113,9 @@ Page({
         wx.showToast({ title: '手机号绑定成功', icon: 'success' });
       })
       .catch((err) => {
-        wx.showToast({ title: '手机号绑定失败', icon: 'none' });
+        wx.hideLoading();
+        wx.showToast({ title: err.message || '手机号绑定失败', icon: 'none' });
       });
-  },
-
-  goToVip() {
-    wx.navigateTo({ url: '/pages/vip/vip' });
   },
 
   onMenuTap(e) {
@@ -141,10 +128,8 @@ Page({
     }
     
     const urlMap = {
-      orders: '/pages/orders/orders',
       favorites: '/pages/favorites/favorites',
       history: '/pages/history/history',
-      demands: '/pages/my-demands/my-demands',
       coupons: '/pages/my-coupons/my-coupons'
     };
     

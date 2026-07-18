@@ -1,7 +1,12 @@
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 BASE_DIR = Path(__file__).resolve().parent
+
+# 加载 .env 文件中的环境变量（开发环境使用，生产环境建议通过系统环境变量配置）
+load_dotenv(BASE_DIR / ".env")
 
 SECRET_KEY = os.getenv("SECRET_KEY", "luxury-price-miniapp-secret-key-change-in-production")
 ALGORITHM = "HS256"

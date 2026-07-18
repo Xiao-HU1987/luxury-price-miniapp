@@ -1,7 +1,33 @@
 {
   "desc": "关于本文件的更多信息，请参考文档 https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/sitemap.html",
-  "rules": [{
-    "action": "allow",
-    "page": "*"
-  }]
+  "rules": [
+    {
+      "action": "disallow",
+      "page": "pages/splash/splash"
+    },
+    {
+      "action": "disallow",
+      "page": "pages/profile/profile"
+    },
+    {
+      "action": "disallow",
+      "page": "pages/favorites/favorites"
+    },
+    {
+      "action": "disallow",
+      "page": "pages/history/history"
+    },
+    {
+      "action": "disallow",
+      "page": "pages/my-coupons/my-coupons"
+    },
+    {
+      "action": "disallow",
+      "page": "pages/privacy/privacy"
+    },
+    {
+      "action": "allow",
+      "page": "*"
+    }
+  ]
 }

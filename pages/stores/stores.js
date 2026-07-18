@@ -32,13 +32,11 @@ Page({
     const that = this;
     const typeMap = { mall: 'mall', street: 'store', dutyfree: 'dutyfree' };
     const type = typeMap[that.data.tab] || '';
-    
-    request.get('/api/store/list', { 
-      page: 1, 
-      page_size: 100,
-      country: that.data.country || undefined,
-      type: type || undefined
-    }).then((data) => {
+
+    const params = { page: 1, page_size: 100 };
+    if (that.data.country) params.country = that.data.country;
+    if (type) params.type = type;
+    request.get('/api/store/list', params).then((data) => {
       if (data && data.list) {
         const stores = data.list.map(s => {
           const country = getCountryByCode(s.country);
@@ -57,9 +55,7 @@ Page({
         });
         that.filterStores();
       }
-    }).catch(() => {
-      console.log('店铺加载失败');
-    });
+    }).catch(() => {});
   },
 
   onTabTap(e) {

@@ -1,4 +1,7 @@
 {
-  "navigationBarTitleText": "商品详情",
-  "enablePullDownRefresh": false
+  "navigationStyle": "custom",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "custom-tab-bar": "/custom-tab-bar/index"
+  }
 }

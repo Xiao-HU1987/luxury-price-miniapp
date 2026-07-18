@@ -13,10 +13,6 @@
     "pages/favorites/favorites",
     "pages/history/history",
     "pages/my-coupons/my-coupons",
-    "pages/my-demands/my-demands",
-    "pages/vip/vip",
-    "pages/orders/orders",
-    "pages/order-detail/order-detail",
     "pages/privacy/privacy"
   ],
   "window": {
@@ -27,16 +23,17 @@
     "backgroundColor": "#ffffff"
   },
   "tabBar": {
-    "color": "#999999",
-    "selectedColor": "#ff6b00",
+    "custom": true,
+    "color": "#9E9E9E",
+    "selectedColor": "#C8553D",
     "backgroundColor": "#ffffff",
     "borderStyle": "white",
     "list": [
       {
-        "pagePath": "pages/rebate/rebate",
-        "text": "优惠",
-        "iconPath": "images/tab/coupon.png",
-        "selectedIconPath": "images/tab/coupon_active.png"
+        "pagePath": "pages/index/index",
+        "text": "比价",
+        "iconPath": "images/tab/compare.png",
+        "selectedIconPath": "images/tab/compare_active.png"
       },
       {
         "pagePath": "pages/exchange/exchange",
@@ -45,16 +42,10 @@
         "selectedIconPath": "images/tab/exchange_active.png"
       },
       {
-        "pagePath": "pages/index/index",
-        "text": "比价",
-        "iconPath": "images/tab/compare.png",
-        "selectedIconPath": "images/tab/compare_active.png"
-      },
-      {
-        "pagePath": "pages/buyer/buyer",
-        "text": "买手",
-        "iconPath": "images/tab/buyer.png",
-        "selectedIconPath": "images/tab/buyer_active.png"
+        "pagePath": "pages/rebate/rebate",
+        "text": "优惠",
+        "iconPath": "images/tab/coupon.png",
+        "selectedIconPath": "images/tab/coupon_active.png"
       },
       {
         "pagePath": "pages/profile/profile",
@@ -65,5 +56,6 @@
     ]
   },
   "style": "v2",
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
 }

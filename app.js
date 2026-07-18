@@ -3,19 +3,89 @@ const request = require('./utils/request.js');
 App({
   onLaunch() {
     try {
+      this.checkPrivacyAuthorization();
+    } catch (e) {
+      // ignore
+    }
+    try {
       this.initWindowInfo();
     } catch (e) {
-      console.error('初始化窗口信息失败:', e);
+      // ignore
     }
     try {
       this.initExchangeRates();
     } catch (e) {
-      console.error('初始化汇率失败:', e);
+      // ignore
     }
+  },
+
+  checkPrivacyAuthorization() {
+    const that = this;
+    if (!wx.getPrivacySetting) {
+      that.afterPrivacyAuthorized();
+      return;
+    }
+    wx.getPrivacySetting({
+      success: (res) => {
+        if (res.needAuthorization) {
+          wx.showModal({
+            title: '用户隐私保护提示',
+            content: '为了向您提供完整的比价服务，我们需要收集您的头像、昵称、浏览记录等信息。点击"同意"即表示您已阅读并同意隐私政策。',
+            confirmText: '同意并继续',
+            cancelText: '查看详情',
+            success: (modalRes) => {
+              if (modalRes.confirm) {
+                that.requirePrivacyAuthorize();
+              } else {
+                wx.openPrivacyContract({
+                  fail: () => {
+                    wx.navigateTo({ url: '/pages/privacy/privacy' });
+                  }
+                });
+                setTimeout(() => {
+                  that.checkPrivacyAuthorization();
+                }, 1000);
+              }
+            }
+          });
+        } else {
+          that.afterPrivacyAuthorized();
+        }
+      },
+      fail: () => {
+        that.afterPrivacyAuthorized();
+      }
+    });
+  },
+
+  requirePrivacyAuthorize() {
+    const that = this;
+    if (wx.requirePrivacyAuthorize) {
+      wx.requirePrivacyAuthorize({
+        success: () => {
+          that.afterPrivacyAuthorized();
+        },
+        fail: () => {
+          wx.showToast({ title: '请同意隐私协议后使用', icon: 'none' });
+          setTimeout(() => {
+            that.checkPrivacyAuthorization();
+          }, 2000);
+        }
+      });
+    } else {
+      that.afterPrivacyAuthorized();
+    }
+  },
+
+  afterPrivacyAuthorized() {
     try {
       this.silentLogin();
     } catch (e) {
-      console.error('静默登录失败:', e);
+      // ignore
+    }
+    this.globalData.privacyAuthorized = true;
+    if (typeof this.privacyCallback === 'function') {
+      this.privacyCallback();
     }
   },
 
@@ -48,9 +118,7 @@ App({
           that.doLogin(res.code);
         }
       },
-      fail: () => {
-        console.error('wx.login 失败');
-      }
+      fail: () => {}
     });
   },
 
@@ -62,9 +130,7 @@ App({
           that.saveLoginInfo(data);
         }
       })
-      .catch(err => {
-        console.warn('登录请求失败:', err?.message || err);
-      });
+      .catch(() => {});
   },
 
   saveLoginInfo(data) {
@@ -92,6 +158,9 @@ App({
         }
       })
       .catch(() => {
+        wx.removeStorageSync('token');
+        wx.removeStorageSync('userInfo');
+        that.globalData.userInfo = null;
         that.doWxLogin();
       });
   },
@@ -153,9 +222,7 @@ App({
           that.globalData.exchangeRates = ratesData;
         }
       })
-      .catch(() => {
-        console.log('汇率获取失败，使用缓存或默认数据');
-      });
+      .catch(() => {});
   },
 
   getDefaultRates() {

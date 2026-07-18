@@ -1,19 +1,16 @@
 <view class="page">
-  <view class="safe-area-inset-top" style="height: {{statusBarHeight}}px;"></view>
   <view class="nav-bar">
-    <view class="nav-center">
-      <text class="nav-title">商城</text>
-    </view>
-    <view class="nav-right">
-      <text class="nav-icon-btn">⋯</text>
-      <text class="nav-icon-btn">−</text>
-      <text class="nav-icon-btn">◎</text>
-    </view>
+    <view class="nav-btn" bindtap="goBack">‹</view>
+    <text class="nav-title">门店</text>
+    <view class="nav-btn">⋯</view>
   </view>
 
-  <view class="header">
-    <view class="search-bar">
-      <text class="search-icon">🔍</text>
+  <view class="search-bar">
+    <view class="search-input-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
       <input
         class="search-input"
         placeholder="搜索商场名称、城市"
@@ -21,30 +18,31 @@
         bindinput="onKeywordInput"
       />
     </view>
-    <scroll-view class="country-filter" scroll-x>
-      <view
-        class="country-tag {{country === '' ? 'active' : ''}}"
-        data-country=""
-        bindtap="selectCountry"
-      >
-        全部
-      </view>
-      <view
-        class="country-tag {{country === item.code ? 'active' : ''}}"
-        wx:for="{{countries}}"
-        wx:key="code"
-        data-country="{{item.code}}"
-        bindtap="selectCountry"
-      >
-        {{item.flag}} {{item.name}}
-      </view>
-    </scroll-view>
   </view>
 
-  <view class="tabs">
-    <view class="tab {{tab === 'mall' ? 'active' : ''}}" data-tab="mall" bindtap="onTabTap">商场</view>
-    <view class="tab {{tab === 'street' ? 'active' : ''}}" data-tab="street" bindtap="onTabTap">专卖店街</view>
-    <view class="tab {{tab === 'dutyfree' ? 'active' : ''}}" data-tab="dutyfree" bindtap="onTabTap">免税店</view>
+  <scroll-view class="country-filter" scroll-x class="no-scrollbar">
+    <view
+      class="country-pill {{country === '' ? 'active' : ''}}"
+      data-country=""
+      bindtap="selectCountry"
+    >
+      全部
+    </view>
+    <view
+      class="country-pill {{country === item.code ? 'active' : ''}}"
+      wx:for="{{countries}}"
+      wx:key="code"
+      data-country="{{item.code}}"
+      bindtap="selectCountry"
+    >
+      {{item.flag}} {{item.name}}
+    </view>
+  </scroll-view>
+
+  <view class="category-tabs">
+    <view class="category-tab {{tab === 'mall' ? 'active' : ''}}" data-tab="mall" bindtap="onTabTap">商场</view>
+    <view class="category-tab {{tab === 'street' ? 'active' : ''}}" data-tab="street" bindtap="onTabTap">专卖店街</view>
+    <view class="category-tab {{tab === 'dutyfree' ? 'active' : ''}}" data-tab="dutyfree" bindtap="onTabTap">免税店</view>
   </view>
 
   <scroll-view class="store-list" scroll-y>
@@ -57,23 +55,18 @@
       data-store="{{item}}"
       bindtap="onStoreTap"
     >
-      <view class="store-img">
-        <view class="store-placeholder">🏬</view>
-      </view>
-      <view class="store-info">
-        <view class="store-top">
-          <text class="store-name">{{item.name}}</text>
-          <text class="store-rating">⭐ {{item.rating}}</text>
+      <view class="store-card-image">🏬</view>
+      <view class="store-card-info">
+        <view class="store-card-top">
+          <text class="store-card-name">{{item.name}}</text>
+          <text class="store-card-rating">⭐ {{item.rating}}</text>
         </view>
-        <view class="store-location">
-          <text class="flag">{{item.flag}}</text>
-          <text class="city">{{item.countryName}} · {{item.city}}</text>
-          <text class="type-tag">{{item.typeLabel}}</text>
+        <view class="store-card-location">
+          <text class="store-card-loc-text">{{item.flag}} {{item.countryName}} · {{item.city}}</text>
+          <text class="store-card-tag">{{item.typeLabel}}</text>
         </view>
-        <view class="store-address">{{item.address}}</view>
-        <view class="store-brands">
-          <text class="brand-count">{{item.brandCount}}个品牌入驻</text>
-        </view>
+        <view class="store-card-address">{{item.address}}</view>
+        <view class="store-card-brands">{{item.brandCount}}个品牌入驻</view>
       </view>
     </view>
 

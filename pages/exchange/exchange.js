@@ -5,7 +5,7 @@ const app = getApp();
 
 Page({
   data: {
-    amount: '1000',
+    amount: '1000.00',
     fromCurrency: 'CNY',
     toCurrency: 'USD',
     fromCountry: null,
@@ -35,6 +35,9 @@ Page({
   },
 
   onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 1 });
+    }
     const rates = app.globalData.exchangeRates;
     if (rates) {
       this.setData({ exchangeRates: rates });
@@ -90,8 +93,11 @@ Page({
   },
 
   onAmountInput(e) {
-    const amount = e.detail.value;
-    this.setData({ amount });
+    const rawValue = e.detail.value;
+    const cleaned = rawValue.replace(/[^\d]/g, '');
+    const num = parseFloat(cleaned) || 0;
+    const formatted = num.toFixed(2);
+    this.setData({ amount: formatted });
     this.calculate();
   },
 
@@ -105,7 +111,7 @@ Page({
       });
       return;
     }
-    const numAmount = parseFloat(amount) || 0;
+    const numAmount = parseFloat(amount.replace(/,/g, '')) || 0;
     const result = convertCurrency(numAmount, fromCurrency, toCurrency, exchangeRates);
     const rate = exchangeRates.rates[toCurrency] / exchangeRates.rates[fromCurrency];
     this.setData({ 

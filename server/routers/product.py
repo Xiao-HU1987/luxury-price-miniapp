@@ -255,29 +255,74 @@ def get_spus(
     db: Session = Depends(get_db)
 ):
     query = db.query(SPU)
-    
+
     if keyword:
         query = query.filter(
-            SPU.name.ilike(f"%{keyword}%") | 
+            SPU.name.ilike(f"%{keyword}%") |
             SPU.name_en.ilike(f"%{keyword}%") |
             SPU.article_no.ilike(f"%{keyword}%")
         )
-    
+
     if brand_id:
         query = query.filter(SPU.brand_id == brand_id)
-    
+
     if category_id:
         query = query.filter(SPU.category_id == category_id)
-    
+
     total = query.count()
     offset = (page - 1) * page_size
-    spus = query.offset(offset).limit(page_size).order_by(SPU.created_at.desc()).all()
-    
+    spus = query.order_by(SPU.created_at.desc()).offset(offset).limit(page_size).all()
+
+    # 统计每个 SPU 在各国家的最低价（前端 rebate/index 页面依赖 min_cn_price 和 min_jp_price）
+    spu_ids = [s.spu_id for s in spus]
+    price_map = {}
+    if spu_ids:
+        price_rows = db.query(
+            SKU.spu_id,
+            SKUPrice.country,
+            func.min(SKUPrice.price).label("min_price")
+        ).outerjoin(SKUPrice, SKU.sku_id == SKUPrice.sku_id) \
+         .filter(SKU.spu_id.in_(spu_ids)) \
+         .group_by(SKU.spu_id, SKUPrice.country) \
+         .all()
+
+        for r in price_rows:
+            entry = price_map.setdefault(r.spu_id, {
+                "min_price": float('inf'),
+                "max_price": 0,
+                "min_cn_price": 0,
+                "min_jp_price": 0,
+                "countries": []
+            })
+            if r.min_price is not None:
+                entry["min_price"] = min(entry["min_price"], r.min_price)
+                entry["max_price"] = max(entry["max_price"], r.min_price)
+                if r.country == 'CN':
+                    entry["min_cn_price"] = r.min_price
+                elif r.country == 'JP':
+                    entry["min_jp_price"] = r.min_price
+                if r.country and r.country not in entry["countries"]:
+                    entry["countries"].append(r.country)
+
+    spu_list = []
+    for s in spus:
+        info = price_map.get(s.spu_id, {
+            "min_price": 0, "max_price": 0,
+            "min_cn_price": 0, "min_jp_price": 0, "countries": []
+        })
+        item = SPUResponse.from_orm(s).model_dump()
+        item["min_price"] = info["min_price"] if info["min_price"] != float('inf') else 0
+        item["max_price"] = info["max_price"]
+        item["min_cn_price"] = info["min_cn_price"]
+        item["min_jp_price"] = info["min_jp_price"]
+        item["countries"] = info["countries"]
+        spu_list.append(item)
+
     return ApiResponse(
         code=0,
         message="success",
         data={
-            "list": [SPUResponse.from_orm(s) for s in spus],
+            "list": spu_list,
             "total": total,
             "page": page,
             "page_size": page_size
@@ -401,7 +446,7 @@ def get_skus(
     
     total = query.count()
     offset = (page - 1) * page_size
-    skus = query.offset(offset).limit(page_size).order_by(SKU.created_at.desc()).all()
+    skus = query.order_by(SKU.created_at.desc()).offset(offset).limit(page_size).all()
     
     return ApiResponse(
         code=0,
@@ -679,16 +724,22 @@ def search_products(
             price_map[r.spu_id] = {
                 "min_price": float('inf'),
                 "max_price": 0,
+                "min_cn_price": 0,
+                "min_jp_price": 0,
                 "countries": []
             }
         price_map[r.spu_id]["min_price"] = min(price_map[r.spu_id]["min_price"], r.min_price or float('inf'))
         price_map[r.spu_id]["max_price"] = max(price_map[r.spu_id]["max_price"], r.max_price or 0)
+        if r.country == 'CN':
+            price_map[r.spu_id]["min_cn_price"] = r.min_price or 0
+        elif r.country == 'JP':
+            price_map[r.spu_id]["min_jp_price"] = r.min_price or 0
         if r.country and r.country not in price_map[r.spu_id]["countries"]:
             price_map[r.spu_id]["countries"].append(r.country)
     
     products = []
     for spu in spus:
-        price_info = price_map.get(spu.spu_id, {"min_price": 0, "max_price": 0, "countries": []})
+        price_info = price_map.get(spu.spu_id, {"min_price": 0, "max_price": 0, "min_cn_price": 0, "min_jp_price": 0, "countries": []})
         products.append({
             "spu_id": spu.spu_id,
             "brand_id": spu.brand_id,
@@ -700,6 +751,8 @@ def search_products(
             "image": spu.image,
             "min_price": price_info["min_price"] if price_info["min_price"] != float('inf') else 0,
             "max_price": price_info["max_price"],
+            "min_cn_price": price_info["min_cn_price"],
+            "min_jp_price": price_info["min_jp_price"],
             "countries": price_info["countries"]
         })
     

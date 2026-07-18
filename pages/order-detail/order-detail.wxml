@@ -7,7 +7,7 @@
   <view class="section" wx:if="{{order.product_name}}">
     <view class="section-title">商品信息</view>
     <view class="product-card">
-      <image wx:if="{{order.product_image}}" class="product-img" src="{{order.product_image}}" mode="aspectFill" />
+      <image wx:if="{{order.product_image}}" class="product-img" src="{{order.product_image}}" mode="aspectFill" lazy-load="true" />
       <view wx:else class="product-img placeholder">
         <text class="placeholder-icon">👜</text>
       </view>

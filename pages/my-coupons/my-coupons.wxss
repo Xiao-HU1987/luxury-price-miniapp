@@ -5,6 +5,8 @@
 
 .header {
   padding: 30rpx;
+  padding-top: calc(30rpx + constant(safe-area-inset-top));
+  padding-top: calc(30rpx + env(safe-area-inset-top));
   background: #fff;
   text-align: center;
 }

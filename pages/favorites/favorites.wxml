@@ -1,7 +1,8 @@
-<view class="container" style="padding-top: {{statusBarHeight}}px;">
-  <view class="header">
-    <text class="title">我的收藏</text>
-    <text class="count">{{list.length}} 件商品</text>
+<view class="page">
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="goBack">‹</view>
+    <text class="nav-title">我的收藏</text>
+    <text class="nav-count">{{list.length}} 件商品</text>
   </view>
 
   <view class="content" wx:if="{{!loading}}">
@@ -12,17 +13,38 @@
     </view>
 
     <view class="list" wx:else>
-      <view class="item" wx:for="{{list}}" wx:key="id" bindtap="onItemTap" data-id="{{item.id}}" data-type="{{item.type}}">
-        <image class="item-image" src="{{item.image || '/images/default-product.png'}}" mode="aspectFill" />
-        <view class="item-info">
-          <text class="item-name">{{item.name}}</text>
-          <text class="item-time">{{item.time}}</text>
+      <view
+        class="product-card"
+        wx:for="{{list}}"
+        wx:key="id"
+        bindtap="onItemTap"
+        data-id="{{item.id}}"
+      >
+        <view class="product-img">
+          <text class="img-placeholder">👜</text>
         </view>
-        <view class="item-action" catchtap="onRemove" data-id="{{item.id}}">
-          <text class="remove-btn">取消收藏</text>
+        <view class="product-info">
+          <text class="brand-name">{{item.brandName || 'Unknown'}}</text>
+          <text class="product-name">{{item.name}}</text>
+          <text class="product-article">{{item.articleNo || ''}}</text>
+          <view class="price-row-card">
+            <view class="price-flags">
+              <view class="price-cn">
+                <text class="flag-cn">中</text>
+                <text class="price-num red">¥{{item.cnPriceStr || '0'}}</text>
+              </view>
+              <view wx:if="{{item.hasJpPrice}}" class="price-jp">
+                <text class="flag-jp">日</text>
+                <text class="price-num accent">¥{{item.jpPriceCnyStr}}</text>
+              </view>
+            </view>
+          </view>
         </view>
+        <view class="product-heart" catchtap="onRemove" data-id="{{item.id}}">❤️</view>
       </view>
     </view>
+
+    <view class="swipe-hint">向左滑动可取消收藏</view>
   </view>
 
   <view class="loading" wx:if="{{loading}}">

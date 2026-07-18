@@ -1,60 +1,42 @@
 <view class="page">
-  <!-- 顶部安全区域适配 (iPhone刘海屏) -->
-  <view class="safe-area-inset-top" style="height: {{statusBarHeight}}px;"></view>
-  
-  <!-- 顶部导航 -->
-  <view class="nav-bar">
-    <view class="nav-left"></view>
-    <view class="nav-center">
-      <text class="nav-title">到手比价</text>
+  <view class="header-section">
+    <view class="header-content">
+      <text class="header-title">比惠</text>
     </view>
-    <view class="nav-right">
-      <text class="nav-icon-btn">⋯</text>
-      <text class="nav-icon-btn">−</text>
-      <text class="nav-icon-btn">◎</text>
-    </view>
-  </view>
-
-  <!-- 搜索栏 -->
-  <view class="search-section">
-    <view class="search-bar">
-      <text class="search-icon">🔍</text>
-      <input
-        class="search-input"
-        placeholder="请输入货号/商品中文名称"
-        value="{{searchKeyword}}"
-        bindinput="onSearchInput"
-        bindconfirm="onSearch"
-        confirm-type="search"
-      />
-      <view class="search-btn" bindtap="onSearch">
-        <text>搜索</text>
+    <view class="search-wrapper" style="padding-right: {{menuButtonRight + menuButtonWidth + 20}}px;">
+      <view class="search-bar">
+        <text class="search-icon">🔍</text>
+        <input
+          class="search-input"
+          placeholder="输入货号/商品名称"
+          value="{{searchKeyword}}"
+          bindinput="onSearchInput"
+          bindconfirm="onSearch"
+          confirm-type="search"
+        />
       </view>
     </view>
   </view>
 
-  <!-- 筛选栏 -->
-  <view class="filter-bar">
-    <view class="filter-item" bindtap="toggleBrandFilter">
-      <text class="filter-text {{selectedBrand ? 'active' : ''}}">
-        {{selectedBrandName || '品牌筛选'}} ▾
-      </text>
-    </view>
-    <view class="filter-item" bindtap="toggleCategoryFilter">
-      <text class="filter-text {{selectedCategory ? 'active' : ''}}">
-        {{selectedCategoryName || '品类'}} ▾
-      </text>
-    </view>
-    <view class="filter-item" bindtap="onSortTap">
-      <text class="filter-text">{{sortLabel}}</text>
-    </view>
-    <view class="filter-item" bindtap="goToExchange">
-      <text class="filter-text">汇率:{{jpRateDisplay}} ▾</text>
+  <view class="hero-section">
+    <view class="hero-banner">
+      <image class="hero-bg" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=luxury%20brand%20shopping%20bag%20elegant%20minimalist%20fashion%20photography%20golden%20hour&image_size=landscape_16_9" mode="aspectFill" />
+      <view class="hero-overlay">
+        <text class="hero-title">全球奢侈品比价</text>
+        <text class="hero-subtitle">覆盖13个国家 · 实时汇率换算</text>
+      </view>
     </view>
   </view>
 
-  <!-- 商品列表 -->
-  <scroll-view class="product-list" scroll-y>
+  <view class="content-section">
+    <view class="section-header">
+      <text class="section-title">热门比价</text>
+      <view class="section-more" bindtap="goToProducts">
+        <text class="more-text">更多</text>
+        <text class="more-arrow">›</text>
+      </view>
+    </view>
+
     <view
       class="product-card"
       wx:for="{{products}}"
@@ -63,84 +45,30 @@
       bindtap="onProductTap"
     >
       <view class="product-img">
-        <view class="img-placeholder">👜</view>
+        <text class="img-placeholder">👜</text>
       </view>
       <view class="product-info">
-        <view class="product-name">{{item.name}}</view>
-        <view class="product-article">货号：{{item.articleNo}}</view>
-        <view class="price-row">
-          <view class="price-cn">
-            <text class="flag-cn">中</text>
-            <text class="price-num red">{{item.cnPriceStr}}</text>
-            <text class="price-unit">元</text>
-          </view>
-          <view wx:if="{{item.hasJpPrice}}" class="price-jp">
-            <text class="flag-jp">日</text>
-            <text class="price-num orange">{{item.jpPriceCnyStr}}</text>
-            <text class="price-unit">元</text>
-          </view>
+        <view class="product-top">
+          <text class="brand-name">{{item.brandName}}</text>
+          <text class="product-name">{{item.name}}</text>
+          <text class="product-article">{{item.articleNo}}</text>
         </view>
-        <view class="product-footer">
-          <text wx:if="{{item.hasJpPrice}}" class="footer-text">日本最低到手价(实时更新)</text>
+        <view class="price-row-card">
+          <view class="price-flags">
+            <view class="price-cn">
+              <text class="flag-cn">中</text>
+              <text class="price-num red">¥{{item.cnPriceStr}}</text>
+            </view>
+            <view wx:if="{{item.hasJpPrice}}" class="price-jp">
+              <text class="flag-jp">日</text>
+              <text class="price-num accent">¥{{item.jpPriceCnyStr}}</text>
+            </view>
+          </view>
+          <text class="tag-arrival">到手价</text>
         </view>
-      </view>
-      <view class="tag-arrival">
-        <text class="tag-text">到手价</text>
       </view>
     </view>
-  </scroll-view>
 
-  <!-- 品牌筛选弹窗 -->
-  <view class="filter-mask" wx:if="{{showBrandFilter}}" bindtap="closeFilter">
-    <view class="filter-panel" catchtap="">
-      <view class="filter-panel-header">
-        <text class="filter-panel-title">选择品牌</text>
-        <text class="filter-panel-close" bindtap="closeFilter">✕</text>
-      </view>
-      <scroll-view class="filter-panel-body" scroll-y>
-        <view class="filter-option-list">
-          <view
-            class="filter-option {{selectedBrand === item.id ? 'active' : ''}}"
-            wx:for="{{brands}}"
-            wx:key="id"
-            data-brand-id="{{item.id}}"
-            data-brand-name="{{item.nameCn}}"
-            bindtap="selectBrand"
-          >
-            {{item.nameCn}}
-          </view>
-        </view>
-      </scroll-view>
-      <view class="filter-panel-footer">
-        <button class="btn-confirm" bindtap="confirmBrandFilter">确定</button>
-      </view>
-    </view>
-  </view>
-
-  <!-- 品类筛选弹窗 -->
-  <view class="filter-mask" wx:if="{{showCategoryFilter}}" bindtap="closeFilter">
-    <view class="filter-panel" catchtap="">
-      <view class="filter-panel-header">
-        <text class="filter-panel-title">选择品类</text>
-        <text class="filter-panel-close" bindtap="closeFilter">✕</text>
-      </view>
-      <scroll-view class="filter-panel-body" scroll-y>
-        <view class="filter-option-list">
-          <view
-            class="filter-option {{selectedCategory === item.id ? 'active' : ''}}"
-            wx:for="{{categories}}"
-            wx:key="id"
-            data-category-id="{{item.id}}"
-            data-category-name="{{item.name}}"
-            bindtap="selectCategory"
-          >
-            {{item.icon}} {{item.name}}
-          </view>
-        </view>
-      </scroll-view>
-      <view class="filter-panel-footer">
-        <button class="btn-confirm" bindtap="confirmCategoryFilter">确定</button>
-      </view>
-    </view>
+    <text class="footer-hint">日本最低到手价(实时更新)</text>
   </view>
 </view>

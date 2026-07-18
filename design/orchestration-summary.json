@@ -1,0 +1,35 @@
+{
+  "operatingMode": "free-explore",
+  "visualNorthStar": "Japanese minimalist luxury — white background, generous whitespace, precise grid, restrained terracotta (#C8553D) accent",
+  "compositionPattern": "mobile-app",
+  "miniProgramStyle": "wechat",
+  "designSource": {
+    "libraryIdentity": null,
+    "brandCssPath": "colors_and_type.css"
+  },
+  "pagePlan": [
+    { "id": "page-index", "title": "比价首页", "file": "pages/index.html", "device": "mobile", "hasGlobalNav": true, "globalNavKey": "比价|汇率|优惠|我的", "activeNavKey": "比价" },
+    { "id": "page-splash", "title": "开屏页", "file": "pages/splash.html", "device": "mobile", "hasGlobalNav": false },
+    { "id": "page-products", "title": "搜索结果", "file": "pages/products.html", "device": "mobile", "hasGlobalNav": false },
+    { "id": "page-product-detail", "title": "商品详情", "file": "pages/product-detail.html", "device": "mobile", "hasGlobalNav": false },
+    { "id": "page-exchange", "title": "汇率换算", "file": "pages/exchange.html", "device": "mobile", "hasGlobalNav": true, "globalNavKey": "比价|汇率|优惠|我的", "activeNavKey": "汇率" },
+    { "id": "page-coupons", "title": "优惠券", "file": "pages/coupons.html", "device": "mobile", "hasGlobalNav": true, "globalNavKey": "比价|汇率|优惠|我的", "activeNavKey": "优惠" },
+    { "id": "page-my-coupons", "title": "我的优惠券", "file": "pages/my-coupons.html", "device": "mobile", "hasGlobalNav": false },
+    { "id": "page-profile", "title": "个人中心", "file": "pages/profile.html", "device": "mobile", "hasGlobalNav": true, "globalNavKey": "比价|汇率|优惠|我的", "activeNavKey": "我的" },
+    { "id": "page-favorites", "title": "我的收藏", "file": "pages/favorites.html", "device": "mobile", "hasGlobalNav": false },
+    { "id": "page-history", "title": "浏览历史", "file": "pages/history.html", "device": "mobile", "hasGlobalNav": false },
+    { "id": "page-orders", "title": "我的订单", "file": "pages/orders.html", "device": "mobile", "hasGlobalNav": true, "globalNavKey": "比价|汇率|优惠|我的", "activeNavKey": "我的" },
+    { "id": "page-order-detail", "title": "订单详情", "file": "pages/order-detail.html", "device": "mobile", "hasGlobalNav": false },
+    { "id": "page-my-demands", "title": "我的需求", "file": "pages/my-demands.html", "device": "mobile", "hasGlobalNav": false },
+    { "id": "page-vip", "title": "VIP会员", "file": "pages/vip.html", "device": "mobile", "hasGlobalNav": false },
+    { "id": "page-stores", "title": "门店", "file": "pages/stores.html", "device": "mobile", "hasGlobalNav": true, "globalNavKey": "比价|汇率|优惠|我的", "activeNavKey": "比价" }
+  ],
+  "tokenReferences": ["colors_and_type.css"],
+  "imagePlan": [
+    { "id": "image-001", "file": "assets/hero-luxury-bags.jpg", "purpose": "hero-banner" },
+    { "id": "image-002", "file": "assets/hero-vip-gold.jpg", "purpose": "vip-header-bg" },
+    { "id": "image-003", "file": "assets/store-tokyo.jpg", "purpose": "store-illustration" }
+  ],
+  "visibleWiringPlan": [],
+  "hiddenInteractionPlan": []
+}

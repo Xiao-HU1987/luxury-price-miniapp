@@ -7,6 +7,9 @@ const app = getApp();
 Page({
   data: {
     statusBarHeight: 20,
+    navBarHeight: 44,
+    menuButtonTop: 0,
+    menuButtonHeight: 32,
     product: null,
     currentSku: null,
     priceList: [],
@@ -17,11 +20,30 @@ Page({
   },
 
   onLoad(options) {
-    this.setData({ statusBarHeight: app.globalData.statusBarHeight || 20 });
+    const sysInfo = wx.getSystemInfoSync();
+    const statusBarHeight = sysInfo.statusBarHeight || 20;
+    const menuButton = wx.getMenuButtonBoundingClientRect();
+    const menuButtonTop = menuButton ? menuButton.top : statusBarHeight + 6;
+    const menuButtonHeight = menuButton ? menuButton.height : 32;
+    const navBarHeight = (menuButtonTop - statusBarHeight) * 2 + menuButtonHeight;
+    
     const id = options.id;
     if (id) {
-      this.setData({ productId: id });
+      this.setData({
+        statusBarHeight: statusBarHeight,
+        navBarHeight: navBarHeight,
+        menuButtonTop: menuButtonTop,
+        menuButtonHeight: menuButtonHeight,
+        productId: id
+      });
       this.loadProductDetail(id);
+    } else {
+      this.setData({
+        statusBarHeight: statusBarHeight,
+        navBarHeight: navBarHeight,
+        menuButtonTop: menuButtonTop,
+        menuButtonHeight: menuButtonHeight
+      });
     }
   },
 
@@ -52,9 +74,7 @@ Page({
           that.addBrowseHistory(spuId, data);
         }
       })
-      .catch(() => {
-        console.log('商品详情加载失败');
-      });
+      .catch(() => {});
   },
 
   addBrowseHistory(spuId, productData) {
@@ -184,7 +204,7 @@ Page({
   },
 
   findBuyer() {
-    wx.switchTab({ url: '/pages/buyer/buyer' });
+    wx.navigateTo({ url: '/pages/buyer/buyer' });
   },
 
   goToStores() {

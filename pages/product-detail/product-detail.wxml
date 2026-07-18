@@ -1,97 +1,95 @@
 <view class="page" wx:if="{{product}}">
-  <view class="safe-area-inset-top" style="height: {{statusBarHeight}}px;"></view>
-  <view class="product-header">
-    <view class="product-image">
-      <view class="image-placeholder">👜</view>
+  <view class="nav-bar" style="height: {{navBarHeight}}px; padding-top: {{statusBarHeight}}px;">
+    <view class="nav-back" style="top: {{menuButtonTop}}px; height: {{menuButtonHeight}}px;" bindtap="goBack">
+      <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
     </view>
-    <view class="product-info">
-      <view class="product-brand">{{product.brandName}}</view>
-      <view class="product-name">{{product.name}}</view>
-      <view class="product-name-en">{{product.nameEn}}</view>
+    <text class="nav-center" style="top: {{menuButtonTop}}px; height: {{menuButtonHeight}}px; line-height: {{menuButtonHeight}}px;">商品详情</text>
+    <view class="nav-right" style="top: {{menuButtonTop}}px; height: {{menuButtonHeight}}px;">
+      <text class="share-icon">⋯</text>
     </view>
   </view>
 
-  <view class="card">
-    <view class="section-title">选择规格</view>
-    <view class="sku-list">
+  <view class="product-image">
+    <text class="image-placeholder">👜</text>
+  </view>
+
+  <view class="product-info-section">
+    <text class="product-brand">{{product.brandName}}</text>
+    <text class="product-name">{{product.name}}</text>
+    <text class="product-name-en">{{product.nameEn}}</text>
+    <text class="product-article">货号: {{product.articleNo}}</text>
+  </view>
+
+  <view class="divider"></view>
+
+  <view class="sku-section">
+    <text class="section-title">选择规格</text>
+    <scroll-view class="sku-scroll" scroll-x class="no-scrollbar">
       <view
-        class="sku-item {{skuIndex === index ? 'active' : ''}}"
+        class="sku-pill {{skuIndex === index ? 'active' : ''}}"
         wx:for="{{product.skus}}"
         wx:key="id"
         data-index="{{index}}"
         bindtap="onSkuTap"
       >
-        <view class="sku-color">{{item.color}}</view>
-        <view class="sku-size">{{item.size}}</view>
+        {{item.color}}/{{item.size}}
       </view>
-    </view>
+    </scroll-view>
   </view>
 
-  <view class="card">
+  <view class="divider"></view>
+
+  <view class="price-section">
     <view class="section-header">
       <text class="section-title">全球价格对比</text>
-      <text class="exchange-link" bindtap="goToExchange">去换算 ></text>
+      <view class="exchange-link" bindtap="goToExchange">去换算 ›</view>
     </view>
     <view class="price-list">
       <view
-        class="price-item {{item.isLowest ? 'lowest' : ''}}"
+        class="price-row {{item.isLowest ? 'lowest-row' : ''}}"
         wx:for="{{priceList}}"
         wx:key="countryCode"
       >
+        <view wx:if="{{item.isLowest}}" class="lowest-badge">最低价</view>
         <view class="price-left">
           <text class="country-flag">{{item.flag}}</text>
           <view class="country-info">
-            <view class="country-name">
-              {{item.countryName}}
-              <text wx:if="{{item.isLowest}}" class="lowest-tag">最低价</text>
-            </view>
-            <view class="store-name">{{item.store}}</view>
+            <text class="country-name">{{item.countryName}}</text>
+            <text class="store-name">{{item.store}}</text>
           </view>
         </view>
         <view class="price-right">
-          <view class="price-original">
-            {{item.currencySymbol}}{{item.priceDisplay}}
-          </view>
-          <view class="price-cny" wx:if="{{item.cnyPrice > 0}}">
-            约 ¥{{item.cnyPriceDisplay}}
-          </view>
-          <view class="stock-status {{item.inStock ? 'in-stock' : 'out-stock'}}">
-            {{item.inStock ? '库存 ' + item.stock : '缺货'}}
-          </view>
+          <text class="price-original">{{item.currencySymbol}}{{item.priceDisplay}}</text>
+          <text wx:if="{{item.cnyPrice > 0}}" class="price-cny">{{item.isLowest ? '约 ¥' + item.cnyPriceDisplay : '约 ¥' + item.cnyPriceDisplay}}</text>
+        </view>
+        <view class="stock-badge {{item.inStock ? 'stock-in' : 'stock-out'}}">
+          {{item.inStock ? '在售' : '缺货'}}
         </view>
       </view>
     </view>
   </view>
 
-  <view class="card">
-    <view class="section-title">商品描述</view>
-    <view class="description">{{product.description}}</view>
-  </view>
+  <view class="divider"></view>
 
-  <view class="card">
-    <view class="quick-actions">
-      <view class="action-item {{isFavorited ? 'active' : ''}}" bindtap="toggleFavorite">
-        <view class="action-icon">{{isFavorited ? '❤️' : '🤍'}}</view>
-        <view class="action-text">{{isFavorited ? '已收藏' : '收藏'}}</view>
-      </view>
-      <view class="action-item" bindtap="goToStores">
-        <view class="action-icon">🏬</view>
-        <view class="action-text">附近门店</view>
-      </view>
-      <view class="action-item" bindtap="findBuyer">
-        <view class="action-icon">🤝</view>
-        <view class="action-text">找买手</view>
-      </view>
-      <view class="action-item" bindtap="goToExchange">
-        <view class="action-icon">💱</view>
-        <view class="action-text">汇率计算</view>
-      </view>
+  <view class="bottom-actions">
+    <view class="action-item" bindtap="toggleFavorite">
+      <svg class="action-icon" viewBox="0 0 14 14" fill="currentColor">
+        <path d="M7 12.5c-.2 0-.4-.1-.6-.2C3.2 10.2 1 8 1 5.5 1 3 2.8 1 5 1c.7 0 1.4.2 2 .5C7.6.6 8.8 0 10 0c2.2 0 4 1.3 4 3.5 0 2.5-2.2 4.7-5.4 7.3-.2.1-.4.2-.6.2z"/>
+      </svg>
+      <text class="action-label">{{isFavorited ? '已收藏' : '收藏'}}</text>
+    </view>
+    <view class="action-item" bindtap="goToExchange">
+      <svg class="action-icon" viewBox="0 0 14 14" fill="currentColor">
+        <path d="M1 5.5h8.5L7 8H1z"/>
+        <path d="M13 8.5H4.5L7 6H13z"/>
+      </svg>
+      <text class="action-label">汇率计算</text>
     </view>
   </view>
 
-  <view style="height: 120rpx;"></view>
-
-  <view class="bottom-bar">
-    <button class="btn-find-buyer" bindtap="findBuyer">发布寻买手</button>
-  </view>
+  <view class="bottom-space"></view>
 </view>
+
+<custom-tab-bar selected="-1"></custom-tab-bar>

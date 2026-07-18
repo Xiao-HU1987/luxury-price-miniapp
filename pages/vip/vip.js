@@ -1,5 +1,6 @@
 const app = getApp();
 const request = require('../../utils/request.js');
+const config = require('../../utils/config.js');
 
 Page({
   data: {
@@ -53,7 +54,6 @@ Page({
         }
       })
       .catch(err => {
-        console.error('加载VIP套餐失败:', err);
         wx.showToast({ title: '加载失败', icon: 'none' });
       });
   },
@@ -94,7 +94,6 @@ Page({
       })
       .catch(err => {
         wx.hideLoading();
-        console.error('创建订单失败:', err);
         wx.showToast({ title: err.message || '创建订单失败', icon: 'none' });
         this.setData({ paying: false });
       });
@@ -114,34 +113,32 @@ Page({
         this.onPaySuccess(orderNo);
       },
       fail: (err) => {
-        console.error('支付失败:', err);
         if (err.errMsg && err.errMsg.indexOf('cancel') > -1) {
           wx.showToast({ title: '已取消支付', icon: 'none' });
         } else {
-          this.mockPay(orderNo);
+          wx.showToast({ title: '支付失败，请重试', icon: 'none' });
+          if (config.DEBUG) {
+            setTimeout(() => {
+              wx.showModal({
+                title: '调试模式',
+                content: '是否模拟支付成功？',
+                confirmText: '模拟支付',
+                success: (res) => {
+                  if (res.confirm) {
+                    request.post(`/api/vip/mock-pay/${orderNo}`)
+                      .then(data => {
+                        this.onPaySuccess(orderNo, data);
+                      })
+                      .catch(err => {
+                        wx.showToast({ title: '模拟支付失败', icon: 'none' });
+                      });
+                  }
+                }
+              });
+            }, 500);
+          }
         }
         this.setData({ paying: false });
-      }
-    });
-  },
-
-  mockPay(orderNo) {
-    wx.showModal({
-      title: '调试模式',
-      content: '是否模拟支付成功？',
-      confirmText: '模拟支付',
-      success: (res) => {
-        if (res.confirm) {
-          request.post(`/api/vip/mock-pay/${orderNo}`)
-            .then(data => {
-              this.onPaySuccess(orderNo, data);
-            })
-            .catch(err => {
-              console.error('模拟支付失败:', err);
-              wx.showToast({ title: '模拟支付失败', icon: 'none' });
-              this.setData({ paying: false });
-            });
-        }
       }
     });
   },

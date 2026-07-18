@@ -1,108 +1,86 @@
 <view class="page">
-  <view class="safe-area-inset-top" style="height: {{statusBarHeight}}px;"></view>
-  
-  <view class="nav-bar">
-    <view class="nav-left"></view>
-    <view class="nav-center">
-      <text class="nav-title">我的</text>
-    </view>
-    <view class="nav-right">
-      <text class="nav-icon-btn">⋯</text>
-    </view>
-  </view>
-
   <view class="profile-header">
     <view class="user-card">
-      <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
-        <image wx:if="{{userInfo.avatar}}" class="avatar-img" src="{{userInfo.avatar}}"></image>
-        <view wx:else class="avatar">
+      <view class="avatar-ring">
+        <view class="avatar">
           <text class="avatar-icon">👤</text>
         </view>
-      </button>
+      </view>
       <view class="user-info">
-        <input
-          wx:if="{{!userInfo.nickname}}"
-          class="nickname-input"
-          type="nickname"
-          placeholder="请输入昵称"
-          bindconfirm="onNicknameConfirm"
-        />
-        <view wx:else class="nickname">
-          <text>{{userInfo.nickname}}</text>
+        <view class="user-name-row">
+          <text class="nickname">{{userInfo.nickname || '比惠用户'}}</text>
+          <view wx:if="{{userInfo.is_vip}}" class="vip-pill">VIP会员</view>
         </view>
         <view class="user-id" catchtap="copyUserId">
-          ID: {{userInfo.user_id || '未登录'}}
+          <text class="id-text">ID: {{userInfo.user_id || 'BH20250001'}}</text>
           <text wx:if="{{userInfo.user_id}}" class="copy-tip">点击复制</text>
         </view>
-        <view wx:if="{{userInfo.is_vip}}" class="vip-tag">VIP会员</view>
       </view>
-      <view class="edit-btn">
-        <text>›</text>
-      </view>
+      <view class="edit-btn">›</view>
     </view>
   </view>
 
   <view wx:if="{{!userInfo.phone}}" class="phone-bind-card">
-    <view class="phone-bind-text">绑定手机号，享受更多服务</view>
-    <button class="phone-bind-btn" open-type="getPhoneNumber" bindgetphonenumber="onGetPhone">
-      立即绑定
-    </button>
+    <view class="phone-bind-content">
+      <text class="phone-bind-icon">📱</text>
+      <text class="phone-bind-text">绑定手机号，享受更多服务</text>
+    </view>
+    <view class="phone-bind-btn" bindtap="onBindPhone">立即绑定</view>
   </view>
 
-  <view class="vip-entry-card" bindtap="goToVip">
-    <view class="vip-entry-left">
-      <text class="vip-entry-icon">👑</text>
-      <view class="vip-entry-info">
-        <text wx:if="{{userInfo.is_vip}}" class="vip-entry-title">VIP会员有效期至 {{vipExpireDate}}</text>
-        <text wx:else class="vip-entry-title">开通VIP会员，尊享更多特权</text>
-        <text class="vip-entry-desc">{{userInfo.is_vip ? '点击续费查看会员权益' : '全球比价 · 专属优惠 · 买手对接'}}</text>
-      </view>
+  <view class="menu-section">
+    <view class="menu-item" bindtap="goToOrders">
+      <view class="menu-icon accent">📦</view>
+      <text class="menu-text">我的订单</text>
+      <text class="menu-arrow">›</text>
     </view>
-    <view class="vip-entry-right">
-      <text class="vip-entry-btn">{{userInfo.is_vip ? '续费' : '立即开通'}}</text>
+    <view class="menu-divider"></view>
+    <view class="menu-item" bindtap="goToFavorites">
+      <view class="menu-icon accent">❤️</view>
+      <text class="menu-text">我的收藏</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-divider"></view>
+    <view class="menu-item" bindtap="goToHistory">
+      <view class="menu-icon accent">🕐</view>
+      <text class="menu-text">浏览历史</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-divider"></view>
+    <view class="menu-item" bindtap="goToCoupons">
+      <view class="menu-icon accent">🎫</view>
+      <text class="menu-text">我的优惠券</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-divider"></view>
+    <view class="menu-item" bindtap="goToDemands">
+      <view class="menu-icon accent">📋</view>
+      <text class="menu-text">我的需求</text>
       <text class="menu-arrow">›</text>
     </view>
   </view>
 
-  <view class="menu-section card">
-    <view
-      class="menu-item"
-      wx:for="{{menuItems}}"
-      wx:key="id"
-      data-id="{{item.id}}"
-      bindtap="onMenuTap"
-    >
-      <view class="menu-left">
-        <text class="menu-icon">{{item.icon}}</text>
-        <text class="menu-name">{{item.name}}</text>
-      </view>
-      <view class="menu-right">
-        <text wx:if="{{item.badge > 0}}" class="badge">{{item.badge}}</text>
-        <text class="menu-arrow">›</text>
-      </view>
+  <view class="menu-section">
+    <view class="menu-item" bindtap="goToSettings">
+      <view class="menu-icon gray">⚙️</view>
+      <text class="menu-text">账号设置</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-divider"></view>
+    <view class="menu-item" bindtap="goToPrivacy">
+      <view class="menu-icon gray">📝</view>
+      <text class="menu-text">隐私政策</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-divider"></view>
+    <view class="menu-item" bindtap="goToAbout">
+      <view class="menu-icon gray">ℹ️</view>
+      <text class="menu-text">关于比惠</text>
+      <text class="menu-arrow">›</text>
     </view>
   </view>
 
-  <view class="menu-section card">
-    <view class="section-title">设置</view>
-    <view
-      class="menu-item"
-      wx:for="{{settings}}"
-      wx:key="id"
-      data-id="{{item.id}}"
-      bindtap="onSettingTap"
-    >
-      <view class="menu-left">
-        <text class="menu-icon">{{item.icon}}</text>
-        <text class="menu-name">{{item.name}}</text>
-      </view>
-      <view class="menu-right">
-        <text class="menu-arrow">›</text>
-      </view>
-    </view>
-  </view>
-
-  <view class="app-info">
-    <text class="app-version">奢品比价 v1.0.0</text>
+  <view class="footer">
+    <text class="app-version">比惠 v1.0.0</text>
   </view>
 </view>

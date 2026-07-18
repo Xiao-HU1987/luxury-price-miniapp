@@ -83,8 +83,7 @@ Page({
           this.goToHome();
         }
       })
-      .catch(err => {
-        console.warn('获取开屏广告失败:', err?.message || err);
+      .catch(() => {
         this.goToHome();
       });
   },
@@ -127,9 +126,7 @@ Page({
     }
 
     request.post(url, {})
-      .catch(err => {
-        console.error('记录广告展示失败:', err);
-      });
+      .catch(() => {});
   },
 
   recordClick() {
@@ -143,9 +140,7 @@ Page({
     }
 
     request.post(url, {})
-      .catch(err => {
-        console.error('记录广告点击失败:', err);
-      });
+      .catch(() => {});
   },
 
   onSkip() {

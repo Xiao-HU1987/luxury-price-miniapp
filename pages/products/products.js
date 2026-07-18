@@ -1,5 +1,5 @@
 const request = require('../../utils/request.js');
-const { BRANDS, COUNTRIES } = require('../../utils/constants.js');
+const { COUNTRIES } = require('../../utils/constants.js');
 const { convertCurrency } = require('../../utils/util.js');
 
 const app = getApp();
@@ -15,7 +15,7 @@ Page({
     products: [],
     exchangeRates: null,
     showFilter: false,
-    brands: BRANDS,
+    brands: [],
     countries: COUNTRIES,
     sortOptions: [
       { value: 'price-low', label: '价格从低到高' },
@@ -34,7 +34,23 @@ Page({
       brandId,
       category
     });
+    this.loadBrands();
     this.searchProducts();
+  },
+
+  loadBrands() {
+    const that = this;
+    request.get('/api/product/brands').then(data => {
+      if (data && Array.isArray(data)) {
+        const brands = data.map(b => ({
+          id: b.brand_id,
+          name: b.name,
+          nameCn: b.name_cn,
+          logo: b.logo
+        }));
+        that.setData({ brands });
+      }
+    }).catch(() => {});
   },
 
   onShow() {
@@ -56,15 +72,13 @@ Page({
   searchProducts() {
     const that = this;
     const { keyword, brandId, category, country, sortBy } = this.data;
-    
-    request.get('/api/product/search', {
-      page: 1, 
-      page_size: 50,
-      keyword: keyword || undefined,
-      brand_id: brandId || undefined,
-      category_id: category || undefined,
-      country: country || undefined
-    }).then((data) => {
+
+    const params = { page: 1, page_size: 50 };
+    if (keyword) params.keyword = keyword;
+    if (brandId) params.brand_id = brandId;
+    if (category) params.category_id = category;
+    if (country) params.country = country;
+    request.get('/api/product/search', params).then((data) => {
       if (data && data.list) {
         const rates = that.data.exchangeRates;
         let processed = data.list.map(p => {
@@ -111,9 +125,7 @@ Page({
         
         that.setData({ products: processed });
       }
-    }).catch(() => {
-      console.log('商品搜索失败');
-    });
+    }).catch(() => {});
   },
 
   onProductTap(e) {
@@ -166,5 +178,9 @@ Page({
       currentSortLabel: '价格从低到高'
     });
     this.searchProducts();
+  },
+
+  goBack() {
+    wx.navigateBack({ delta: 1 });
   }
 });

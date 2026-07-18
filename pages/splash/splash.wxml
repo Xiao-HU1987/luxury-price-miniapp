@@ -6,22 +6,29 @@
       mode="aspectFill"
       bindtap="onAdClick"
     />
-    
+    <view class="splash-overlay"></view>
+
     <view class="splash-logo">
-      <text class="logo-text">奢侈品比价</text>
+      <text class="logo-text">比惠</text>
       <text class="logo-slogan">全球奢侈品比价</text>
     </view>
-    
+
     <view class="skip-btn" wx:if="{{adData.skip_enabled}}" bindtap="onSkip">
       <text class="skip-text">{{countdown}}s 跳过</text>
     </view>
+
+    <view class="spinner-line"></view>
   </view>
-  
+
   <view class="splash-loading" wx:else>
     <view class="loading-logo">
-      <text class="logo-text">奢侈品比价</text>
+      <text class="logo-text">比惠</text>
       <text class="logo-slogan">全球奢侈品比价</text>
     </view>
-    <view class="loading-spinner"></view>
+    <view class="loading-dots">
+      <view class="dot"></view>
+      <view class="dot"></view>
+      <view class="dot"></view>
+    </view>
   </view>
 </view>

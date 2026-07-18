@@ -1,4 +1,4 @@
 {
-  "navigationBarTitleText": "商品搜索",
+  "navigationStyle": "custom",
   "enablePullDownRefresh": false
 }

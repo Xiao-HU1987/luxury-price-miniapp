@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品详情 — 比惠</title>
+    <style id="theme-vars">
+/* ========================================
+   比惠 Brand Design Tokens
+   Luxury Price Comparison Mini-Program
+   Japanese Minimalist Style
+   ======================================== */
+
+:root {
+  /* ---- Semantic Aliases for Tailwind @theme bridge ---- */
+  --background:  #FFFFFF;
+  --foreground:  #2C2C2C;
+  --primary:     #C8553D;
+  --primary-foreground: #FFFFFF;
+  --accent:      #C8553D;
+  --accent-foreground: #FFFFFF;
+  --muted:       #F0EFED;
+  --muted-foreground: #8C8C8C;
+  --border:      #E8E6E3;
+  --input:       #E8E6E3;
+  --ring:        #C8553D;
+  --card:        #FFFFFF;
+  --card-foreground: #2C2C2C;
+  --secondary:   #F8F7F6;
+  --secondary-foreground: #5C5C5C;
+  --destructive: #C83D3D;
+  --destructive-foreground: #FFFFFF;
+
+  /* ---- Color Palette ---- */
+  --color-bg:           #FFFFFF;
+  --color-bg-secondary: #F7F5F2;
+  --color-bg-card:      #FFFFFF;
+  --color-bg-overlay:   rgba(0, 0, 0, 0.45);
+
+  --color-text-primary:   #2C2C2C;
+  --color-text-secondary: #6B6B6B;
+  --color-text-tertiary:  #9E9E9E;
+  --color-text-inverse:   #FFFFFF;
+
+  --color-accent:          #C8553D;
+  --color-accent-light:    #E8765F;
+  --color-accent-pale:     #FFF0ED;
+  --color-accent-dark:     #A3422F;
+
+  --color-gold:            #C5A47E;
+  --color-gold-light:      #E8D5B7;
+  --color-gold-dark:       #9E835A;
+
+  --color-border:          #E8E4E0;
+  --color-border-light:    #F0ECE8;
+  --color-divider:         #ECECEC;
+
+  --color-success:         #4CAF50;
+  --color-danger:          #E53935;
+  --color-flag-cn:         #DE2910;
+  --color-flag-jp:         #C8553D;
+
+  /* ---- Typography ---- */
+  --font-sans:  'Inter', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Noto Serif SC', 'Songti SC', Georgia, serif;
+
+  --text-xs:    0.625rem;   /* 10px */
+  --text-sm:    0.75rem;    /* 12px */
+  --text-base:  0.875rem;   /* 14px */
+  --text-md:    1rem;       /* 16px */
+  --text-lg:    1.125rem;   /* 18px */
+  --text-xl:    1.25rem;    /* 20px */
+  --text-2xl:   1.5rem;     /* 24px */
+  --text-3xl:   1.875rem;   /* 30px */
+
+  --leading-tight:  1.25;
+  --leading-normal: 1.5;
+  --leading-loose:  1.75;
+
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.02em;
+
+  /* ---- Spacing ---- */
+  --space-1:  0.25rem;  /* 4px */
+  --space-2:  0.5rem;   /* 8px */
+  --space-3:  0.75rem;  /* 12px */
+  --space-4:  1rem;     /* 16px */
+  --space-5:  1.25rem;  /* 20px */
+  --space-6:  1.5rem;   /* 24px */
+  --space-8:  2rem;     /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+
+  /* ---- Border Radius ---- */
+  --radius-sm:   6px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-full: 9999px;
+
+  /* ---- Shadows ---- */
+  --shadow-sm:   0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md:   0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg:   0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.06);
+
+  /* ---- Transitions ---- */
+  --transition-fast:   150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow:   350ms ease;
+
+  /* ---- Z-index ---- */
+  --z-tab-bar: 100;
+  --z-nav-bar: 200;
+  --z-overlay: 300;
+  --z-modal:   400;
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius-lg);
+    --radius-xl: var(--radius-xl);
+  }
+  @layer base {
+    body { background: var(--background); color: var(--foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--background); }
+      .text-background { color: var(--background); }
+      .border-background { border-color: var(--background); }
+      .ring-background { --tw-ring-color: var(--background); }
+      .bg-foreground { background-color: var(--foreground); }
+      .text-foreground { color: var(--foreground); }
+      .border-foreground { border-color: var(--foreground); }
+      .ring-foreground { --tw-ring-color: var(--foreground); }
+      .bg-card { background-color: var(--card); }
+      .text-card { color: var(--card); }
+      .border-card { border-color: var(--card); }
+      .ring-card { --tw-ring-color: var(--card); }
+      .bg-card-foreground { background-color: var(--card-foreground); }
+      .text-card-foreground { color: var(--card-foreground); }
+      .border-card-foreground { border-color: var(--card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--card-foreground); }
+      .bg-primary { background-color: var(--primary); }
+      .text-primary { color: var(--primary); }
+      .border-primary { border-color: var(--primary); }
+      .ring-primary { --tw-ring-color: var(--primary); }
+      .bg-primary-foreground { background-color: var(--primary-foreground); }
+      .text-primary-foreground { color: var(--primary-foreground); }
+      .border-primary-foreground { border-color: var(--primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--primary-foreground); }
+      .bg-secondary { background-color: var(--secondary); }
+      .text-secondary { color: var(--secondary); }
+      .border-secondary { border-color: var(--secondary); }
+      .ring-secondary { --tw-ring-color: var(--secondary); }
+      .bg-secondary-foreground { background-color: var(--secondary-foreground); }
+      .text-secondary-foreground { color: var(--secondary-foreground); }
+      .border-secondary-foreground { border-color: var(--secondary-foreground); }
+      .ring-secondary-foreground { --tw-ring-color: var(--secondary-foreground); }
+      .bg-muted { background-color: var(--muted); }
+      .text-muted { color: var(--muted); }
+      .border-muted { border-color: var(--muted); }
+      .ring-muted { --tw-ring-color: var(--muted); }
+      .bg-muted-foreground { background-color: var(--muted-foreground); }
+      .text-muted-foreground { color: var(--muted-foreground); }
+      .border-muted-foreground { border-color: var(--muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--muted-foreground); }
+      .bg-accent { background-color: var(--accent); }
+      .text-accent { color: var(--accent); }
+      .border-accent { border-color: var(--accent); }
+      .ring-accent { --tw-ring-color: var(--accent); }
+      .bg-accent-foreground { background-color: var(--accent-foreground); }
+      .text-accent-foreground { color: var(--accent-foreground); }
+      .border-accent-foreground { border-color: var(--accent-foreground); }
+      .ring-accent-foreground { --tw-ring-color: var(--accent-foreground); }
+      .bg-destructive { background-color: var(--destructive); }
+      .text-destructive { color: var(--destructive); }
+      .border-destructive { border-color: var(--destructive); }
+      .ring-destructive { --tw-ring-color: var(--destructive); }
+      .bg-destructive-foreground { background-color: var(--destructive-foreground); }
+      .text-destructive-foreground { color: var(--destructive-foreground); }
+      .border-destructive-foreground { border-color: var(--destructive-foreground); }
+      .ring-destructive-foreground { --tw-ring-color: var(--destructive-foreground); }
+      .bg-border { background-color: var(--border); }
+      .text-border { color: var(--border); }
+      .border-border { border-color: var(--border); }
+      .ring-border { --tw-ring-color: var(--border); }
+      .bg-input { background-color: var(--input); }
+      .text-input { color: var(--input); }
+      .border-input { border-color: var(--input); }
+      .ring-input { --tw-ring-color: var(--input); }
+      .bg-ring { background-color: var(--ring); }
+      .text-ring { color: var(--ring); }
+      .border-ring { border-color: var(--ring); }
+      .ring-ring { --tw-ring-color: var(--ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main>
+        <div style="max-width: 375px; margin: 0 auto; min-height: 812px; background: var(--color-bg); position: relative; overflow-x: hidden;">
+
+            <!-- ===== NAVIGATION BAR ===== -->
+            <div style="background: var(--color-bg); padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50;">
+                <div data-dom-id="back-index" style="cursor: pointer; font-size: 22px; color: var(--color-text); line-height: 1; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">&#8249;</div>
+                <div style="font-size: 17px; font-weight: 600; color: var(--color-text); letter-spacing: 0.5px;">商品详情</div>
+                <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                    <i data-lucide="share-2" style="width: 20px; height: 20px; color: var(--color-text-secondary);"></i>
+                </div>
+            </div>
+
+            <!-- ===== PRODUCT IMAGE AREA ===== -->
+            <div style="height: 250px; background: #F5F4F2; display: flex; align-items: center; justify-content: center;">
+                <span style="font-size: 80px; opacity: 0.85; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08));">&#128092;</span>
+            </div>
+
+            <!-- ===== PRODUCT INFO SECTION ===== -->
+            <div style="padding: 20px; background: var(--color-bg);">
+                <!-- Brand -->
+                <div style="font-size: 13px; font-weight: 500; color: var(--color-accent); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px;">Louis Vuitton</div>
+                <!-- Product Name -->
+                <div style="font-size: 20px; font-weight: 700; color: var(--color-text); line-height: 1.4; margin-bottom: 4px;">Capucines 中号手袋</div>
+                <!-- English Name -->
+                <div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 10px;">Capucines MM</div>
+                <!-- Article Number -->
+                <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">货号: M51210</div>
+            </div>
+
+            <!-- Divider -->
+            <div style="height: 8px; background: var(--color-divider);"></div>
+
+            <!-- ===== SKU SELECTOR ===== -->
+            <div style="padding: 20px; background: var(--color-bg);">
+                <div style="font-size: 14px; font-weight: 600; color: var(--color-text); margin-bottom: 14px;">选择规格</div>
+                <div style="display: flex; gap: 10px; overflow-x: auto;" class="no-scrollbar">
+                    <div class="sku-pill active">黑色/中号</div>
+                    <div class="sku-pill">米色/中号</div>
+                    <div class="sku-pill">黑色/大号</div>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div style="height: 8px; background: var(--color-divider);"></div>
+
+            <!-- ===== GLOBAL PRICE COMPARISON ===== -->
+            <div style="padding: 20px; background: var(--color-bg);">
+                <!-- Header -->
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                    <div style="font-size: 15px; font-weight: 700; color: var(--color-text);">全球价格对比</div>
+                    <a data-dom-id="link-exchange" style="font-size: 13px; color: var(--color-accent); text-decoration: none; cursor: pointer;">去换算 &rsaquo;</a>
+                </div>
+
+                <!-- Price Rows -->
+                <div style="border-radius: 14px; overflow: hidden; border: 1px solid var(--color-border);">
+
+                    <!-- China -->
+                    <div class="price-row" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0;">
+                            <span style="font-size: 22px; flex-shrink: 0;">&#127464;&#127475;</span>
+                            <div style="min-width: 0;">
+                                <div style="font-size: 13px; font-weight: 600; color: var(--color-text);">中国</div>
+                                <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">专柜</div>
+                            </div>
+                        </div>
+                        <div style="text-align: right; flex-shrink: 0; margin-left: 12px;">
+                            <div style="font-size: 14px; font-weight: 600; color: var(--color-text);">&#165;42,500</div>
+                            <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 2px;">约 &#165;42,500</div>
+                        </div>
+                        <div style="flex-shrink: 0; margin-left: 10px;">
+                            <span class="stock-badge stock-in">在售</span>
+                        </div>
+                    </div>
+
+                    <!-- Japan — LOWEST PRICE -->
+                    <div class="price-row lowest-row" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; position: relative;">
+                        <div style="position: absolute; top: 8px; right: 10px;">
+                            <span class="lowest-badge">最低价</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0;">
+                            <span style="font-size: 22px; flex-shrink: 0;">&#127471;&#127477;</span>
+                            <div style="min-width: 0;">
+                                <div style="font-size: 13px; font-weight: 600; color: var(--color-accent);">日本</div>
+                                <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">银座三越</div>
+                            </div>
+                        </div>
+                        <div style="text-align: right; flex-shrink: 0; margin-left: 12px;">
+                            <div style="font-size: 14px; font-weight: 600; color: var(--color-text);">&#165;742,500</div>
+                            <div style="font-size: 12px; font-weight: 700; color: var(--color-accent); margin-top: 2px;">约 &#165;34,286</div>
+                        </div>
+                        <div style="flex-shrink: 0; margin-left: 10px;">
+                            <span class="stock-badge stock-in">在售</span>
+                        </div>
+                    </div>
+
+                    <!-- France -->
+                    <div class="price-row" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0;">
+                            <span style="font-size: 22px; flex-shrink: 0;">&#127467;&#127479;</span>
+                            <div style="min-width: 0;">
+                                <div style="font-size: 13px; font-weight: 600; color: var(--color-text);">法国</div>
+                                <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">蒙田大道</div>
+                            </div>
+                        </div>
+                        <div style="text-align: right; flex-shrink: 0; margin-left: 12px;">
+                            <div style="font-size: 14px; font-weight: 600; color: var(--color-text);">&#8364;5,200</div>
+                            <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 2px;">约 &#165;40,625</div>
+                        </div>
+                        <div style="flex-shrink: 0; margin-left: 10px;">
+                            <span class="stock-badge stock-in">在售</span>
+                        </div>
+                    </div>
+
+                    <!-- UK -->
+                    <div class="price-row" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0;">
+                            <span style="font-size: 22px; flex-shrink: 0;">&#127468;&#127463;</span>
+                            <div style="min-width: 0;">
+                                <div style="font-size: 13px; font-weight: 600; color: var(--color-text);">英国</div>
+                                <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">邦德街</div>
+                            </div>
+                        </div>
+                        <div style="text-align: right; flex-shrink: 0; margin-left: 12px;">
+                            <div style="font-size: 14px; font-weight: 600; color: var(--color-text);">&#163;3,650</div>
+                            <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 2px;">约 &#165;33,485</div>
+                        </div>
+                        <div style="flex-shrink: 0; margin-left: 10px;">
+                            <span class="stock-badge stock-out">缺货</span>
+                        </div>
+                    </div>
+
+                    <!-- Hong Kong -->
+                    <div class="price-row" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0;">
+                            <span style="font-size: 22px; flex-shrink: 0;">&#127476;&#127488;</span>
+                            <div style="min-width: 0;">
+                                <div style="font-size: 13px; font-weight: 600; color: var(--color-text);">中国香港</div>
+                                <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">广东道</div>
+                            </div>
+                        </div>
+                        <div style="text-align: right; flex-shrink: 0; margin-left: 12px;">
+                            <div style="font-size: 14px; font-weight: 600; color: var(--color-text);">HK$39,900</div>
+                            <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 2px;">约 &#165;37,116</div>
+                        </div>
+                        <div style="flex-shrink: 0; margin-left: 10px;">
+                            <span class="stock-badge stock-in">在售</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div style="height: 8px; background: var(--color-divider);"></div>
+
+            <!-- ===== QUICK ACTION BAR ===== -->
+            <div style="padding: 20px 16px; background: var(--color-bg); display: flex; justify-content: space-around;">
+                <div class="action-item">
+                    <svg width="18" height="18" viewBox="0 0 14 14" fill="currentColor"><path d="M7 12.5c-.2 0-.4-.1-.6-.2C3.2 10.2 1 8 1 5.5 1 3 2.8 1 5 1c.7 0 1.4.2 2 .5C7.6.6 8.8 0 10 0c2.2 0 4 1.3 4 3.5 0 2.5-2.2 4.7-5.4 7.3-.2.1-.4.2-.6.2z"/></svg>
+                    <span class="action-label">收藏</span>
+                </div>
+                <div class="action-item" data-dom-id="link-exchange">
+                    <svg width="18" height="18" viewBox="0 0 14 14" fill="currentColor"><path d="M1 5.5h8.5L7 8H1z"/><path d="M13 8.5H4.5L7 6H13z"/></svg>
+                    <span class="action-label">汇率计算</span>
+                </div>
+            </div>
+
+            <!-- Spacer for bottom bar -->
+            <div style="height: 80px;"></div>
+
+
+
+        </div>
+
+        <!-- Bottom Tab Bar -->
+        <div style="position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:375px;display:flex;flex-direction:row;align-items:center;justify-content:space-around;height:52px;background:#fff;border-top:1px solid #E8E6E3;padding-bottom:env(safe-area-inset-bottom,0);z-index:100">
+            <div style="display:flex;flex-direction:row;align-items:center;gap:4px;cursor:pointer;color:#BFBFBF" data-dom-id="nav-index">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x=".5" y="8" width="3" height="6" rx=".7"/><rect x="5.5" y="5" width="3" height="9" rx=".7"/><rect x="10.5" y="1.5" width="3" height="12.5" rx=".7"/></svg>
+                <span style="font-size:10px;font-weight:500;letter-spacing:.02em;font-family:'Inter','Noto Sans SC',-apple-system,sans-serif;white-space:nowrap">比价</span>
+            </div>
+            <div style="display:flex;flex-direction:row;align-items:center;gap:4px;cursor:pointer;color:#BFBFBF" data-dom-id="nav-exchange">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M1 5.5h8.5L7 8H1z"/><path d="M13 8.5H4.5L7 6H13z"/></svg>
+                <span style="font-size:10px;font-weight:500;letter-spacing:.02em;font-family:'Inter','Noto Sans SC',-apple-system,sans-serif;white-space:nowrap">汇率</span>
+            </div>
+            <div style="display:flex;flex-direction:row;align-items:center;gap:4px;cursor:pointer;color:#BFBFBF" data-dom-id="nav-rebate">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M10 .5L1 9.5h9l3-4.5L10 .5z"/></svg>
+                <span style="font-size:10px;font-weight:500;letter-spacing:.02em;font-family:'Inter','Noto Sans SC',-apple-system,sans-serif;white-space:nowrap">优惠</span>
+            </div>
+            <div style="display:flex;flex-direction:row;align-items:center;gap:4px;cursor:pointer;color:#BFBFBF" data-dom-id="nav-profile">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><circle cx="7" cy="4" r="3"/><path d="M1 13.5C1 10.5 3.5 8.5 7 8.5S13 10.5 13 13.5H1z"/></svg>
+                <span style="font-size:10px;font-weight:500;letter-spacing:.02em;font-family:'Inter','Noto Sans SC',-apple-system,sans-serif;white-space:nowrap">我的</span>
+            </div>
+        </div>
+    </main>
+    <script>lucide.createIcons();</script>
+
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background: #F0EBE8;
+      }
+      .price-row:not(:last-child) {
+        border-bottom: 1px solid var(--color-divider);
+      }
+      .sku-pill {
+        flex-shrink: 0;
+        padding: 10px 20px;
+        border-radius: 24px;
+        border: 1.5px solid var(--color-border);
+        background: #ffffff;
+        font-size: 13px;
+        color: var(--color-text);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+      }
+      .sku-pill.active {
+        border-color: var(--color-accent);
+        background: var(--color-bg-warm-light);
+        color: var(--color-accent);
+        font-weight: 500;
+      }
+      .lowest-row {
+        background: linear-gradient(135deg, rgba(200,85,61,0.06) 0%, rgba(243,224,219,0.5) 100%);
+      }
+      .lowest-badge {
+        background: var(--color-accent);
+        color: #ffffff;
+        font-size: 10px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 10px;
+        letter-spacing: 0.5px;
+      }
+      .stock-badge {
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-weight: 500;
+      }
+      .stock-in {
+        background: #EEF7EE;
+        color: #3A8A3A;
+      }
+      .stock-out {
+        background: #F5F0ED;
+        color: #8C8C8C;
+      }
+      .action-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+      }
+      .action-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: var(--color-bg-warm-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+      }
+      .action-label {
+        font-size: 11px;
+        color: var(--color-text-secondary);
+      }
+    </style>
+</body>
+</html>

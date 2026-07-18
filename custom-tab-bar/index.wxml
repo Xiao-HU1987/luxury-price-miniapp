@@ -1,0 +1,35 @@
+<cover-view class="tab-bar">
+  <cover-view class="tab-bar-border"></cover-view>
+  <cover-view
+    class="tab-bar-item {{selected === index ? 'active' : ''}}"
+    wx:for="{{list}}"
+    wx:key="index"
+    data-index="{{index}}"
+    data-url="{{item.pagePath}}"
+    bindtap="switchTab"
+  >
+    <cover-view class="tab-icon">
+      <cover-image
+        wx:if="{{item.icon === 'compare'}}"
+        class="icon-svg"
+        src="{{selected === index ? '/images/tab/compare_active.svg' : '/images/tab/compare.svg'}}"
+      />
+      <cover-image
+        wx:if="{{item.icon === 'exchange'}}"
+        class="icon-svg"
+        src="{{selected === index ? '/images/tab/exchange_active.svg' : '/images/tab/exchange.svg'}}"
+      />
+      <cover-image
+        wx:if="{{item.icon === 'coupon'}}"
+        class="icon-svg"
+        src="{{selected === index ? '/images/tab/coupon_active.svg' : '/images/tab/coupon.svg'}}"
+      />
+      <cover-image
+        wx:if="{{item.icon === 'profile'}}"
+        class="icon-svg"
+        src="{{selected === index ? '/images/tab/profile_active.svg' : '/images/tab/profile.svg'}}"
+      />
+    </cover-view>
+    <cover-view class="tab-text">{{item.text}}</cover-view>
+  </cover-view>
+</cover-view>

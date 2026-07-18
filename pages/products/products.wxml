@@ -1,50 +1,64 @@
 <view class="page">
-  <view class="safe-area-inset-top" style="height: {{statusBarHeight}}px;"></view>
   <view class="search-header">
-    <view class="search-bar">
-      <text class="search-icon">🔍</text>
-      <input
-        class="search-input"
-        placeholder="搜索品牌、商品"
-        value="{{keyword}}"
-        bindinput="onKeywordInput"
-        bindconfirm="onSearch"
-        confirm-type="search"
-      />
-      <text class="search-btn" bindtap="onSearch">搜索</text>
-    </view>
-    <view class="filter-bar">
-      <view class="filter-item" bindtap="toggleFilter">
-        <text>筛选</text>
-        <text class="filter-arrow">▾</text>
+    <view class="search-row">
+      <view class="back-btn" bindtap="goBack">‹</view>
+      <view class="search-bar">
+        <input
+          class="search-input"
+          placeholder="搜索品牌、商品"
+          value="{{keyword}}"
+          bindinput="onKeywordInput"
+          bindconfirm="onSearch"
+          confirm-type="search"
+        />
+        <text class="search-btn" bindtap="onSearch">搜索</text>
       </view>
-      <view class="filter-item" bindtap="toggleFilter">
+    </view>
+    <view class="filter-row">
+      <view class="filter-chip {{showFilter ? 'active' : ''}}" bindtap="toggleFilter">
+        <text>筛选</text>
+        <text class="filter-chevron">▾</text>
+      </view>
+      <view class="filter-divider"></view>
+      <view class="sort-chip" bindtap="toggleFilter">
         <text>排序：{{currentSortLabel}}</text>
       </view>
     </view>
   </view>
 
   <scroll-view class="product-list" scroll-y>
-    <view class="product-count text-muted">共找到 {{products.length}} 件商品</view>
+    <view class="result-count">共找到 {{products.length}} 件商品</view>
 
     <view wx:if="{{products.length === 0}}" class="empty">
       <text>暂无符合条件的商品</text>
     </view>
 
-    <view class="product-card" wx:for="{{products}}" wx:key="id" data-id="{{item.id}}" bindtap="onProductTap">
+    <view
+      class="product-card"
+      wx:for="{{products}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="onProductTap"
+    >
       <view class="product-img">
-        <view class="product-placeholder">👜</view>
-        <view class="product-country-tag">{{item.countryCount}}国比价</view>
+        <text class="img-placeholder">👜</text>
+        <text class="product-badge">{{item.countryCount}}国比价</text>
       </view>
       <view class="product-info">
-        <view class="product-brand">{{item.brandName}}</view>
-        <view class="product-name">{{item.name}}</view>
-        <view class="product-price-row">
-          <text class="product-price">¥{{item.lowestCnyDisplay}}</text>
-          <text class="price-cny">约人民币</text>
-        </view>
-        <view class="product-location">
-          <text class="location-text">最低价：{{item.lowestCountry}} {{item.lowestCurrency}} {{item.lowestPrice}}</text>
+        <text class="brand-name">{{item.brandName}}</text>
+        <text class="product-name">{{item.name}}</text>
+        <view class="price-row-card">
+          <view class="price-flags">
+            <view class="price-cn">
+              <text class="flag-cn">中</text>
+              <text class="price-num red">¥{{item.cnPriceStr}}</text>
+            </view>
+            <view wx:if="{{item.hasJpPrice}}" class="price-jp">
+              <text class="flag-jp">日</text>
+              <text class="price-num accent">¥{{item.jpPriceCnyStr}}</text>
+            </view>
+          </view>
+          <text class="tag-arrival">到手价</text>
         </view>
       </view>
     </view>

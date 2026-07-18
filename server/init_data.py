@@ -1,5 +1,5 @@
 """初始化测试数据"""
-from database import get_db
+from database import get_db, engine, Base
 from models.product import Brand, Category
 from models.sku import SPU, SKU, SKUPrice
 from models.coupon import Coupon
@@ -14,21 +14,38 @@ from models.splash_ad import SplashAd
 from models.vip import VipPlan
 from datetime import datetime, timedelta
 
+# 导入所有模型，确保 Base.metadata 知道所有表
+from models import *  # noqa: F401, F403
+
 def init_test_data():
+    # 先创建所有表（如果不存在）
+    Base.metadata.create_all(bind=engine)
+
     db = next(get_db())
 
     print("开始初始化测试数据...")
 
     if db.query(ExchangeRate).count() == 0:
-        rates = [
-            ExchangeRate(base='CNY', target_currency='JPY', rate=21.58, source='mock'),
-            ExchangeRate(base='CNY', target_currency='USD', rate=0.14),
-            ExchangeRate(base='CNY', target_currency='EUR', rate=0.13),
-            ExchangeRate(base='CNY', target_currency='GBP', rate=0.11),
-            ExchangeRate(base='CNY', target_currency='HKD', rate=1.08),
-            ExchangeRate(base='CNY', target_currency='KRW', rate=190.5),
-        ]
-        db.add_all(rates)
+        # 模型字段：base + rates(JSON dict) + update_time
+        # rates 为 {货币代码: 汇率} 的字典，表示 1单位base货币 = rates[currency] 单位目标货币
+        rate = ExchangeRate(
+            base='CNY',
+            rates={
+                'CNY': 1.0,
+                'JPY': 21.58,
+                'USD': 0.138,
+                'EUR': 0.128,
+                'GBP': 0.109,
+                'HKD': 1.075,
+                'KRW': 192.5,
+                'SGD': 0.186,
+                'AUD': 0.215,
+                'CHF': 0.123,
+                'CAD': 0.192,
+                'THB': 4.95,
+            }
+        )
+        db.add(rate)
         db.commit()
         print("  ✓ 汇率数据已添加")
 
@@ -165,13 +182,13 @@ def init_test_data():
 
     if db.query(Buyer).count() == 0:
         buyers = [
-            Buyer(buyer_id='BY001', name='东京买手小美', country='JP', fee_rate=8.0, 
+            Buyer(buyer_id='BY001', name='东京买手小美', country='JP', city='东京', fee_rate=8.0, 
                   delivery_days=7, rating=4.9, orders=156, intro='常驻东京5年，奢侈品专业买手'),
-            Buyer(buyer_id='BY002', name='巴黎老佛爷达人', country='FR', fee_rate=10.0, 
+            Buyer(buyer_id='BY002', name='巴黎老佛爷达人', country='FR', city='巴黎', fee_rate=10.0, 
                   delivery_days=10, rating=4.8, orders=203, intro='巴黎本地买手，熟悉各大品牌VIP'),
-            Buyer(buyer_id='BY003', name='香港代购小王子', country='HK', fee_rate=5.0, 
+            Buyer(buyer_id='BY003', name='香港代购小王子', country='HK', city='香港', fee_rate=5.0, 
                   delivery_days=3, rating=4.7, orders=312, intro='香港人肉代购，当天发货'),
-            Buyer(buyer_id='BY004', name='韩国免税店代购', country='KR', fee_rate=6.0, 
+            Buyer(buyer_id='BY004', name='韩国免税店代购', country='KR', city='首尔', fee_rate=6.0, 
                   delivery_days=5, rating=4.6, orders=89, intro='韩国免税店正品代购'),
         ]
         db.add_all(buyers)
@@ -378,10 +395,10 @@ def init_test_data():
     print("  - 返点: 4个")
     print("  - 买手: 4人")
     print("  - 需求: 2条")
-    print("  - 汇率: 6个")
     print("  - 订单: 4条")
     print("  - 访问日志: 50条")
     print("  - 运营日志: 7条")
+    print("  - 汇率: 1条记录（含12种货币）")
 
 
 if __name__ == '__main__':

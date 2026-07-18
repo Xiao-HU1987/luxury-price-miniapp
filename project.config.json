@@ -20,6 +20,10 @@
       },
       {
         "type": "folder",
+        "value": "design"
+      },
+      {
+        "type": "folder",
         "value": "node_modules"
       },
       {
@@ -76,6 +80,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "2.32.3",
+  "miniprogramBaseLibVersion": "2.30.0",
   "appid": "",
   "projectname": "kuaibi",
   "condition": {},

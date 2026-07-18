@@ -34,7 +34,7 @@ class BuyerResponse(BaseModel):
     name: str
     avatar: str
     country: str
-    city: str
+    city: Optional[str] = ""
     rating: float
     orders: int
     fee_rate: float

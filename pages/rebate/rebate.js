@@ -9,34 +9,42 @@ Page({
     products: [],
     exchangeRates: null,
     statusBarHeight: 20,
-    isVip: false
+    navBarTotalHeight: 64,
+    contentPaddingTop: 80
   },
 
   onLoad() {
-    this.setData({ statusBarHeight: app.globalData.statusBarHeight || 20 });
-    this.checkUserVip();
+    const sysInfo = wx.getSystemInfoSync();
+    const statusBarHeight = sysInfo.statusBarHeight || 20;
+    const menuButton = wx.getMenuButtonBoundingClientRect();
+    const menuButtonTop = menuButton ? menuButton.top : statusBarHeight + 6;
+    const menuButtonBottom = menuButton ? menuButton.bottom : statusBarHeight + 38;
+    const navBarTotalHeight = menuButtonBottom + (menuButtonTop - statusBarHeight);
+    const contentPaddingTop = navBarTotalHeight + 24;
+
+    this.setData({
+      statusBarHeight: statusBarHeight,
+      navBarTotalHeight: navBarTotalHeight,
+      contentPaddingTop: contentPaddingTop
+    });
   },
 
   onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 2 });
+    }
     const rates = app.globalData.exchangeRates;
     if (rates) {
       this.setData({ exchangeRates: rates });
     }
-    this.checkUserVip();
     this.loadRebates();
-  },
-
-  checkUserVip() {
-    const userInfo = app.globalData.userInfo;
-    const isVip = userInfo && userInfo.role === 'vip';
-    this.setData({ isVip });
+    this.loadProducts();
   },
 
   loadRebates() {
     const that = this;
-    const isVip = that.data.isVip;
     
-    request.get('/api/rebate/list', { is_vip: isVip, page: 1, page_size: 50 }).then((data) => {
+    request.get('/api/rebate/list', { page: 1, page_size: 50 }).then((data) => {
       if (data && data.list) {
         const rebates = data.list.map(r => ({
           id: r.rebate_id,
@@ -46,16 +54,13 @@ Page({
           storeName: r.store_name || '',
           country: r.country,
           rate: r.rate,
-          isVipOnly: r.is_vip_only,
           status: r.status === 'available' ? 'unused' : 'used',
-          statusText: r.status === 'available' ? '领取' : '已结束',
+          statusText: r.status === 'available' ? '可领取' : '已结束',
           logo: that.getRebateLogo(r.country)
         }));
         that.setData({ rebates });
       }
-    }).catch(() => {
-      console.log('返点数据加载失败');
-    });
+    }).catch(() => {});
   },
 
   getRebateLogo(country) {
@@ -97,9 +102,7 @@ Page({
         });
         that.setData({ products });
       }
-    }).catch(() => {
-      console.log('商品加载失败');
-    });
+    }).catch(() => {});
   },
 
   onCouponTap(e) {
@@ -118,16 +121,16 @@ Page({
     });
   },
 
-  goToMoreProducts() {
+  goToProducts() {
     wx.switchTab({ url: '/pages/index/index' });
+  },
+
+  goToMoreRebates() {
+    wx.showToast({ title: '更多返点', icon: 'none' });
   },
 
   goToExchange() {
     wx.switchTab({ url: '/pages/exchange/exchange' });
-  },
-
-  goToBuyer() {
-    wx.switchTab({ url: '/pages/buyer/buyer' });
   },
 
   goToProfile() {

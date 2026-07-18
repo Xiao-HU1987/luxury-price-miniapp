@@ -24,7 +24,7 @@
         <text class="order-status {{item.status}}">{{getStatusText(item.status)}}</text>
       </view>
       <view class="order-content">
-        <image wx:if="{{item.product_image}}" class="product-img" src="{{item.product_image}}" mode="aspectFill" />
+        <image wx:if="{{item.product_image}}" class="product-img" src="{{item.product_image}}" mode="aspectFill" lazy-load="true" />
         <view wx:else class="product-img placeholder">
           <text class="placeholder-icon">👜</text>
         </view>
