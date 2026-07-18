@@ -9,3 +9,7 @@ python-dotenv==1.0.0
 aiofiles==23.2.1
 httpx==0.25.2
 pycryptodome==3.19.0
+# MySQL 驱动（生产环境使用 MySQL 时必需，SQLite 走 Python 内置 sqlite3 无需此包）
+PyMySQL==1.1.0
+cryptography==41.0.7
+
