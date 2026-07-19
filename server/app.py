@@ -32,9 +32,11 @@ def _init_database():
         print("✅ Database tables created successfully")
 
         from init_data import init_test_data
-        init_test_data()
-        _init_done = True
-        print("✅ Test data initialized successfully")
+        _init_done = init_test_data()
+        if _init_done:
+            print("✅ Test data initialized successfully")
+        else:
+            print("⚠️ Test data initialization failed")
 
     except Exception as e:
         _db_error = str(e)
