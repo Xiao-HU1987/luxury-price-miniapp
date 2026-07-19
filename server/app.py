@@ -1,11 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from database import engine, Base
-from models import *
 from config import DEBUG
-
-Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="奢侈品比价小程序 API",
@@ -21,6 +17,26 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+_db_connected = False
+_db_error = None
+
+def _init_database():
+    global _db_connected, _db_error
+    try:
+        from database import engine, Base
+        from models import *
+        Base.metadata.create_all(bind=engine)
+        _db_connected = True
+        print("✅ Database initialized successfully")
+    except Exception as e:
+        _db_error = str(e)
+        print(f"⚠️ Database initialization failed: {_db_error}")
+        print("   Service will start but database-dependent endpoints may not work")
+
+@app.on_event("startup")
+async def startup_event():
+    _init_database()
 
 from routers.auth import router as auth_router
 from routers.user import router as user_router
@@ -63,14 +79,27 @@ def root():
         "data": {
             "name": "奢侈品比价小程序 API",
             "version": "1.0.0",
-            "status": "running"
+            "status": "running",
+            "database": "connected" if _db_connected else f"disconnected: {_db_error}"
         }
     }
 
 
 @app.get("/health")
 def health_check():
-    return {"code": 0, "message": "ok"}
+    return {
+        "code": 0,
+        "message": "ok",
+        "database": "connected" if _db_connected else "disconnected"
+    }
+
+
+@app.get("/db-status")
+def db_status():
+    return {
+        "connected": _db_connected,
+        "error": _db_error
+    }
 
 
 if __name__ == "__main__":
