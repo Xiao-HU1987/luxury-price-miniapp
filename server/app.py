@@ -20,15 +20,22 @@ app.add_middleware(
 
 _db_connected = False
 _db_error = None
+_init_done = False
 
 def _init_database():
-    global _db_connected, _db_error
+    global _db_connected, _db_error, _init_done
     try:
         from database import engine, Base
         from models import *
         Base.metadata.create_all(bind=engine)
         _db_connected = True
-        print("✅ Database initialized successfully")
+        print("✅ Database tables created successfully")
+
+        from init_data import init_test_data
+        init_test_data()
+        _init_done = True
+        print("✅ Test data initialized successfully")
+
     except Exception as e:
         _db_error = str(e)
         print(f"⚠️ Database initialization failed: {_db_error}")
@@ -80,7 +87,8 @@ def root():
             "name": "奢侈品比价小程序 API",
             "version": "1.0.0",
             "status": "running",
-            "database": "connected" if _db_connected else f"disconnected: {_db_error}"
+            "database": "connected" if _db_connected else f"disconnected: {_db_error}",
+            "data_init": "done" if _init_done else "failed"
         }
     }
 
@@ -90,7 +98,8 @@ def health_check():
     return {
         "code": 0,
         "message": "ok",
-        "database": "connected" if _db_connected else "disconnected"
+        "database": "connected" if _db_connected else "disconnected",
+        "data_init": "done" if _init_done else "not done"
     }
 
 
@@ -98,7 +107,8 @@ def health_check():
 def db_status():
     return {
         "connected": _db_connected,
-        "error": _db_error
+        "error": _db_error,
+        "data_initialized": _init_done
     }
 
 
