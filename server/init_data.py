@@ -1,23 +1,24 @@
 """初始化测试数据"""
 import traceback
+from datetime import datetime, timedelta
+
+from models.product import Brand, Category
+from models.sku import SPU, SKU, SKUPrice
+from models.coupon import Coupon
+from models.store import Store
+from models.rebate import Rebate
+from models.buyer import Buyer
+from models.demand import Demand
+from models.exchange import ExchangeRate
+from models.order import Order
+from models.log import AccessLog, OperationLog
+from models.splash_ad import SplashAd
+from models.vip import VipPlan
+import models
 
 def init_test_data():
     try:
         from database import get_db, engine, Base
-        from models.product import Brand, Category
-        from models.sku import SPU, SKU, SKUPrice
-        from models.coupon import Coupon
-        from models.store import Store
-        from models.rebate import Rebate
-        from models.buyer import Buyer
-        from models.demand import Demand
-        from models.exchange import ExchangeRate
-        from models.order import Order
-        from models.log import AccessLog, OperationLog
-        from models.splash_ad import SplashAd
-        from models.vip import VipPlan
-        from datetime import datetime, timedelta
-        from models import *
 
         print("开始初始化测试数据...")
 
