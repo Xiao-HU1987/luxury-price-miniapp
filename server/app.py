@@ -26,7 +26,7 @@ def _init_database():
     global _db_connected, _db_error, _init_done
     try:
         from database import engine, Base
-        from models import *
+        import models
         Base.metadata.create_all(bind=engine)
         _db_connected = True
         print("✅ Database tables created successfully")
