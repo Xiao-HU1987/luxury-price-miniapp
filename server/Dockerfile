@@ -7,9 +7,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-ENV PORT=8000
+ENV PORT=8080
 ENV DEBUG=False
+ENV PYTHONUNBUFFERED=1
 
-EXPOSE $PORT
+EXPOSE 8080
 
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["bash", "start.sh"]
