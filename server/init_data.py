@@ -67,11 +67,11 @@ def init_test_data():
 
         if db.query(Category).count() == 0:
             categories = [
-                Category(category_id='handbags', name='手袋', name_en='Handbags'),
-                Category(category_id='luggage', name='箱包', name_en='Luggage'),
-                Category(category_id='accessories', name='配饰', name_en='Accessories'),
-                Category(category_id='shoes', name='鞋履', name_en='Shoes'),
-                Category(category_id='clothing', name='服饰', name_en='Clothing'),
+                Category(category_id='handbags', name='手袋'),
+                Category(category_id='luggage', name='箱包'),
+                Category(category_id='accessories', name='配饰'),
+                Category(category_id='shoes', name='鞋履'),
+                Category(category_id='clothing', name='服饰'),
             ]
             db.add_all(categories)
             db.commit()
