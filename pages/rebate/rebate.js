@@ -1,19 +1,54 @@
 const app = getApp();
-const request = require('../../utils/request.js');
+const dataService = require('../../utils/dataService.js');
 
-const DEFAULT_JP_RATE = 21.58;
+const COUNTRY_PRESETS = [
+  { code: 'JP', name: '日本', currency: 'JPY', symbol: '¥', flag: '🇯🇵', taxRate: 10 },
+  { code: 'KR', name: '韩国', currency: 'KRW', symbol: '₩', flag: '🇰🇷', taxRate: 10 }
+];
+
+const PAYMENT_METHODS = [
+  { code: 'alipay', name: '支付宝', rate: 0.38 },
+  { code: 'wechat', name: '微信支付', rate: 0.38 },
+  { code: 'card', name: '银行卡', rate: 1.5 },
+  { code: 'cash', name: '现金', rate: 0 }
+];
+
+const FALLBACK_RATES = {
+  JPY: 21.58,
+  KRW: 192.5
+};
 
 Page({
   data: {
-    rebates: [],
-    products: [],
-    exchangeRates: null,
+    countries: COUNTRY_PRESETS,
+    payments: PAYMENT_METHODS,
+    selectedCountryCode: 'JP',
+    selectedCountry: COUNTRY_PRESETS[0],
+    selectedPaymentCode: 'alipay',
+    selectedPayment: PAYMENT_METHODS[0],
+    priceInput: '',
+    taxRateInput: '10',
+    rebateRateInput: '0',
+    exchangeRateInput: '',
+    exchangeRateDisplay: '',
+    exchangeRateEditing: false,
+    rateSource: 'global',
     statusBarHeight: 20,
     navBarTotalHeight: 64,
-    contentPaddingTop: 80
+    contentPaddingTop: 80,
+    productInfo: null,
+    result: {
+      priceStr: '¥0.00',
+      taxAmountStr: '-¥0.00',
+      rebateAmountStr: '-¥0.00',
+      paymentFeeStr: '+¥0.00',
+      finalCnyStr: '0.00',
+      savings: 0,
+      savingsStr: '0'
+    }
   },
 
-  onLoad() {
+  onLoad(options) {
     const sysInfo = wx.getSystemInfoSync();
     const statusBarHeight = sysInfo.statusBarHeight || 20;
     const menuButton = wx.getMenuButtonBoundingClientRect();
@@ -27,113 +62,188 @@ Page({
       navBarTotalHeight: navBarTotalHeight,
       contentPaddingTop: contentPaddingTop
     });
+
+    // 如果从商品详情页跳转，携带 productId
+    if (options && options.productId) {
+      this.loadProductData(options.productId);
+    }
+  },
+
+  loadProductData(productId) {
+    dataService.getProductDetail(productId).then(data => {
+      if (data && data.product) {
+        const product = data.product;
+        const priceStocks = data.priceStocks || [];
+        
+        // 填充商品信息
+        this.setData({
+          productInfo: {
+            productId: product.productId,
+            nameCn: product.nameCn,
+            mainImage: product.mainImage,
+            cnOfficialPrice: product.cnOfficialPrice
+          }
+        });
+
+        // 查找当前选中国家的价格
+        const countryCode = this.data.selectedCountryCode;
+        const matchedPrice = priceStocks.find(p => p.countryCode === countryCode);
+        if (matchedPrice && matchedPrice.localPrice) {
+          this.setData({
+            priceInput: String(matchedPrice.localPrice)
+          });
+        }
+        this.calculate();
+      }
+    }).catch(() => {});
   },
 
   onShow() {
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({ selected: 2 });
     }
-    const rates = app.globalData.exchangeRates;
-    if (rates) {
-      this.setData({ exchangeRates: rates });
-    }
-    this.loadRebates();
-    this.loadProducts();
-  },
-
-  loadRebates() {
-    const that = this;
+    this.refreshExchangeRate();
     
-    request.get('/api/rebate/list', { page: 1, page_size: 50 }).then((data) => {
-      if (data && data.list) {
-        const rebates = data.list.map(r => ({
-          id: r.rebate_id,
-          name: r.title,
-          description: r.description || '',
-          brandName: r.brand_name || '',
-          storeName: r.store_name || '',
-          country: r.country,
-          rate: r.rate,
-          status: r.status === 'available' ? 'unused' : 'used',
-          statusText: r.status === 'available' ? '可领取' : '已结束',
-          logo: that.getRebateLogo(r.country)
-        }));
-        that.setData({ rebates });
-      }
-    }).catch(() => {});
-  },
-
-  getRebateLogo(country) {
-    const logos = {
-      'JP': '🚇',
-      'FR': '🗼',
-      'IT': '🎭',
-      'UK': '🇬🇧',
-      'US': '🗽',
-      'HK': '🏙️',
-      'KR': '🎎',
-      'CN': '🇨🇳'
-    };
-    return logos[country] || '🏪';
-  },
-
-  loadProducts() {
-    const rates = this.data.exchangeRates;
-    const jpRate = rates && rates.rates ? (rates.rates.JPY || DEFAULT_JP_RATE) : DEFAULT_JP_RATE;
-    
-    const that = this;
-    request.get('/api/product/spus', { page: 1, page_size: 3 }).then((data) => {
-      if (data && data.list) {
-        const products = data.list.slice(0, 3).map(p => {
-          let jpPriceCny = 0;
-          if (p.min_jp_price && p.min_jp_price > 0) {
-            jpPriceCny = Math.round(p.min_jp_price / jpRate);
-          }
-          return {
-            id: p.spu_id,
-            name: p.name || p.name_cn || '未知商品',
-            articleNo: p.article_no || '',
-            cnPrice: p.min_cn_price || 0,
-            cnPriceStr: String(p.min_cn_price || 0).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-            jpPriceCny: jpPriceCny,
-            jpPriceCnyStr: String(jpPriceCny).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-            hasJpPrice: p.min_jp_price && p.min_jp_price > 0
-          };
-        });
-        that.setData({ products });
-      }
-    }).catch(() => {});
-  },
-
-  onCouponTap(e) {
-    const coupon = e.currentTarget.dataset.coupon;
-    if (coupon.status === 'unused') {
-      wx.showToast({ title: '已领取', icon: 'success' });
+    // 检查是否有待加载的商品（从商品详情页跳转过来）
+    const pendingProductId = app.globalData.pendingProductId;
+    if (pendingProductId) {
+      app.globalData.pendingProductId = null;
+      this.loadProductData(pendingProductId);
     } else {
-      wx.showToast({ title: '已结束', icon: 'none' });
+      this.calculate();
     }
   },
 
-  onProductTap(e) {
-    const productId = e.currentTarget.dataset.productId;
-    wx.navigateTo({
-      url: '/pages/product-detail/product-detail?id=' + productId
+  refreshExchangeRate() {
+    const country = this.data.selectedCountry;
+    dataService.getExchangeRates().then(data => {
+      if (data && data.rates) {
+        const rate = data.rates[country.currency] || 0;
+        if (this.data.rateSource === 'global') {
+          this.setData({
+            exchangeRateInput: rate > 0 ? String(rate) : '',
+            exchangeRateDisplay: this.formatRate(rate, country.currency)
+          });
+        }
+      }
     });
   },
 
-  goToProducts() {
-    wx.switchTab({ url: '/pages/index/index' });
+  onCountryTap(e) {
+    const code = e.currentTarget.dataset.code;
+    const country = COUNTRY_PRESETS.find(function (c) { return c.code === code; });
+    if (!country) return;
+    this.setData({
+      selectedCountryCode: code,
+      selectedCountry: country,
+      taxRateInput: String(country.taxRate),
+      rateSource: 'global',
+      exchangeRateEditing: false
+    }, function () {
+      this.refreshExchangeRate();
+      // 如果有商品信息，重新加载对应国家的价格
+      if (this.data.productInfo && this.data.productInfo.productId) {
+        this.loadProductData(this.data.productInfo.productId);
+      } else {
+        this.calculate();
+      }
+    });
   },
 
-  goToMoreRebates() {
-    wx.showToast({ title: '更多返点', icon: 'none' });
+  onPaymentTap(e) {
+    const code = e.currentTarget.dataset.code;
+    const payment = PAYMENT_METHODS.find(function (p) { return p.code === code; });
+    if (!payment) return;
+    this.setData({
+      selectedPaymentCode: code,
+      selectedPayment: payment
+    }, function () {
+      this.calculate();
+    });
   },
 
-  goToExchange() {
-    wx.switchTab({ url: '/pages/exchange/exchange' });
+  onPriceInput(e) {
+    this.setData({ priceInput: e.detail.value }, function () {
+      this.calculate();
+    });
   },
 
-  goToProfile() {
-    wx.switchTab({ url: '/pages/profile/profile' });
+  onTaxRateInput(e) {
+    this.setData({ taxRateInput: e.detail.value }, function () {
+      this.calculate();
+    });
+  },
+
+  onRebateRateInput(e) {
+    this.setData({ rebateRateInput: e.detail.value }, function () {
+      this.calculate();
+    });
+  },
+
+  onExchangeRateTap() {
+    this.setData({ exchangeRateEditing: true });
+  },
+
+  onExchangeRateInput(e) {
+    this.setData({
+      exchangeRateInput: e.detail.value,
+      rateSource: 'manual'
+    }, function () {
+      this.calculate();
+    });
+  },
+
+  onExchangeRateBlur() {
+    const val = parseFloat(this.data.exchangeRateInput) || 0;
+    this.setData({
+      exchangeRateEditing: false,
+      exchangeRateDisplay: this.formatRate(val, this.data.selectedCountry.currency)
+    });
+  },
+
+  calculate() {
+    const data = this.data;
+    const price = parseFloat(data.priceInput) || 0;
+    const taxRate = parseFloat(data.taxRateInput) || 0;
+    const rebateRate = parseFloat(data.rebateRateInput) || 0;
+    const paymentRate = data.selectedPayment.rate;
+    const exchangeRate = parseFloat(data.exchangeRateInput) || 0;
+
+    const taxAmount = price * (taxRate / 100);
+    const rebateAmount = price * (rebateRate / 100);
+    const paymentFee = price * (paymentRate / 100);
+    const discountedPrice = price - taxAmount - rebateAmount;
+    const finalForeignCost = discountedPrice + paymentFee;
+    const finalCny = exchangeRate > 0 ? finalForeignCost / exchangeRate : 0;
+
+    const symbol = data.selectedCountry.symbol;
+
+    this.setData({
+      result: {
+        priceStr: symbol + this.formatNumber(price),
+        taxAmountStr: '-' + symbol + this.formatNumber(taxAmount),
+        rebateAmountStr: '-' + symbol + this.formatNumber(rebateAmount),
+        paymentFeeStr: '+' + symbol + this.formatNumber(paymentFee),
+        finalCnyStr: this.formatNumber(finalCny),
+        savings: 0,
+        savingsStr: '0'
+      }
+    });
+  },
+
+  formatNumber(num) {
+    if (!isFinite(num) || isNaN(num)) return '0.00';
+    const fixed = Math.round(num * 100) / 100;
+    const parts = fixed.toFixed(2).split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  },
+
+  formatRate(rate, currency) {
+    if (!rate || rate <= 0) return '—';
+    if (currency === 'JPY' || currency === 'KRW') {
+      return rate.toFixed(2);
+    }
+    return rate.toFixed(4);
   }
 });

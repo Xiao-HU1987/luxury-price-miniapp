@@ -1,0 +1,330 @@
+/* ============ 全局 ============ */
+.page {
+  min-height: 100vh;
+  background: #F5F5F5;
+}
+
+/* ============ 自定义导航栏 ============ */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1rpx solid #ECECEC;
+}
+
+.nav-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #2C2C2C;
+}
+
+/* ============ 内容区 ============ */
+.content {
+  padding: 24rpx 32rpx 120rpx;
+  padding-bottom: calc(120rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+}
+
+/* ============ 通用卡片 ============ */
+.card {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #2C2C2C;
+}
+
+/* ============ 汇率换算器 ============ */
+.refresh-btn {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 8rpx 20rpx;
+  background: rgba(255, 102, 0, 0.08);
+  border-radius: 24rpx;
+}
+
+.refresh-icon {
+  font-size: 24rpx;
+  color: #FF6600;
+}
+
+.refresh-text {
+  font-size: 22rpx;
+  color: #FF6600;
+}
+
+.convert-row {
+  background: #F9F9F9;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 16rpx;
+}
+
+.currency-picker {
+  white-space: nowrap;
+  margin-bottom: 16rpx;
+}
+
+.currency-list {
+  display: inline-flex;
+  gap: 16rpx;
+}
+
+.currency-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 12rpx 24rpx;
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  border: 2rpx solid #ECECEC;
+}
+
+.currency-chip.active {
+  background: #FF6600;
+  border-color: #FF6600;
+}
+
+.chip-flag {
+  font-size: 28rpx;
+}
+
+.chip-name {
+  font-size: 24rpx;
+  color: #666666;
+}
+
+.currency-chip.active .chip-name {
+  color: #FFFFFF;
+}
+
+.amount-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  background: #FFFFFF;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  height: 88rpx;
+}
+
+.amount-symbol {
+  font-size: 32rpx;
+  color: #999999;
+  flex-shrink: 0;
+}
+
+.amount-input {
+  flex: 1;
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #2C2C2C;
+}
+
+.amount-placeholder {
+  color: #CCCCCC;
+  font-weight: 400;
+}
+
+.result-wrap {
+  background: rgba(255, 102, 0, 0.04);
+}
+
+.result-text {
+  flex: 1;
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #FF6600;
+}
+
+.swap-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 8rpx 0 16rpx;
+}
+
+.swap-icon {
+  font-size: 40rpx;
+  color: #FF6600;
+  padding: 8rpx 32rpx;
+  background: rgba(255, 102, 0, 0.08);
+  border-radius: 24rpx;
+}
+
+.rate-update-time {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 16rpx;
+  gap: 8rpx;
+}
+
+.update-label {
+  font-size: 22rpx;
+  color: #999999;
+}
+
+.update-value {
+  font-size: 22rpx;
+  color: #666666;
+}
+
+/* ============ 区块标题 ============ */
+.section-header {
+  margin: 8rpx 0 16rpx;
+}
+
+.section-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #2C2C2C;
+}
+
+/* ============ 汇率详情卡片 ============ */
+.rate-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #F0F0F0;
+}
+
+.rate-currency-info {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.rate-flag {
+  font-size: 40rpx;
+}
+
+.rate-currency-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #2C2C2C;
+}
+
+.rate-currency-code {
+  font-size: 22rpx;
+  color: #999999;
+  padding: 4rpx 12rpx;
+  background: #F5F5F5;
+  border-radius: 8rpx;
+}
+
+.rate-base-info {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+}
+
+.rate-base-label {
+  font-size: 22rpx;
+  color: #999999;
+}
+
+.rate-base-value {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #FF6600;
+}
+
+.rate-base-unit {
+  font-size: 22rpx;
+  color: #666666;
+}
+
+.rate-exchange-row {
+  display: flex;
+  align-items: center;
+  background: #F9F9F9;
+  border-radius: 12rpx;
+  padding: 24rpx;
+}
+
+.rate-exchange-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.exchange-label {
+  font-size: 22rpx;
+  color: #999999;
+}
+
+.exchange-value {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #2C2C2C;
+}
+
+.exchange-unit {
+  font-size: 22rpx;
+  color: #666666;
+}
+
+.exchange-divider {
+  width: 1rpx;
+  height: 60rpx;
+  background: #ECECEC;
+}
+
+/* ============ 状态 ============ */
+.loading-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80rpx 0;
+}
+
+.loading-text {
+  font-size: 26rpx;
+  color: #999999;
+}
+
+.empty-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100rpx 0;
+  gap: 16rpx;
+}
+
+.empty-icon {
+  font-size: 72rpx;
+}
+
+.empty-text {
+  font-size: 26rpx;
+  color: #999999;
+}
+
+.bottom-gap {
+  height: 40rpx;
+}

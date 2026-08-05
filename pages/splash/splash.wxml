@@ -1,34 +1,6 @@
-<view class="splash-container">
-  <view class="splash-content" wx:if="{{adData}}">
-    <image 
-      class="splash-image" 
-      src="{{adData.image_url}}" 
-      mode="aspectFill"
-      bindtap="onAdClick"
-    />
-    <view class="splash-overlay"></view>
-
-    <view class="splash-logo">
-      <text class="logo-text">比惠</text>
-      <text class="logo-slogan">全球奢侈品比价</text>
-    </view>
-
-    <view class="skip-btn" wx:if="{{adData.skip_enabled}}" bindtap="onSkip">
-      <text class="skip-text">{{countdown}}s 跳过</text>
-    </view>
-
-    <view class="spinner-line"></view>
-  </view>
-
-  <view class="splash-loading" wx:else>
-    <view class="loading-logo">
-      <text class="logo-text">比惠</text>
-      <text class="logo-slogan">全球奢侈品比价</text>
-    </view>
-    <view class="loading-dots">
-      <view class="dot"></view>
-      <view class="dot"></view>
-      <view class="dot"></view>
-    </view>
+<view class="splash" style="padding-top: {{statusBarHeight}}px;">
+  <view class="splash-logo">
+    <text class="logo-text">比惠</text>
+    <text class="logo-subtitle">全球比价与到手价助手</text>
   </view>
 </view>

@@ -12,4 +12,6 @@ pycryptodome==3.19.0
 # MySQL 驱动（生产环境使用 MySQL 时必需，SQLite 走 Python 内置 sqlite3 无需此包）
 PyMySQL==1.1.0
 cryptography==41.0.7
+# LV 日本官网爬虫依赖（CDP 接管模式），需配合系统 Chrome 使用
+playwright==1.45.0
 

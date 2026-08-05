@@ -35,3 +35,19 @@ node_modules/
 
 # PRD文档不上传
 docs/PRD.md
+
+# 爬虫原始数据（raw_captures、备份文件等，体积过大）
+**/raw_captures/
+data/lv/**/*.bak
+data/lv/**/*.bak.*
+data/lv/**/crawl.log
+
+# 下载的图片静态资源（335M+，不入库）
+server/static/images/
+
+# 云函数依赖
+cloudfunctions/**/node_modules/
+
+# 备份文件
+*.bak
+*.bak.*

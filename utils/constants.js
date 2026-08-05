@@ -1,17 +1,7 @@
 const COUNTRIES = [
   { code: 'CN', name: '中国', currency: 'CNY', currencySymbol: '¥', flag: '🇨🇳' },
-  { code: 'US', name: '美国', currency: 'USD', currencySymbol: '$', flag: '🇺🇸' },
-  { code: 'FR', name: '法国', currency: 'EUR', currencySymbol: '€', flag: '🇫🇷' },
-  { code: 'IT', name: '意大利', currency: 'EUR', currencySymbol: '€', flag: '🇮🇹' },
-  { code: 'UK', name: '英国', currency: 'GBP', currencySymbol: '£', flag: '🇬🇧' },
   { code: 'JP', name: '日本', currency: 'JPY', currencySymbol: '¥', flag: '🇯🇵' },
-  { code: 'KR', name: '韩国', currency: 'KRW', currencySymbol: '₩', flag: '🇰🇷' },
-  { code: 'HK', name: '中国香港', currency: 'HKD', currencySymbol: 'HK$', flag: '🇭🇰' },
-  { code: 'SG', name: '新加坡', currency: 'SGD', currencySymbol: 'S$', flag: '🇸🇬' },
-  { code: 'AU', name: '澳大利亚', currency: 'AUD', currencySymbol: 'A$', flag: '🇦🇺' },
-  { code: 'CH', name: '瑞士', currency: 'CHF', currencySymbol: 'CHF', flag: '🇨🇭' },
-  { code: 'CA', name: '加拿大', currency: 'CAD', currencySymbol: 'C$', flag: '🇨🇦' },
-  { code: 'TH', name: '泰国', currency: 'THB', currencySymbol: '฿', flag: '🇹🇭' }
+  { code: 'KR', name: '韩国', currency: 'KRW', currencySymbol: '₩', flag: '🇰🇷' }
 ];
 
 const BRANDS = [

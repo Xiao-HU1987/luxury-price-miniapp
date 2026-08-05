@@ -4,6 +4,7 @@ from sqlalchemy import func
 
 from database import get_db
 from models import Brand, Category, SPU, SKU, SKUPrice
+from models.lv import LvInventory
 from schemas import (
     ApiResponse,
     BrandCreateRequest,
@@ -745,10 +746,13 @@ def search_products(
             "brand_id": spu.brand_id,
             "brand_name": spu.brand_name,
             "name": spu.name,
+            "name_cn": spu.name_cn or "",
             "name_en": spu.name_en,
             "article_no": spu.article_no,
             "category_id": spu.category_id,
-            "image": spu.image,
+            "image": spu.image or "",
+            "images": spu.images or "",
+            "source_url": spu.source_url or "",
             "min_price": price_info["min_price"] if price_info["min_price"] != float('inf') else 0,
             "max_price": price_info["max_price"],
             "min_cn_price": price_info["min_cn_price"],
@@ -793,6 +797,7 @@ def get_product_detail(spu_id: str, db: Session = Depends(get_db)):
             "sku_id": sku.sku_id,
             "name": sku.name,
             "color": sku.color,
+            "color_cn": sku.color_cn or "",
             "size": sku.size,
             "prices": [SKUPriceResponse.from_orm(p) for p in sku_prices]
         }
@@ -801,6 +806,28 @@ def get_product_detail(spu_id: str, db: Session = Depends(get_db)):
     brand = db.query(Brand).filter(Brand.brand_id == spu.brand_id).first()
     category = db.query(Category).filter(Category.category_id == spu.category_id).first()
     
+    # 查询门店库存
+    inventories = db.query(LvInventory).filter(
+        LvInventory.spu_id == spu_id
+    ).order_by(
+        LvInventory.in_stock.desc(),
+        LvInventory.store_city
+    ).all()
+    
+    inv_list = []
+    for inv in inventories:
+        inv_list.append({
+            "store_id": inv.store_id,
+            "store_name": inv.store_name,
+            "store_name_cn": inv.store_name_cn or "",
+            "store_address": inv.store_address,
+            "store_address_cn": inv.store_address_cn or "",
+            "store_city": inv.store_city,
+            "store_city_cn": inv.store_city_cn or "",
+            "in_stock": inv.in_stock,
+            "stock_status": inv.stock_status,
+        })
+    
     return ApiResponse(
         code=0,
         message="success",
@@ -808,6 +835,7 @@ def get_product_detail(spu_id: str, db: Session = Depends(get_db)):
             "spu": SPUResponse.from_orm(spu),
             "brand": BrandResponse.from_orm(brand) if brand else None,
             "category": CategoryResponse.from_orm(category) if category else None,
-            "skus": sku_list
+            "skus": sku_list,
+            "inventories": inv_list
         }
     )

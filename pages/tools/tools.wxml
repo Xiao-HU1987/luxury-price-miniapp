@@ -1,0 +1,134 @@
+<view class="page">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="height: {{navBarTotalHeight}}px; padding-top: {{statusBarHeight}}px; box-sizing: border-box;">
+    <text class="nav-title">工具</text>
+  </view>
+
+  <!-- 内容区 -->
+  <view class="content" style="padding-top: {{contentPaddingTop}}px;">
+
+    <!-- 汇率换算器 -->
+    <view class="card convert-card">
+      <view class="card-header">
+        <text class="card-title">汇率换算</text>
+        <view class="refresh-btn" bindtap="refreshRates">
+          <text class="refresh-icon">↻</text>
+          <text class="refresh-text">刷新</text>
+        </view>
+      </view>
+
+      <!-- 源币种 + 金额 -->
+      <view class="convert-row">
+        <scroll-view class="currency-picker" scroll-x="{{true}}" show-scrollbar="{{false}}">
+          <view class="currency-list">
+            <view
+              wx:for="{{currencyList}}"
+              wx:key="code"
+              class="currency-chip {{fromCurrency === item.code ? 'active' : ''}}"
+              data-code="{{item.code}}"
+              bindtap="onFromCurrencyChange"
+            >
+              <text class="chip-flag">{{item.flag}}</text>
+              <text class="chip-name">{{item.name}}</text>
+            </view>
+          </view>
+        </scroll-view>
+        <view class="amount-input-wrap">
+          <text class="amount-symbol">{{fromCurrency === 'CNY' ? '¥' : (fromCurrency === 'JPY' ? '¥' : '₩')}}</text>
+          <input
+            class="amount-input"
+            type="digit"
+            placeholder="输入金额"
+            placeholder-class="amount-placeholder"
+            value="{{amountInput}}"
+            bindinput="onAmountInput"
+          />
+        </view>
+      </view>
+
+      <!-- 交换按钮 -->
+      <view class="swap-btn" bindtap="swapCurrency">
+        <text class="swap-icon">⇅</text>
+      </view>
+
+      <!-- 目标币种 + 结果 -->
+      <view class="convert-row">
+        <scroll-view class="currency-picker" scroll-x="{{true}}" show-scrollbar="{{false}}">
+          <view class="currency-list">
+            <view
+              wx:for="{{currencyList}}"
+              wx:key="code"
+              class="currency-chip {{toCurrency === item.code ? 'active' : ''}}"
+              data-code="{{item.code}}"
+              bindtap="onToCurrencyChange"
+            >
+              <text class="chip-flag">{{item.flag}}</text>
+              <text class="chip-name">{{item.name}}</text>
+            </view>
+          </view>
+        </scroll-view>
+        <view class="amount-input-wrap result-wrap">
+          <text class="amount-symbol">{{toCurrency === 'CNY' ? '¥' : (toCurrency === 'JPY' ? '¥' : '₩')}}</text>
+          <text class="result-text">{{convertResult}}</text>
+        </view>
+      </view>
+
+      <!-- 更新时间 -->
+      <view class="rate-update-time">
+        <text class="update-label">汇率更新：</text>
+        <text class="update-value">{{rateUpdateTime || '加载中...'}}</text>
+      </view>
+    </view>
+
+    <!-- 汇率详情 -->
+    <view class="section-header">
+      <text class="section-title">汇率详情</text>
+    </view>
+
+    <view wx:if="{{ratesLoading}}" class="loading-box">
+      <text class="loading-text">加载中...</text>
+    </view>
+
+    <block wx:else>
+      <view
+        wx:for="{{rateChannels}}"
+        wx:key="currency"
+        class="card rate-card"
+      >
+        <view class="rate-card-header">
+          <view class="rate-currency-info">
+            <text class="rate-flag">{{item.flag}}</text>
+            <text class="rate-currency-name">{{item.currencyName}}</text>
+            <text class="rate-currency-code">{{item.currency}}</text>
+          </view>
+          <view class="rate-base-info">
+            <text class="rate-base-label">1 CNY =</text>
+            <text class="rate-base-value">{{item.baseRate}}</text>
+            <text class="rate-base-unit">{{item.currency}}</text>
+          </view>
+        </view>
+
+        <view class="rate-exchange-row">
+          <view class="rate-exchange-item">
+            <text class="exchange-label">1 CNY 兑换</text>
+            <text class="exchange-value">{{item.cnyToJpy || item.cnyToKrw}}</text>
+            <text class="exchange-unit">{{item.currency}}</text>
+          </view>
+          <view class="exchange-divider"></view>
+          <view class="rate-exchange-item">
+            <text class="exchange-label">1 {{item.currency}} 兑换</text>
+            <text class="exchange-value">{{item.jpyToCny || item.krwToCny}}</text>
+            <text class="exchange-unit">CNY</text>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{rateChannels.length === 0}}" class="empty-box">
+        <text class="empty-icon">📊</text>
+        <text class="empty-text">暂无汇率数据</text>
+      </view>
+    </block>
+
+    <view class="bottom-gap"></view>
+  </view>
+</view>

@@ -1,0 +1,13 @@
+{
+  "totalProducts": 41,
+  "totalPriceStocks": 1170,
+  "hasImages": 41,
+  "hasPrices": 1170,
+  "skippedNonBag": 0,
+  "generatedAt": "2026-08-01T18:47:30.134803",
+  "importInstructions": [
+    "方式1（推荐）: 在小程序「我的→数据管理」点击「一键导入数据」",
+    "方式2: 使用云开发控制台导入 cloud_import_products.json 和 cloud_import_price_stock.json",
+    "方式3: 运行 node scripts/import_to_cloud.js（需配置 cloud_config.json）"
+  ]
+}

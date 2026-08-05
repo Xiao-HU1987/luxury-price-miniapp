@@ -1,0 +1,3212 @@
+{
+  "action": "import-data",
+  "clear": true,
+  "products": [
+    {
+      "productId": "M2A099",
+      "slug": "speedy-bandouliere-20-monogram-empreinte-nvprod7890054v",
+      "nameCn": "スピーディ･バンドリエール 20",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20---M2A099_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20---M2A099_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20---M2A099_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20---M2A099_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20---M2A099_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 13.5,
+        "length": 20.5,
+        "width": 12
+      },
+      "createTime": "2026-08-01T08:38:04.217ZZ"
+    },
+    {
+      "productId": "M29628",
+      "slug": "all-in-mm-monogram-nvprod7890167v",
+      "nameCn": "オール･イン MM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-mm--M29628_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-mm--M29628_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-mm--M29628_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-mm--M29628_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-mm--M29628_PM1_Back view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-mm--M29628_PM1_Other view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 24,
+        "length": 21,
+        "width": 16
+      },
+      "createTime": "2026-08-01T08:38:04.225ZZ"
+    },
+    {
+      "productId": "M29090",
+      "slug": "all-in-mm-monogram-empreinte-nvprod7890048v",
+      "nameCn": "オール･イン MM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-mm--M29090_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-mm--M29090_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-mm--M29090_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-mm--M29090_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-mm--M29090_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-mm--M29090_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 24,
+        "length": 21,
+        "width": 16
+      },
+      "createTime": "2026-08-01T08:38:04.225ZZ"
+    },
+    {
+      "productId": "M12144",
+      "slug": "nano-madeleine-monogram-empreinte-nvprod5890028v",
+      "nameCn": "ナノ･マドレーヌ",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M12144_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M12144_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M12144_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M12144_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M12144_PM1_Back view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M12144_PM1_Other view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 12.5,
+        "length": 21,
+        "width": 6
+      },
+      "createTime": "2026-08-01T08:38:04.225ZZ"
+    },
+    {
+      "productId": "M45977",
+      "slug": "madeleine-bb-monogram-empreinte-nvprod3580153v",
+      "nameCn": "マドレーヌ BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-madeleine-bb--M45977_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-madeleine-bb--M45977_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-madeleine-bb--M45977_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-madeleine-bb--M45977_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-madeleine-bb--M45977_PM1_Detail view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-madeleine-bb--M45977_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 17,
+        "length": 24,
+        "width": 8.5
+      },
+      "createTime": "2026-08-01T08:38:04.226ZZ"
+    },
+    {
+      "productId": "M29835",
+      "slug": "all-in-bb-monogram-empreinte-nvprod7890051v",
+      "nameCn": "オール･イン BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M29835_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M29835_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M29835_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M29835_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M29835_PM1_Back view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M29835_PM1_Other view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 18,
+        "length": 16,
+        "width": 12
+      },
+      "createTime": "2026-08-01T08:38:04.226ZZ"
+    },
+    {
+      "productId": "M2A136",
+      "slug": "carryall-east-west-autres-toiles-monogram-nvprod7830224v",
+      "nameCn": "キャリーオール EW",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-east-west--M2A136_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-east-west--M2A136_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-east-west--M2A136_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-east-west--M2A136_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-east-west--M2A136_PM1_Detail view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-east-west--M2A136_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 19,
+        "length": 36,
+        "width": 10
+      },
+      "createTime": "2026-08-01T08:38:04.226ZZ"
+    },
+    {
+      "productId": "M28101",
+      "slug": "carryall-east-west-monogram-nvprod7300028v",
+      "nameCn": "キャリーオール EW",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-east-west--M28101_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-east-west--M28101_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-east-west--M28101_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-east-west--M28101_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-east-west--M28101_PM1_Detail view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-east-west--M28101_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 19,
+        "length": 36,
+        "width": 10
+      },
+      "createTime": "2026-08-01T08:38:04.226ZZ"
+    },
+    {
+      "productId": "M2A086",
+      "slug": "alma-bb-monogram-empreinte-nvprod7890053v",
+      "nameCn": "アルマ BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M2A086_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M2A086_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M2A086_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M2A086_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M2A086_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 17.5,
+        "length": 23.5,
+        "width": 11.5
+      },
+      "createTime": "2026-08-01T08:38:04.226ZZ"
+    },
+    {
+      "productId": "M27948",
+      "slug": "carryall-mm-autres-toiles-monogram-nvprod7270015v",
+      "nameCn": "キャリーオール MM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-mm--M27948_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-mm--M27948_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-mm--M27948_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-mm--M27948_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-mm--M27948_PM1_Detail view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-mm--M27948_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 30,
+        "length": 39,
+        "width": 15
+      },
+      "createTime": "2026-08-01T08:38:04.226ZZ"
+    },
+    {
+      "productId": "M2A369",
+      "slug": "carryall-east-west-monogram-empreinte-nvprod7890056v",
+      "nameCn": "キャリーオール EW",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-east-west--M2A369_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-east-west--M2A369_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-east-west--M2A369_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-east-west--M2A369_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-east-west--M2A369_PM1_Detail view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-east-west--M2A369_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 19,
+        "length": 36,
+        "width": 10
+      },
+      "createTime": "2026-08-01T08:38:04.227ZZ"
+    },
+    {
+      "productId": "M2A337",
+      "slug": "onthego-east-west-monogram-empreinte-nvprod4670034v",
+      "nameCn": "オンザゴー EW",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-east-west--M2A337_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-east-west--M2A337_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-east-west--M2A337_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 13,
+        "length": 25,
+        "width": 10
+      },
+      "createTime": "2026-08-01T08:38:04.227ZZ"
+    },
+    {
+      "productId": "M29414",
+      "slug": "nano-speedy-other-leathers-nvprod7670184v",
+      "nameCn": "ナノ･スピーディ",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-speedy--M29414_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-speedy--M29414_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-speedy--M29414_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-speedy--M29414_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-speedy--M29414_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-speedy--M29414_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 10,
+        "length": 16,
+        "width": 7.5
+      },
+      "createTime": "2026-08-01T08:38:04.227ZZ"
+    },
+    {
+      "productId": "M29416",
+      "slug": "alma-bb-other-leathers-nvprod7670103v",
+      "nameCn": "アルマ BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M29416_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M29416_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M29416_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M29416_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M29416_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M29416_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 17.5,
+        "length": 23.5,
+        "width": 11.5
+      },
+      "createTime": "2026-08-01T08:38:04.228ZZ"
+    },
+    {
+      "productId": "M29487",
+      "slug": "onthego-east-west-monogram-empreinte-nvprod7570050v",
+      "nameCn": "オンザゴー EW\n",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-east-west--M29487_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-east-west--M29487_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-east-west--M29487_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-east-west--M29487_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-east-west--M29487_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-east-west--M29487_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 13,
+        "length": 25,
+        "width": 10
+      },
+      "createTime": "2026-08-01T08:38:04.228ZZ"
+    },
+    {
+      "productId": "M2A357",
+      "slug": "alma-bb-monogram-empreinte-nvprod6890001v",
+      "nameCn": "アルマ BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M2A357_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M2A357_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M2A357_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M2A357_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M2A357_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M2A357_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 17.5,
+        "length": 23.5,
+        "width": 11.5
+      },
+      "createTime": "2026-08-01T08:38:04.229ZZ"
+    },
+    {
+      "productId": "M29427",
+      "slug": "pochette-voyage-souple-monogram-other-nvprod7550100v",
+      "nameCn": "ポシェット･ヴォワヤージュ スープル",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-pochette-voyage-souple--M29427_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-pochette-voyage-souple--M29427_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-pochette-voyage-souple--M29427_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-pochette-voyage-souple--M29427_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-pochette-voyage-souple--M29427_PM1_Back view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-pochette-voyage-souple--M29427_PM1_Worn view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 26,
+        "length": 33.5,
+        "width": 5.5
+      },
+      "createTime": "2026-08-01T08:38:04.229ZZ"
+    },
+    {
+      "productId": "M2A374",
+      "slug": "nano-madeleine-monogram-empreinte-nvprod7890181v",
+      "nameCn": "ナノ･マドレーヌ",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M2A374_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M2A374_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M2A374_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M2A374_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M2A374_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M2A374_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 12.5,
+        "length": 21,
+        "width": 6
+      },
+      "createTime": "2026-08-01T08:38:04.230ZZ"
+    },
+    {
+      "productId": "M29976",
+      "slug": "onthego-pm-monogram-empreinte-nvprod7890052v",
+      "nameCn": "オンザゴー PM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-pm--M29976_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-pm--M29976_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-pm--M29976_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-pm--M29976_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-pm--M29976_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-pm--M29976_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 19,
+        "length": 25,
+        "width": 11.5
+      },
+      "createTime": "2026-08-01T08:38:04.230ZZ"
+    },
+    {
+      "productId": "M2A169",
+      "slug": "bella-tote-mahina-nvprod7890045v",
+      "nameCn": "ベラ･トート",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella-tote--M2A169_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella-tote--M2A169_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella-tote--M2A169_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella-tote--M2A169_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella-tote--M2A169_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella-tote--M2A169_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 23,
+        "length": 32,
+        "width": 13
+      },
+      "createTime": "2026-08-01T08:38:04.230ZZ"
+    },
+    {
+      "productId": "M28885",
+      "slug": "bella-mahina-nvprod7540219v",
+      "nameCn": "ベラ",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M28885_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M28885_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M28885_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M28885_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M28885_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M28885_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 22,
+        "length": 19,
+        "width": 14
+      },
+      "createTime": "2026-08-01T08:38:04.231ZZ"
+    },
+    {
+      "productId": "M27377",
+      "slug": "bella-mahina-nvprod2410007v",
+      "nameCn": "ベラ",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M27377_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M27377_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M27377_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M27377_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M27377_PM1_Back view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M27377_PM1_Cropped view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 22,
+        "length": 19,
+        "width": 14
+      },
+      "createTime": "2026-08-01T08:38:04.231ZZ"
+    },
+    {
+      "productId": "M2A168",
+      "slug": "bella-mahina-nvprod7890166v",
+      "nameCn": "ベラ",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M2A168_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M2A168_PM2_Front view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 22,
+        "length": 19,
+        "width": 14
+      },
+      "createTime": "2026-08-01T08:38:04.231ZZ"
+    },
+    {
+      "productId": "M29375",
+      "slug": "blossom-pm-mahina-nvprod4230121v",
+      "nameCn": "ブロッサム PM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-blossom-pm--M29375_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-blossom-pm--M29375_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-blossom-pm--M29375_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-blossom-pm--M29375_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-blossom-pm--M29375_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-blossom-pm--M29375_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 20,
+        "length": 20,
+        "width": 12.5
+      },
+      "createTime": "2026-08-01T08:38:04.232ZZ"
+    },
+    {
+      "productId": "M27336",
+      "slug": "all-around-pm-mahina-nvprod7300061v",
+      "nameCn": "オール アラウンド PM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-around-pm--M27336_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-around-pm--M27336_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-around-pm--M27336_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-around-pm--M27336_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-around-pm--M27336_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-around-pm--M27336_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 20,
+        "length": 25,
+        "width": 6
+      },
+      "createTime": "2026-08-01T08:38:04.232ZZ"
+    },
+    {
+      "productId": "M25223",
+      "slug": "catchy-pm-monogram-nvprod6520236v",
+      "nameCn": "キャッチー PM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-catchy-pm--M25223_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-catchy-pm--M25223_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-catchy-pm--M25223_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-catchy-pm--M25223_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-catchy-pm--M25223_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-catchy-pm--M25223_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 10,
+        "length": 24,
+        "width": 6
+      },
+      "createTime": "2026-08-01T08:38:04.232ZZ"
+    },
+    {
+      "productId": "M29900",
+      "slug": "blossom-pm-mahina-nvprod7890165v",
+      "nameCn": "ブロッサム PM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M29900_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M29900_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M29900_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M29900_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M29900_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bella--M29900_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 20,
+        "length": 20,
+        "width": 12.5
+      },
+      "createTime": "2026-08-01T08:38:04.232ZZ"
+    },
+    {
+      "productId": "M2A387",
+      "slug": "nano-speedy-monogram-empreinte-nvprod7890193v",
+      "nameCn": "ナノ･スピーディ",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-speedy--M2A387_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-speedy--M2A387_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-speedy--M2A387_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-speedy--M2A387_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-speedy--M2A387_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-speedy--M2A387_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 10,
+        "length": 16,
+        "width": 7.5
+      },
+      "createTime": "2026-08-01T08:38:04.232ZZ"
+    },
+    {
+      "productId": "M2A339",
+      "slug": "pochette-metis-east-west-monogram-empreinte-nvprod4560029v",
+      "nameCn": "ポシェット･メティス EW",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-pochette-metis-east-west--M2A339_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-pochette-metis-east-west--M2A339_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-pochette-metis-east-west--M2A339_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-pochette-metis-east-west--M2A339_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-pochette-metis-east-west--M2A339_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-pochette-metis-east-west--M2A339_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 13.5,
+        "length": 21.5,
+        "width": 6
+      },
+      "createTime": "2026-08-01T08:38:04.233ZZ"
+    },
+    {
+      "productId": "M29785",
+      "slug": "nano-madeleine-monogram-empreinte-nvprod7890194v",
+      "nameCn": "ナノ･マドレーヌ",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M29785_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M29785_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M29785_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M29785_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M29785_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M29785_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 12.5,
+        "length": 21,
+        "width": 6
+      },
+      "createTime": "2026-08-01T08:38:04.233ZZ"
+    },
+    {
+      "productId": "M2A038",
+      "slug": "speedy-bandouliere-25-autres-toiles-monogram-nvprod7890058v",
+      "nameCn": "スピーディ･バンドリエール 25 ソフト",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-25--M2A038_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-25--M2A038_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-25--M2A038_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-25--M2A038_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-25--M2A038_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-25--M2A038_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 19,
+        "length": 26,
+        "width": 15
+      },
+      "createTime": "2026-08-01T08:38:04.234ZZ"
+    },
+    {
+      "productId": "M29781",
+      "slug": "nano-speedy-autres-toiles-monogram-nvprod7890132v",
+      "nameCn": "ナノ･スピーディ",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-speedy--M29781_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-speedy--M29781_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-speedy--M29781_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-speedy--M29781_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-speedy--M29781_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-speedy--M29781_PM1_Worn view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 12.5,
+        "length": 16,
+        "width": 10
+      },
+      "createTime": "2026-08-01T08:38:04.234ZZ"
+    },
+    {
+      "productId": "M29913",
+      "slug": "side-trunk-mm-east-west-autres-toiles-monogram-nvprod7890042v",
+      "nameCn": "サイドトランク MM EW",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-side-trunk-mm-east-west--M29913_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-side-trunk-mm-east-west--M29913_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-side-trunk-mm-east-west--M29913_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-side-trunk-mm-east-west--M29913_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-side-trunk-mm-east-west--M29913_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 15,
+        "length": 28,
+        "width": 7
+      },
+      "createTime": "2026-08-01T08:38:04.235ZZ"
+    },
+    {
+      "productId": "M2A095",
+      "slug": "neverfull-inside-out-mm-other-leathers-nvprod7890060v",
+      "nameCn": "ネヴァーフル･インサイドアウト MM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-neverfull-inside-out-mm--M2A095_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-neverfull-inside-out-mm--M2A095_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-neverfull-inside-out-mm--M2A095_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-neverfull-inside-out-mm--M2A095_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-neverfull-inside-out-mm--M2A095_PM1_Detail view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-neverfull-inside-out-mm--M2A095_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 28,
+        "length": 47,
+        "width": 14
+      },
+      "createTime": "2026-08-01T08:38:04.235ZZ"
+    },
+    {
+      "productId": "M46977",
+      "slug": "speedy-bandouliere-25-monogram-nvprod5320019v",
+      "nameCn": "スピーディ･バンドリエール 25",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-25--M46977_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-25--M46977_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-25--M46977_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-25--M46977_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-25--M46977_PM1_Detail view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-25--M46977_PM1_Worn view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 19,
+        "length": 25,
+        "width": 15
+      },
+      "createTime": "2026-08-01T08:38:04.236ZZ"
+    },
+    {
+      "productId": "M46990",
+      "slug": "alma-bb-monogram-nvprod5190086v",
+      "nameCn": "アルマ BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M46990_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M46990_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M46990_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M46990_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M46990_PM1_Interior2 view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M46990_PM1_Detail view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 17.5,
+        "length": 23.5,
+        "width": 11.5
+      },
+      "createTime": "2026-08-01T08:38:04.236ZZ"
+    },
+    {
+      "productId": "M2A377",
+      "slug": "all-in-bb-autres-toiles-monogram-nvprod7830226v",
+      "nameCn": "オール･イン BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M2A377_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M2A377_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M2A377_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M2A377_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M2A377_PM1_Back view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M2A377_PM1_Other view2.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 18,
+        "length": 16,
+        "width": 12
+      },
+      "createTime": "2026-08-01T08:38:04.240ZZ"
+    },
+    {
+      "productId": "M13480",
+      "slug": "all-in-bb-monogram-empreinte-nvprod5960044v",
+      "nameCn": "オール･イン BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M13480_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M13480_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M13480_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M13480_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M13480_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M13480_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 18,
+        "length": 16,
+        "width": 12
+      },
+      "createTime": "2026-08-01T08:38:04.240ZZ"
+    },
+    {
+      "productId": "M27370",
+      "slug": "all-in-bb-h31-nvprod7310129v",
+      "nameCn": "オール･イン BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-low-key-all-in-bb--M27370_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-low-key-all-in-bb--M27370_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-low-key-all-in-bb--M27370_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-low-key-all-in-bb--M27370_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-low-key-all-in-bb--M27370_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-low-key-all-in-bb--M27370_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 18,
+        "length": 16,
+        "width": 12
+      },
+      "createTime": "2026-08-01T08:38:04.240ZZ"
+    },
+    {
+      "productId": "M81945",
+      "slug": "nano-alma-epi-nvprod4560070v",
+      "nameCn": "ナノ･アルマ",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-alma--M81945_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-alma--M81945_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-alma--M81945_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-alma--M81945_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-alma--M81945_PM1_Interior2 view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-alma--M81945_PM1_Detail view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 12,
+        "length": 18,
+        "width": 8
+      },
+      "createTime": "2026-08-01T08:38:04.241ZZ"
+    },
+    {
+      "productId": "M14435",
+      "slug": "cluny-mini-epi-nvprod6150012v",
+      "nameCn": "クリュニー MINI",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-cluny-mini--M14435_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-cluny-mini--M14435_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-cluny-mini--M14435_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-cluny-mini--M14435_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 16,
+        "length": 20,
+        "width": 7.5
+      },
+      "createTime": "2026-08-01T08:38:04.241ZZ"
+    },
+    {
+      "productId": "M29112",
+      "slug": "all-in-bb-h33-nvprod7540222v",
+      "nameCn": "オール･イン BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-low-key-all-in-bb--M29112_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-low-key-all-in-bb--M29112_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-low-key-all-in-bb--M29112_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-low-key-all-in-bb--M29112_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-low-key-all-in-bb--M29112_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-low-key-all-in-bb--M29112_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 18,
+        "length": 16,
+        "width": 12
+      },
+      "createTime": "2026-08-01T08:38:04.242ZZ"
+    },
+    {
+      "productId": "M28910",
+      "slug": "all-in-bb-monogram-empreinte-nvprod7570049v",
+      "nameCn": "オール･イン BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M28910_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M28910_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M28910_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M28910_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M28910_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M28910_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 18,
+        "length": 16,
+        "width": 12
+      },
+      "createTime": "2026-08-01T08:38:04.242ZZ"
+    },
+    {
+      "productId": "M2A089",
+      "slug": "all-in-bb-h31-nvprod7890043v",
+      "nameCn": "ロウキー･オール･イン BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M2A089_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M2A089_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M2A089_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M2A089_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M2A089_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M2A089_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 18,
+        "length": 16,
+        "width": 12
+      },
+      "createTime": "2026-08-01T08:38:04.242ZZ"
+    },
+    {
+      "productId": "M2A356",
+      "slug": "all-in-bb-monogram-empreinte-nvprod7830158v",
+      "nameCn": "オール･イン BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M2A356_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M2A356_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M2A356_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M2A356_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M2A356_PM1_Back view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M2A356_PM1_Other view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 18,
+        "length": 16,
+        "width": 12
+      },
+      "createTime": "2026-08-01T08:38:04.242ZZ"
+    },
+    {
+      "productId": "M29380",
+      "slug": "nano-madeleine-monogram-empreinte-nvprod7540010v",
+      "nameCn": "ナノ･マドレーヌ",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M29380_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M29380_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-madeleine--M29380_PM1_Side view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 12.5,
+        "length": 21,
+        "width": 6
+      },
+      "createTime": "2026-08-01T08:38:04.245ZZ"
+    },
+    {
+      "productId": "M29494",
+      "slug": "speedy-bandouliere-20-other-leathers-nvprod7670104v",
+      "nameCn": "スピーディ･バンドリエール 20",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20--M29494_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20--M29494_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20--M29494_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20--M29494_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20--M29494_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20--M29494_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 13.5,
+        "length": 20.5,
+        "width": 12
+      },
+      "createTime": "2026-08-01T08:38:04.245ZZ"
+    },
+    {
+      "productId": "M28668",
+      "slug": "speedy-bandouliere-20-autres-toiles-monogram-nvprod7670106v",
+      "nameCn": "スピーディ･バンドリエール 20",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20--M28668_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20--M28668_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20--M28668_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20--M28668_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20--M28668_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20--M28668_PM1_Detail view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 13.5,
+        "length": 20.5,
+        "width": 12
+      },
+      "createTime": "2026-08-01T08:38:04.245ZZ"
+    },
+    {
+      "productId": "M2A039",
+      "slug": "speedy-bandouliere-20-autres-toiles-monogram-nvprod7830223v",
+      "nameCn": "スピーディ･バンドリエール 20",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20--M2A039_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20--M2A039_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20--M2A039_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20--M2A039_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20--M2A039_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20--M2A039_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 13.5,
+        "length": 20.5,
+        "width": 12
+      },
+      "createTime": "2026-08-01T08:38:04.245ZZ"
+    },
+    {
+      "productId": "M46569",
+      "slug": "onthego-pm-monogram-empreinte-nvprod2630034v",
+      "nameCn": "オンザゴー PM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-pm--M46569_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-pm--M46569_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-pm--M46569_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-pm--M46569_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-pm--M46569_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-pm--M46569_PM1_Interior2 view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 19,
+        "length": 25,
+        "width": 11.5
+      },
+      "createTime": "2026-08-01T08:38:04.245ZZ"
+    },
+    {
+      "productId": "M15136",
+      "slug": "onthego-organizer-autres-toiles-monogram-nvprod6720113v",
+      "nameCn": "オンザゴー･オーガナイザー",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-organizer--M15136_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-organizer--M15136_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-organizer--M15136_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-organizer--M15136_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-organizer--M15136_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-organizer--M15136_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 29,
+        "length": 37,
+        "width": 16
+      },
+      "createTime": "2026-08-01T08:38:04.245ZZ"
+    },
+    {
+      "productId": "M46531",
+      "slug": "onthego-mm-monogram-empreinte-nvprod2630033v",
+      "nameCn": "オンザゴー MM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-mm--M46531_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-mm--M46531_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-mm--M46531_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-mm--M46531_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-mm--M46531_PM1_Detail view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-mm--M46531_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 27,
+        "length": 35,
+        "width": 14
+      },
+      "createTime": "2026-08-01T08:38:04.245ZZ"
+    },
+    {
+      "productId": "M28528",
+      "slug": "onthego-pm-monogram-empreinte-nvprod7570047v",
+      "nameCn": "オンザゴー PM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-pm--M28528_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-pm--M28528_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-pm--M28528_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-pm--M28528_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-pm--M28528_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-pm--M28528_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 19,
+        "length": 25,
+        "width": 11.5
+      },
+      "createTime": "2026-08-01T08:38:04.245ZZ"
+    },
+    {
+      "productId": "M14432",
+      "slug": "alma-bb-epi-nvprod6150011v",
+      "nameCn": "アルマ BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M14432_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M14432_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M14432_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M14432_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M14432_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 17.5,
+        "length": 23.5,
+        "width": 11.5
+      },
+      "createTime": "2026-08-01T08:38:04.246ZZ"
+    },
+    {
+      "productId": "M2A378",
+      "slug": "alma-bb-autres-toiles-monogram-nvprod7830228v",
+      "nameCn": "アルマ BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M2A378_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M2A378_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M2A378_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M2A378_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M2A378_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M2A378_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 17.5,
+        "length": 23.5,
+        "width": 11.5
+      },
+      "createTime": "2026-08-01T08:38:04.246ZZ"
+    },
+    {
+      "productId": "M2A078",
+      "slug": "multipass-monogram-nvprod7770009v",
+      "nameCn": "ミュルティパス",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M2A078_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M2A078_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M2A078_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M2A078_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M2A078_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M2A078_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 26,
+        "length": 30,
+        "width": 10
+      },
+      "createTime": "2026-08-01T08:38:04.246ZZ"
+    },
+    {
+      "productId": "M29099",
+      "slug": "multipass-mini-monogram-nvprod7890075v",
+      "nameCn": "ミュルティパス MINI",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass-mini--M29099_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass-mini--M29099_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass-mini--M29099_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass-mini--M29099_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass-mini--M29099_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass-mini--M29099_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 18,
+        "length": 17.5,
+        "width": 9.5
+      },
+      "createTime": "2026-08-01T08:38:04.256ZZ"
+    },
+    {
+      "productId": "M2A840",
+      "slug": "multipass-mini-other-leathers-nvprod7890076v",
+      "nameCn": "ミュルティパス MINI",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass-mini--M2A840_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass-mini--M2A840_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass-mini--M2A840_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass-mini--M2A840_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass-mini--M2A840_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass-mini--M2A840_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 18,
+        "length": 17.5,
+        "width": 9.5
+      },
+      "createTime": "2026-08-01T08:38:04.256ZZ"
+    },
+    {
+      "productId": "M3A149",
+      "slug": "multipass-h27-nvprod7890172v",
+      "nameCn": "ミュルティパス",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M3A149_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M3A149_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M3A149_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M3A149_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M3A149_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M3A149_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 26,
+        "length": 30,
+        "width": 10
+      },
+      "createTime": "2026-08-01T08:38:04.257ZZ"
+    },
+    {
+      "productId": "M29195",
+      "slug": "multipass-h27-nvprod7150031v",
+      "nameCn": "ミュルティパス",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M29195_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M29195_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M29195_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M29195_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M29195_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M29195_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 26,
+        "length": 30,
+        "width": 10
+      },
+      "createTime": "2026-08-01T08:38:04.257ZZ"
+    },
+    {
+      "productId": "M3A269",
+      "slug": "multipass-other-leathers-nvprod7150031v",
+      "nameCn": "ミュルティパス",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M3A269_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-multipass--M3A269_PM2_Front view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 26,
+        "length": 30,
+        "width": 10
+      },
+      "createTime": "2026-08-01T08:38:04.257ZZ"
+    },
+    {
+      "productId": "M28953",
+      "slug": "squire-east-west-monogram-nvprod7310168v",
+      "nameCn": "スクワイア EW",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-squire-east-west--M28953_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-squire-east-west--M28953_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-squire-east-west--M28953_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-squire-east-west--M28953_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-squire-east-west--M28953_PM1_Detail view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-squire-east-west--M28953_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 14,
+        "length": 29,
+        "width": 8
+      },
+      "createTime": "2026-08-01T08:38:04.257ZZ"
+    },
+    {
+      "productId": "M25774",
+      "slug": "ever-more-mm-monogram-nvprod6720107v",
+      "nameCn": "エバーモア MM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-ever-more-mm--M25774_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-ever-more-mm--M25774_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-ever-more-mm--M25774_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-ever-more-mm--M25774_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-ever-more-mm--M25774_PM1_Detail view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-ever-more-mm--M25774_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 27.5,
+        "length": 44,
+        "width": 14
+      },
+      "createTime": "2026-08-01T08:38:04.257ZZ"
+    },
+    {
+      "productId": "M26257",
+      "slug": "low-key-duffle-tote-h31-nvprod7020037v",
+      "nameCn": "ロウキー･ダッフル･トート",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-low-key-duffle-tote--M26257_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-low-key-duffle-tote--M26257_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-low-key-duffle-tote--M26257_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-low-key-duffle-tote--M26257_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-low-key-duffle-tote--M26257_PM1_Back view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-low-key-duffle-tote--M26257_PM1_Cropped view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 26.5,
+        "length": 43.5,
+        "width": 14.5
+      },
+      "createTime": "2026-08-01T08:38:04.257ZZ"
+    },
+    {
+      "productId": "M3A167",
+      "slug": "squire-east-west-other-leathers-nvprod7890072v",
+      "nameCn": "スクワイア EW",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-squire-east-west--M3A167_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-squire-east-west--M3A167_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-squire-east-west--M3A167_PM1_Worn view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-squire-east-west--M3A167_PM1_Cropped worn view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 14,
+        "length": 29,
+        "width": 8
+      },
+      "createTime": "2026-08-01T08:38:04.258ZZ"
+    },
+    {
+      "productId": "M3A156",
+      "slug": "all-in-bb-g75-nvprod7890170v",
+      "nameCn": "オール･イン BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M3A156_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M3A156_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M3A156_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M3A156_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M3A156_PM1_Other view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-in-bb--M3A156_PM1_Other view2.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 18,
+        "length": 16,
+        "width": 12
+      },
+      "createTime": "2026-08-01T08:38:04.258ZZ"
+    },
+    {
+      "productId": "M83019",
+      "slug": "nano-alma-malletage-nvprod4980077v",
+      "nameCn": "ナノ･アルマ",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-alma--M83019_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-alma--M83019_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-alma--M83019_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-alma--M83019_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-alma--M83019_PM1_Interior2 view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-nano-alma--M83019_PM1_Detail view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 12,
+        "length": 18,
+        "width": 8
+      },
+      "createTime": "2026-08-01T08:38:04.258ZZ"
+    },
+    {
+      "productId": "M23576",
+      "slug": "alma-bb-malletage-nvprod4540067v",
+      "nameCn": "アルマ BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M23576_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M23576_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M23576_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M23576_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M23576_PM1_Interior2 view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M23576_PM1_Detail view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 17.5,
+        "length": 23.5,
+        "width": 11.5
+      },
+      "createTime": "2026-08-01T08:38:04.258ZZ"
+    },
+    {
+      "productId": "M3A079",
+      "slug": "speedy-bandouliere-20-g75-nvprod7890169v",
+      "nameCn": "スピーディ･バンドリエール 20",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20---M3A079_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20---M3A079_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20---M3A079_PM1_Worn view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouliere-20---M3A079_PM1_Cropped worn view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 13.5,
+        "length": 20.5,
+        "width": 12
+      },
+      "createTime": "2026-08-01T08:38:04.258ZZ"
+    },
+    {
+      "productId": "M23723",
+      "slug": "alma-gm-malletage-nvprod4540069v",
+      "nameCn": "アルマ GM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-gm--M23723_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-gm--M23723_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-gm--M23723_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-gm--M23723_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-gm--M23723_PM1_Interior2 view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-gm--M23723_PM1_Detail view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 30,
+        "length": 39,
+        "width": 19
+      },
+      "createTime": "2026-08-01T08:38:04.259ZZ"
+    },
+    {
+      "productId": "M23666",
+      "slug": "alma-bb-malletage-nvprod4540068v",
+      "nameCn": "アルマ BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M23666_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M23666_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M23666_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M23666_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M23666_PM1_Interior2 view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M23666_PM1_Detail view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 17.5,
+        "length": 23.5,
+        "width": 11.5
+      },
+      "createTime": "2026-08-01T08:38:04.259ZZ"
+    },
+    {
+      "productId": "M3A843",
+      "slug": "alma-bb-other-leathers-nvprod7890071v",
+      "nameCn": "アルマ BB",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M3A843_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M3A843_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M3A843_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M3A843_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M3A843_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-alma-bb--M3A843_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 17.5,
+        "length": 23.5,
+        "width": 11.5
+      },
+      "createTime": "2026-08-01T08:38:04.259ZZ"
+    },
+    {
+      "productId": "M3A372",
+      "slug": "vanity-chain-pouch-other-leathers-nvprod7890115v",
+      "nameCn": "ヴァニティ･チェーン ポーチ",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-vanity-chain-pouch--M3A372_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-vanity-chain-pouch--M3A372_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-vanity-chain-pouch--M3A372_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-vanity-chain-pouch--M3A372_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-vanity-chain-pouch--M3A372_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 11.5,
+        "length": 19,
+        "width": 6.5
+      },
+      "createTime": "2026-08-01T08:38:04.259ZZ"
+    },
+    {
+      "productId": "M3A307",
+      "slug": "side-trunk-mm-other-leathers-nvprod7890078v",
+      "nameCn": "サイドトランク MM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-side-trunk-mm--M3A307_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-side-trunk-mm--M3A307_PM2_Front view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 16,
+        "length": 23.5,
+        "width": 8.5
+      },
+      "createTime": "2026-08-01T08:38:04.259ZZ"
+    },
+    {
+      "productId": "M2A203",
+      "slug": "express-pm-other-leathers-nvprod7770005v",
+      "nameCn": "エクスプレス PM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-pm--M2A203_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-pm--M2A203_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-pm--M2A203_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-pm--M2A203_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-pm--M2A203_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-pm--M2A203_PM1_Detail view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 17,
+        "length": 26,
+        "width": 13.5
+      },
+      "createTime": "2026-08-01T08:38:04.260ZZ"
+    },
+    {
+      "productId": "M29666",
+      "slug": "side-trunk-mm-other-leathers-nvprod7890040v",
+      "nameCn": "サイドトランク MM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-side-trunk-mm--M29666_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-side-trunk-mm--M29666_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-side-trunk-mm--M29666_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-side-trunk-mm--M29666_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-side-trunk-mm--M29666_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-side-trunk-mm--M29666_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 16,
+        "length": 23.5,
+        "width": 8.5
+      },
+      "createTime": "2026-08-01T08:38:04.260ZZ"
+    },
+    {
+      "productId": "M29428",
+      "slug": "express-pm-h27-nvprod6640089v",
+      "nameCn": "エクスプレス PM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-pm--M29428_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-pm--M29428_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-pm--M29428_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-pm--M29428_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-pm--M29428_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-pm--M29428_PM1_Detail view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 17,
+        "length": 26,
+        "width": 13.5
+      },
+      "createTime": "2026-08-01T08:38:04.260ZZ"
+    },
+    {
+      "productId": "M26397",
+      "slug": "express-mm-h27-nvprod6640088v",
+      "nameCn": "エクスプレス MM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-mm--M26397_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-mm--M26397_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-mm--M26397_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-mm--M26397_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-mm--M26397_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-mm--M26397_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 24,
+        "length": 36,
+        "width": 18.5
+      },
+      "createTime": "2026-08-01T08:38:04.260ZZ"
+    },
+    {
+      "productId": "M3A265",
+      "slug": "express-pm-other-leathers-nvprod7890079v",
+      "nameCn": "エクスプレス PM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-pm--M3A265_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-pm--M3A265_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-pm--M3A265_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-pm--M3A265_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-pm--M3A265_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-express-pm--M3A265_PM1_Detail view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 17,
+        "length": 26,
+        "width": 13.5
+      },
+      "createTime": "2026-08-01T08:38:04.260ZZ"
+    },
+    {
+      "productId": "M2A964",
+      "slug": "carry-it-monogram-nvprod7890077v",
+      "nameCn": "キャリー イット",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carry-it---M2A964_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carry-it---M2A964_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carry-it---M2A964_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carry-it---M2A964_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carry-it---M2A964_PM1_Detail view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carry-it---M2A964_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 37,
+        "length": 37,
+        "width": 2
+      },
+      "createTime": "2026-08-01T08:38:04.260ZZ"
+    },
+    {
+      "productId": "M14618",
+      "slug": "all-around-mm-mahina-nvprod6720098v",
+      "nameCn": "オール アラウンド MM",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-around-mm--M14618_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-around-mm--M14618_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-around-mm--M14618_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-around-mm--M14618_PM1_Closeup view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-around-mm--M14618_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-all-around-mm--M14618_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 25,
+        "length": 28,
+        "width": 8
+      },
+      "createTime": "2026-08-01T08:38:04.261ZZ"
+    },
+    {
+      "productId": "M3A259",
+      "slug": "bundle-trunk-other-leathers-nvprod7890062v",
+      "nameCn": "バンドル･トランク",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bundle-trunk--M3A259_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-bundle-trunk--M3A259_PM2_Front view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 14,
+        "length": 22,
+        "width": 11
+      },
+      "createTime": "2026-08-01T08:38:04.261ZZ"
+    },
+    {
+      "productId": "M28613",
+      "slug": "marelle-monogram-nvprod7890174v",
+      "nameCn": "マレル MNG",
+      "nameEn": "",
+      "mainImage": "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-marelle---M28613_PM2_Front view.jpg",
+      "images": [
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-marelle---M28613_PM2_Front view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-marelle---M28613_PM1_Side view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-marelle---M28613_PM1_Interior view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-marelle---M28613_PM1_Detail view.jpg",
+        "https://jp.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-marelle---M28613_PM1_Back view.jpg"
+      ],
+      "cnOfficialPrice": 0,
+      "category": "handbag",
+      "brandId": "b001",
+      "brandName": "Louis Vuitton",
+      "dimensions": {
+        "unit": "cm",
+        "height": 15.5,
+        "length": 28,
+        "width": 7
+      },
+      "createTime": "2026-08-01T08:38:04.263ZZ"
+    }
+  ],
+  "priceStocks": [
+    {
+      "productId": "M2A099",
+      "countryCode": "JP",
+      "localPrice": 456500,
+      "currency": "JPY",
+      "cnyPrice": 21090,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.223ZZ"
+    },
+    {
+      "productId": "M29628",
+      "countryCode": "JP",
+      "localPrice": 441100,
+      "currency": "JPY",
+      "cnyPrice": 20379,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.225ZZ"
+    },
+    {
+      "productId": "M29090",
+      "countryCode": "JP",
+      "localPrice": 481800,
+      "currency": "JPY",
+      "cnyPrice": 22259,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.225ZZ"
+    },
+    {
+      "productId": "M12144",
+      "countryCode": "JP",
+      "localPrice": 353100,
+      "currency": "JPY",
+      "cnyPrice": 16313,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.225ZZ"
+    },
+    {
+      "productId": "M45977",
+      "countryCode": "JP",
+      "localPrice": 465300,
+      "currency": "JPY",
+      "cnyPrice": 21497,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.226ZZ"
+    },
+    {
+      "productId": "M29835",
+      "countryCode": "JP",
+      "localPrice": 481800,
+      "currency": "JPY",
+      "cnyPrice": 22259,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.226ZZ"
+    },
+    {
+      "productId": "M2A136",
+      "countryCode": "JP",
+      "localPrice": 499400,
+      "currency": "JPY",
+      "cnyPrice": 23072,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.226ZZ"
+    },
+    {
+      "productId": "M28101",
+      "countryCode": "JP",
+      "localPrice": 459800,
+      "currency": "JPY",
+      "cnyPrice": 21243,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.226ZZ"
+    },
+    {
+      "productId": "M2A086",
+      "countryCode": "JP",
+      "localPrice": 455400,
+      "currency": "JPY",
+      "cnyPrice": 21039,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.226ZZ"
+    },
+    {
+      "productId": "M27948",
+      "countryCode": "JP",
+      "localPrice": 561000,
+      "currency": "JPY",
+      "cnyPrice": 25918,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.226ZZ"
+    },
+    {
+      "productId": "M2A369",
+      "countryCode": "JP",
+      "localPrice": 533500,
+      "currency": "JPY",
+      "cnyPrice": 24648,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.227ZZ"
+    },
+    {
+      "productId": "M2A337",
+      "countryCode": "JP",
+      "localPrice": 503800,
+      "currency": "JPY",
+      "cnyPrice": 23276,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.227ZZ"
+    },
+    {
+      "productId": "M29414",
+      "countryCode": "JP",
+      "localPrice": 361900,
+      "currency": "JPY",
+      "cnyPrice": 16720,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.227ZZ"
+    },
+    {
+      "productId": "M29416",
+      "countryCode": "JP",
+      "localPrice": 477400,
+      "currency": "JPY",
+      "cnyPrice": 22056,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.228ZZ"
+    },
+    {
+      "productId": "M29487",
+      "countryCode": "JP",
+      "localPrice": 566500,
+      "currency": "JPY",
+      "cnyPrice": 26172,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.228ZZ"
+    },
+    {
+      "productId": "M2A357",
+      "countryCode": "JP",
+      "localPrice": 421300,
+      "currency": "JPY",
+      "cnyPrice": 19464,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.229ZZ"
+    },
+    {
+      "productId": "M29427",
+      "countryCode": "JP",
+      "localPrice": 220000,
+      "currency": "JPY",
+      "cnyPrice": 10164,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.229ZZ"
+    },
+    {
+      "productId": "M2A374",
+      "countryCode": "JP",
+      "localPrice": 438900,
+      "currency": "JPY",
+      "cnyPrice": 20277,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.230ZZ"
+    },
+    {
+      "productId": "M29976",
+      "countryCode": "JP",
+      "localPrice": 555500,
+      "currency": "JPY",
+      "cnyPrice": 25664,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.230ZZ"
+    },
+    {
+      "productId": "M2A169",
+      "countryCode": "JP",
+      "localPrice": 841500,
+      "currency": "JPY",
+      "cnyPrice": 38877,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.230ZZ"
+    },
+    {
+      "productId": "M28885",
+      "countryCode": "JP",
+      "localPrice": 698500,
+      "currency": "JPY",
+      "cnyPrice": 32271,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.231ZZ"
+    },
+    {
+      "productId": "M27377",
+      "countryCode": "JP",
+      "localPrice": 660000,
+      "currency": "JPY",
+      "cnyPrice": 30492,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.231ZZ"
+    },
+    {
+      "productId": "M2A168",
+      "countryCode": "JP",
+      "localPrice": 698500,
+      "currency": "JPY",
+      "cnyPrice": 32271,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.231ZZ"
+    },
+    {
+      "productId": "M29375",
+      "countryCode": "JP",
+      "localPrice": 698500,
+      "currency": "JPY",
+      "cnyPrice": 32271,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.232ZZ"
+    },
+    {
+      "productId": "M27336",
+      "countryCode": "JP",
+      "localPrice": 534600,
+      "currency": "JPY",
+      "cnyPrice": 24699,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.232ZZ"
+    },
+    {
+      "productId": "M25223",
+      "countryCode": "JP",
+      "localPrice": 334400,
+      "currency": "JPY",
+      "cnyPrice": 15449,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.232ZZ"
+    },
+    {
+      "productId": "M29900",
+      "countryCode": "JP",
+      "localPrice": 698500,
+      "currency": "JPY",
+      "cnyPrice": 32271,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.232ZZ"
+    },
+    {
+      "productId": "M2A387",
+      "countryCode": "JP",
+      "localPrice": 301400,
+      "currency": "JPY",
+      "cnyPrice": 13925,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.232ZZ"
+    },
+    {
+      "productId": "M2A339",
+      "countryCode": "JP",
+      "localPrice": 522500,
+      "currency": "JPY",
+      "cnyPrice": 24140,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.233ZZ"
+    },
+    {
+      "productId": "M29785",
+      "countryCode": "JP",
+      "localPrice": 381700,
+      "currency": "JPY",
+      "cnyPrice": 17635,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.233ZZ"
+    },
+    {
+      "productId": "M2A038",
+      "countryCode": "JP",
+      "localPrice": 610500,
+      "currency": "JPY",
+      "cnyPrice": 28205,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.234ZZ"
+    },
+    {
+      "productId": "M29781",
+      "countryCode": "JP",
+      "localPrice": 375100,
+      "currency": "JPY",
+      "cnyPrice": 17330,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.234ZZ"
+    },
+    {
+      "productId": "M29913",
+      "countryCode": "JP",
+      "localPrice": 704000,
+      "currency": "JPY",
+      "cnyPrice": 32525,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.235ZZ"
+    },
+    {
+      "productId": "M2A095",
+      "countryCode": "JP",
+      "localPrice": 610500,
+      "currency": "JPY",
+      "cnyPrice": 28205,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.235ZZ"
+    },
+    {
+      "productId": "M46977",
+      "countryCode": "JP",
+      "localPrice": 299200,
+      "currency": "JPY",
+      "cnyPrice": 13823,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.236ZZ"
+    },
+    {
+      "productId": "M46990",
+      "countryCode": "JP",
+      "localPrice": 299200,
+      "currency": "JPY",
+      "cnyPrice": 13823,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.236ZZ"
+    },
+    {
+      "productId": "M2A377",
+      "countryCode": "JP",
+      "localPrice": 441100,
+      "currency": "JPY",
+      "cnyPrice": 20379,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.240ZZ"
+    },
+    {
+      "productId": "M13480",
+      "countryCode": "JP",
+      "localPrice": 441100,
+      "currency": "JPY",
+      "cnyPrice": 20379,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.240ZZ"
+    },
+    {
+      "productId": "M27370",
+      "countryCode": "JP",
+      "localPrice": 534600,
+      "currency": "JPY",
+      "cnyPrice": 24699,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.240ZZ"
+    },
+    {
+      "productId": "M81945",
+      "countryCode": "JP",
+      "localPrice": 310200,
+      "currency": "JPY",
+      "cnyPrice": 14331,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.241ZZ"
+    },
+    {
+      "productId": "M14435",
+      "countryCode": "JP",
+      "localPrice": 442200,
+      "currency": "JPY",
+      "cnyPrice": 20430,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.241ZZ"
+    },
+    {
+      "productId": "M29112",
+      "countryCode": "JP",
+      "localPrice": 534600,
+      "currency": "JPY",
+      "cnyPrice": 24699,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.242ZZ"
+    },
+    {
+      "productId": "M28910",
+      "countryCode": "JP",
+      "localPrice": 509300,
+      "currency": "JPY",
+      "cnyPrice": 23530,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.242ZZ"
+    },
+    {
+      "productId": "M2A089",
+      "countryCode": "JP",
+      "localPrice": 572000,
+      "currency": "JPY",
+      "cnyPrice": 26426,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.242ZZ"
+    },
+    {
+      "productId": "M2A356",
+      "countryCode": "JP",
+      "localPrice": 441100,
+      "currency": "JPY",
+      "cnyPrice": 20379,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.242ZZ"
+    },
+    {
+      "productId": "M29380",
+      "countryCode": "JP",
+      "localPrice": 401500,
+      "currency": "JPY",
+      "cnyPrice": 18549,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.245ZZ"
+    },
+    {
+      "productId": "M29494",
+      "countryCode": "JP",
+      "localPrice": 468600,
+      "currency": "JPY",
+      "cnyPrice": 21649,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.245ZZ"
+    },
+    {
+      "productId": "M28668",
+      "countryCode": "JP",
+      "localPrice": 413600,
+      "currency": "JPY",
+      "cnyPrice": 19108,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.245ZZ"
+    },
+    {
+      "productId": "M2A039",
+      "countryCode": "JP",
+      "localPrice": 413600,
+      "currency": "JPY",
+      "cnyPrice": 19108,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.245ZZ"
+    },
+    {
+      "productId": "M46569",
+      "countryCode": "JP",
+      "localPrice": 497200,
+      "currency": "JPY",
+      "cnyPrice": 22971,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.245ZZ"
+    },
+    {
+      "productId": "M15136",
+      "countryCode": "JP",
+      "localPrice": 660000,
+      "currency": "JPY",
+      "cnyPrice": 30492,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.245ZZ"
+    },
+    {
+      "productId": "M46531",
+      "countryCode": "JP",
+      "localPrice": 523600,
+      "currency": "JPY",
+      "cnyPrice": 24190,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.245ZZ"
+    },
+    {
+      "productId": "M28528",
+      "countryCode": "JP",
+      "localPrice": 566500,
+      "currency": "JPY",
+      "cnyPrice": 26172,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.245ZZ"
+    },
+    {
+      "productId": "M14432",
+      "countryCode": "JP",
+      "localPrice": 382800,
+      "currency": "JPY",
+      "cnyPrice": 17685,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.246ZZ"
+    },
+    {
+      "productId": "M2A378",
+      "countryCode": "JP",
+      "localPrice": 401500,
+      "currency": "JPY",
+      "cnyPrice": 18549,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.246ZZ"
+    },
+    {
+      "productId": "M2A078",
+      "countryCode": "JP",
+      "localPrice": 420200,
+      "currency": "JPY",
+      "cnyPrice": 19413,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.246ZZ"
+    },
+    {
+      "productId": "M29099",
+      "countryCode": "JP",
+      "localPrice": 363000,
+      "currency": "JPY",
+      "cnyPrice": 16771,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.256ZZ"
+    },
+    {
+      "productId": "M2A840",
+      "countryCode": "JP",
+      "localPrice": 400400,
+      "currency": "JPY",
+      "cnyPrice": 18498,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.256ZZ"
+    },
+    {
+      "productId": "M3A149",
+      "countryCode": "JP",
+      "localPrice": 495000,
+      "currency": "JPY",
+      "cnyPrice": 22869,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.257ZZ"
+    },
+    {
+      "productId": "M29195",
+      "countryCode": "JP",
+      "localPrice": 495000,
+      "currency": "JPY",
+      "cnyPrice": 22869,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.257ZZ"
+    },
+    {
+      "productId": "M3A269",
+      "countryCode": "JP",
+      "localPrice": 495000,
+      "currency": "JPY",
+      "cnyPrice": 22869,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.257ZZ"
+    },
+    {
+      "productId": "M28953",
+      "countryCode": "JP",
+      "localPrice": 363000,
+      "currency": "JPY",
+      "cnyPrice": 16771,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.257ZZ"
+    },
+    {
+      "productId": "M25774",
+      "countryCode": "JP",
+      "localPrice": 506000,
+      "currency": "JPY",
+      "cnyPrice": 23377,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.257ZZ"
+    },
+    {
+      "productId": "M26257",
+      "countryCode": "JP",
+      "localPrice": 649000,
+      "currency": "JPY",
+      "cnyPrice": 29984,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.257ZZ"
+    },
+    {
+      "productId": "M3A167",
+      "countryCode": "JP",
+      "localPrice": 420200,
+      "currency": "JPY",
+      "cnyPrice": 19413,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.258ZZ"
+    },
+    {
+      "productId": "M3A156",
+      "countryCode": "JP",
+      "localPrice": 490600,
+      "currency": "JPY",
+      "cnyPrice": 22666,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.258ZZ"
+    },
+    {
+      "productId": "M83019",
+      "countryCode": "JP",
+      "localPrice": 588500,
+      "currency": "JPY",
+      "cnyPrice": 27189,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.258ZZ"
+    },
+    {
+      "productId": "M23576",
+      "countryCode": "JP",
+      "localPrice": 704000,
+      "currency": "JPY",
+      "cnyPrice": 32525,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.258ZZ"
+    },
+    {
+      "productId": "M3A079",
+      "countryCode": "JP",
+      "localPrice": 489500,
+      "currency": "JPY",
+      "cnyPrice": 22615,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.258ZZ"
+    },
+    {
+      "productId": "M23723",
+      "countryCode": "JP",
+      "localPrice": 1083500,
+      "currency": "JPY",
+      "cnyPrice": 50058,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.259ZZ"
+    },
+    {
+      "productId": "M23666",
+      "countryCode": "JP",
+      "localPrice": 704000,
+      "currency": "JPY",
+      "cnyPrice": 32525,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.259ZZ"
+    },
+    {
+      "productId": "M3A843",
+      "countryCode": "JP",
+      "localPrice": 513700,
+      "currency": "JPY",
+      "cnyPrice": 23733,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.259ZZ"
+    },
+    {
+      "productId": "M3A372",
+      "countryCode": "JP",
+      "localPrice": 493900,
+      "currency": "JPY",
+      "cnyPrice": 22818,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.259ZZ"
+    },
+    {
+      "productId": "M3A307",
+      "countryCode": "JP",
+      "localPrice": 704000,
+      "currency": "JPY",
+      "cnyPrice": 32525,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.259ZZ"
+    },
+    {
+      "productId": "M2A203",
+      "countryCode": "JP",
+      "localPrice": 682000,
+      "currency": "JPY",
+      "cnyPrice": 31508,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.260ZZ"
+    },
+    {
+      "productId": "M29666",
+      "countryCode": "JP",
+      "localPrice": 748000,
+      "currency": "JPY",
+      "cnyPrice": 34558,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.260ZZ"
+    },
+    {
+      "productId": "M29428",
+      "countryCode": "JP",
+      "localPrice": 665500,
+      "currency": "JPY",
+      "cnyPrice": 30746,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.260ZZ"
+    },
+    {
+      "productId": "M26397",
+      "countryCode": "JP",
+      "localPrice": 720500,
+      "currency": "JPY",
+      "cnyPrice": 33287,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.260ZZ"
+    },
+    {
+      "productId": "M3A265",
+      "countryCode": "JP",
+      "localPrice": 665500,
+      "currency": "JPY",
+      "cnyPrice": 30746,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.260ZZ"
+    },
+    {
+      "productId": "M2A964",
+      "countryCode": "JP",
+      "localPrice": 334400,
+      "currency": "JPY",
+      "cnyPrice": 15449,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.260ZZ"
+    },
+    {
+      "productId": "M14618",
+      "countryCode": "JP",
+      "localPrice": 572000,
+      "currency": "JPY",
+      "cnyPrice": 26426,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.261ZZ"
+    },
+    {
+      "productId": "M3A259",
+      "countryCode": "JP",
+      "localPrice": 599500,
+      "currency": "JPY",
+      "cnyPrice": 27697,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.261ZZ"
+    },
+    {
+      "productId": "M28613",
+      "countryCode": "JP",
+      "localPrice": 440000,
+      "currency": "JPY",
+      "cnyPrice": 20328,
+      "stockStatus": "available",
+      "storeInfo": {
+        "city": "东京",
+        "storeName": "日本官网",
+        "address": ""
+      },
+      "priceUpdateTime": "2026-08-01T08:38:04.263ZZ"
+    }
+  ]
+}

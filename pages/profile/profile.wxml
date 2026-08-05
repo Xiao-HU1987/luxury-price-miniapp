@@ -1,6 +1,7 @@
 <view class="page">
   <view class="profile-header">
-    <view class="user-card">
+    <!-- 未登录状态 -->
+    <view wx:if="{{!isLoggedIn}}" class="user-card" bindtap="onLoginTap">
       <view class="avatar-ring">
         <view class="avatar">
           <text class="avatar-icon">👤</text>
@@ -8,74 +9,118 @@
       </view>
       <view class="user-info">
         <view class="user-name-row">
-          <text class="nickname">{{userInfo.nickname || '比惠用户'}}</text>
-          <view wx:if="{{userInfo.is_vip}}" class="vip-pill">VIP会员</view>
+          <text class="nickname">点击登录</text>
+        </view>
+        <view class="user-id">
+          <text class="id-text">登录后可使用收藏、比价等功能</text>
+        </view>
+      </view>
+      <view class="login-arrow">›</view>
+    </view>
+
+    <!-- 已登录状态 -->
+    <view wx:else class="user-card">
+      <view class="avatar-ring">
+        <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+          <image wx:if="{{userInfo.avatarUrl}}" class="avatar-img" src="{{userInfo.avatarUrl}}" mode="aspectFill"/>
+          <view wx:else class="avatar">
+            <text class="avatar-icon">👤</text>
+          </view>
+        </button>
+      </view>
+      <view class="user-info">
+        <view class="user-name-row">
+          <input class="nickname-input" type="nickname" value="{{userInfo.nickname}}" bindblur="onNicknameConfirm" placeholder="请输入昵称"/>
         </view>
         <view class="user-id" catchtap="copyUserId">
-          <text class="id-text">ID: {{userInfo.user_id || 'BH20250001'}}</text>
+          <text class="id-text">ID: {{userInfo.user_id || '--'}}</text>
           <text wx:if="{{userInfo.user_id}}" class="copy-tip">点击复制</text>
         </view>
       </view>
-      <view class="edit-btn">›</view>
+    </view>
+
+    <!-- 数据统计 -->
+    <view wx:if="{{isLoggedIn}}" class="stats-row">
+      <view class="stat-item" bindtap="scrollToFavs">
+        <text class="stat-num">{{favoritesCount}}</text>
+        <text class="stat-label">收藏</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item" bindtap="scrollToHistory">
+        <text class="stat-num">{{historyCount}}</text>
+        <text class="stat-label">浏览</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item" data-menu="price-alerts" bindtap="onMenuTap">
+        <text class="stat-num">{{alertsCount}}</text>
+        <text class="stat-label">提醒</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item" data-menu="compare" bindtap="onMenuTap">
+        <text class="stat-num">{{compareCount}}</text>
+        <text class="stat-label">对比</text>
+      </view>
     </view>
   </view>
 
-  <view wx:if="{{!userInfo.phone}}" class="phone-bind-card">
-    <view class="phone-bind-content">
-      <text class="phone-bind-icon">📱</text>
-      <text class="phone-bind-text">绑定手机号，享受更多服务</text>
+  <!-- 收藏列表 -->
+  <view wx:if="{{favorites.length > 0}}" class="section" id="favSection">
+    <view class="section-header">
+      <text class="section-title">我的收藏</text>
     </view>
-    <view class="phone-bind-btn" bindtap="onBindPhone">立即绑定</view>
+    <scroll-view class="fav-scroll" scroll-x="{{true}}" enable-flex="{{true}}">
+      <view class="fav-list">
+        <view wx:for="{{favorites}}" wx:key="productId" class="fav-item" data-id="{{item.productId}}" bindtap="goToDetail">
+          <image wx:if="{{item.mainImage}}" class="fav-img" src="{{item.mainImage}}" mode="aspectFill"/>
+          <view wx:else class="fav-img placeholder">👜</view>
+          <text class="fav-name">{{item.nameCn}}</text>
+          <text wx:if="{{item.cnPriceStr}}" class="fav-price">¥{{item.cnPriceStr}}</text>
+        </view>
+      </view>
+    </scroll-view>
   </view>
 
+  <!-- 菜单 -->
   <view class="menu-section">
-    <view class="menu-item" bindtap="goToOrders">
-      <view class="menu-icon accent">📦</view>
-      <text class="menu-text">我的订单</text>
-      <text class="menu-arrow">›</text>
-    </view>
-    <view class="menu-divider"></view>
-    <view class="menu-item" bindtap="goToFavorites">
+    <view class="menu-item" id="historyItem" data-menu="favorites" bindtap="onMenuTap">
       <view class="menu-icon accent">❤️</view>
       <text class="menu-text">我的收藏</text>
+      <text class="menu-count">{{favoritesCount}}</text>
       <text class="menu-arrow">›</text>
     </view>
     <view class="menu-divider"></view>
-    <view class="menu-item" bindtap="goToHistory">
+    <view class="menu-item" data-menu="history" bindtap="onMenuTap">
       <view class="menu-icon accent">🕐</view>
       <text class="menu-text">浏览历史</text>
+      <text class="menu-count">{{historyCount}}</text>
       <text class="menu-arrow">›</text>
     </view>
     <view class="menu-divider"></view>
-    <view class="menu-item" bindtap="goToCoupons">
-      <view class="menu-icon accent">🎫</view>
-      <text class="menu-text">我的优惠券</text>
+    <view class="menu-item" data-menu="compare" bindtap="onMenuTap">
+      <view class="menu-icon accent">📊</view>
+      <text class="menu-text">商品对比</text>
+      <text class="menu-count">{{compareCount}}/3</text>
       <text class="menu-arrow">›</text>
     </view>
     <view class="menu-divider"></view>
-    <view class="menu-item" bindtap="goToDemands">
-      <view class="menu-icon accent">📋</view>
-      <text class="menu-text">我的需求</text>
+    <view class="menu-item" data-menu="price-alerts" bindtap="onMenuTap">
+      <view class="menu-icon accent">🔔</view>
+      <text class="menu-text">价格提醒</text>
+      <text class="menu-count">{{alertsCount}}</text>
       <text class="menu-arrow">›</text>
     </view>
   </view>
 
   <view class="menu-section">
-    <view class="menu-item" bindtap="goToSettings">
-      <view class="menu-icon gray">⚙️</view>
-      <text class="menu-text">账号设置</text>
-      <text class="menu-arrow">›</text>
-    </view>
-    <view class="menu-divider"></view>
-    <view class="menu-item" bindtap="goToPrivacy">
-      <view class="menu-icon gray">📝</view>
-      <text class="menu-text">隐私政策</text>
-      <text class="menu-arrow">›</text>
-    </view>
-    <view class="menu-divider"></view>
-    <view class="menu-item" bindtap="goToAbout">
+    <view class="menu-item" data-id="about" bindtap="onSettingTap">
       <view class="menu-icon gray">ℹ️</view>
       <text class="menu-text">关于比惠</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-divider"></view>
+    <view class="menu-item" data-id="feedback" bindtap="onSettingTap">
+      <view class="menu-icon gray">📝</view>
+      <text class="menu-text">意见反馈</text>
       <text class="menu-arrow">›</text>
     </view>
   </view>

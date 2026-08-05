@@ -85,7 +85,7 @@ Page({
           const cnPrice = p.min_cn_price || 0;
           const jpPrice = p.min_jp_price || 0;
           
-          let lowestCny = cnPrice;
+          let lowestCny = cnPrice > 0 ? cnPrice : Infinity;
           let lowestPrice = cnPrice;
           let lowestCurrency = 'CNY';
           let lowestCountry = 'CN';
@@ -100,13 +100,15 @@ Page({
             }
           }
           
+          if (lowestCny === Infinity) lowestCny = 0;
+          
           return {
             id: p.spu_id,
             brandId: p.brand_id,
             brandName: p.brand_name,
-            name: p.name || p.name_cn,
+            name: p.name_cn || p.name || p.name_en || '',
             nameEn: p.name,
-            image: '',
+            image: p.image || '',
             lowestPrice: lowestPrice,
             lowestCurrency: lowestCurrency,
             lowestCountry: lowestCountry,

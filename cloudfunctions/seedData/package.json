@@ -1,0 +1,9 @@
+{
+  "name": "seedData",
+  "version": "1.0.0",
+  "description": "初始化云数据库数据",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

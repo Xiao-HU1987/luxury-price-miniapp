@@ -3,10 +3,6 @@
   "rules": [
     {
       "action": "disallow",
-      "page": "pages/splash/splash"
-    },
-    {
-      "action": "disallow",
       "page": "pages/profile/profile"
     },
     {
@@ -16,10 +12,6 @@
     {
       "action": "disallow",
       "page": "pages/history/history"
-    },
-    {
-      "action": "disallow",
-      "page": "pages/my-coupons/my-coupons"
     },
     {
       "action": "disallow",

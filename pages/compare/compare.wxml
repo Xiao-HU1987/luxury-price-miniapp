@@ -1,0 +1,122 @@
+<view class="page">
+  <view class="header">
+    <text class="header-hint">最多对比3个</text>
+    <view class="header-clear" bindtap="clearAll" wx:if="{{products.length > 0}}">
+      <text>清空对比</text>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{products.length === 0}}">
+    <text class="empty-icon">📊</text>
+    <text class="empty-text">尚未添加对比商品</text>
+    <text class="empty-hint" bindtap="addHint">点击返回商品列表添加</text>
+  </view>
+
+  <view class="content" wx:else>
+    <scroll-view scroll-x class="products-scroll" enhanced show-scrollbar="{{false}}">
+      <view class="products-grid">
+        <view class="product-col" wx:for="{{products}}" wx:key="productId">
+          <view class="remove-btn" catchtap="removeProduct" data-id="{{item.productId}}">
+            <text class="remove-icon">×</text>
+          </view>
+
+          <view class="product-image">
+            <text class="img-placeholder">👜</text>
+          </view>
+
+          <view class="product-info">
+            <text class="brand-name">{{item.brandName}}</text>
+            <text class="product-name">{{item.nameCn}}</text>
+          </view>
+
+          <view class="prices-block">
+            <view class="price-row {{item.bestCountry === 'CN' ? 'best-price' : ''}}">
+              <text class="price-flag">🇨🇳</text>
+              <text class="price-label">中国官方</text>
+              <text class="price-amount">¥{{item.cnOfficialPriceStr}}</text>
+            </view>
+            <view class="price-row {{item.bestCountry === 'JP' ? 'best-price' : ''}}" wx:if="{{item.jpCnyPrice > 0}}">
+              <text class="price-flag">🇯🇵</text>
+              <text class="price-label">日本</text>
+              <text class="price-amount">¥{{item.jpCnyPriceStr}}</text>
+            </view>
+            <view class="price-row {{item.bestCountry === 'KR' ? 'best-price' : ''}}" wx:if="{{item.krCnyPrice > 0}}">
+              <text class="price-flag">🇰🇷</text>
+              <text class="price-label">韩国</text>
+              <text class="price-amount">¥{{item.krCnyPriceStr}}</text>
+            </view>
+            <view class="best-indicator" wx:if="{{item.bestGlobalPrice < item.cnOfficialPrice}}">
+              <text class="best-text">最优价省 ¥{{item.saveAmountStr}}</text>
+            </view>
+          </view>
+
+          <view class="add-cart-btn" bindtap="goToDetail" data-id="{{item.productId}}">
+            <text>可加购</text>
+          </view>
+        </view>
+
+        <view class="product-col empty-col" wx:if="{{products.length < 3}}" bindtap="addHint">
+          <view class="empty-col-inner">
+            <text class="add-icon">+</text>
+            <text class="add-text">Add</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="specs-section">
+      <text class="specs-title">规格对比</text>
+      <view class="specs-table">
+        <view class="spec-row">
+          <view class="spec-label">官方价(CN)</view>
+          <view class="spec-value" wx:for="{{products}}" wx:for-item="p" wx:key="productId">
+            <text>¥{{p.cnOfficialPriceStr}}</text>
+          </view>
+          <view class="spec-value empty-value" wx:if="{{products.length < 3}}"></view>
+          <view class="spec-value empty-value" wx:if="{{products.length < 2}}"></view>
+        </view>
+        <view class="spec-row">
+          <view class="spec-label">日本价(CNY)</view>
+          <view class="spec-value" wx:for="{{products}}" wx:for-item="p" wx:key="productId">
+            <text>{{p.jpCnyPrice > 0 ? '¥' + p.jpCnyPriceStr : '—'}}</text>
+          </view>
+          <view class="spec-value empty-value" wx:if="{{products.length < 3}}"></view>
+          <view class="spec-value empty-value" wx:if="{{products.length < 2}}"></view>
+        </view>
+        <view class="spec-row">
+          <view class="spec-label">韩国价(CNY)</view>
+          <view class="spec-value" wx:for="{{products}}" wx:for-item="p" wx:key="productId">
+            <text>{{p.krCnyPrice > 0 ? '¥' + p.krCnyPriceStr : '—'}}</text>
+          </view>
+          <view class="spec-value empty-value" wx:if="{{products.length < 3}}"></view>
+          <view class="spec-value empty-value" wx:if="{{products.length < 2}}"></view>
+        </view>
+        <view class="spec-row best-row">
+          <view class="spec-label">最优价</view>
+          <view class="spec-value best-cell" wx:for="{{products}}" wx:for-item="p" wx:key="productId">
+            <text class="best-amount">{{p.bestCountry === 'CN' ? '🇨🇳 ' : p.bestCountry === 'JP' ? '🇯🇵 ' : '🇰🇷 '}}</text>
+            <text class="best-amount-price">¥{{p.bestGlobalPriceStr}}</text>
+          </view>
+          <view class="spec-value empty-value" wx:if="{{products.length < 3}}"></view>
+          <view class="spec-value empty-value" wx:if="{{products.length < 2}}"></view>
+        </view>
+        <view class="spec-row">
+          <view class="spec-label">品牌</view>
+          <view class="spec-value" wx:for="{{products}}" wx:for-item="p" wx:key="productId">
+            <text>{{p.brandName}}</text>
+          </view>
+          <view class="spec-value empty-value" wx:if="{{products.length < 3}}"></view>
+          <view class="spec-value empty-value" wx:if="{{products.length < 2}}"></view>
+        </view>
+        <view class="spec-row">
+          <view class="spec-label">货号</view>
+          <view class="spec-value" wx:for="{{products}}" wx:for-item="p" wx:key="productId">
+            <text class="article-no">{{p.productId}}</text>
+          </view>
+          <view class="spec-value empty-value" wx:if="{{products.length < 3}}"></view>
+          <view class="spec-value empty-value" wx:if="{{products.length < 2}}"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

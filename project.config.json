@@ -78,6 +78,7 @@
     "showES6CompileOption": false,
     "useCompilerPlugins": false
   },
+  "cloudfunctionRoot": "cloudfunctions/",
   "compileType": "miniprogram",
   "libVersion": "2.32.3",
   "miniprogramBaseLibVersion": "2.30.0",

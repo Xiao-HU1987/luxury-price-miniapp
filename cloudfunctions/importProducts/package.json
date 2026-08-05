@@ -1,0 +1,9 @@
+{
+  "name": "importProducts",
+  "version": "1.0.0",
+  "description": "批量导入商品和价格数据",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

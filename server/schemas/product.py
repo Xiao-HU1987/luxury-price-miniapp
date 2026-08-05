@@ -80,11 +80,16 @@ class SPUResponse(BaseModel):
     brand_id: str
     brand_name: str
     name: str
-    name_en: str
+    name_cn: str = ""
+    name_en: str = ""
     article_no: str
     category_id: str
-    image: str
-    description: str
+    image: str = ""
+    images: str = ""
+    source_url: str = ""
+    description: str = ""
+    description_cn: str = ""
+    translate_status: str = "pending"
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
@@ -111,8 +116,9 @@ class SKUResponse(BaseModel):
     sku_id: str
     spu_id: str
     name: str
-    color: str
-    size: str
+    color: str = ""
+    color_cn: str = ""
+    size: str = ""
     created_at: Optional[datetime] = None
 
     class Config:

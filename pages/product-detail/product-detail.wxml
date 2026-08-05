@@ -1,95 +1,238 @@
-<view class="page" wx:if="{{product}}">
+<view class="page" wx:if="{{productId}}">
+
+  <!-- Custom Nav Bar -->
   <view class="nav-bar" style="height: {{navBarHeight}}px; padding-top: {{statusBarHeight}}px;">
     <view class="nav-back" style="top: {{menuButtonTop}}px; height: {{menuButtonHeight}}px;" bindtap="goBack">
-      <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 18 9 12 15 6"></polyline>
-      </svg>
-    </view>
-    <text class="nav-center" style="top: {{menuButtonTop}}px; height: {{menuButtonHeight}}px; line-height: {{menuButtonHeight}}px;">商品详情</text>
-    <view class="nav-right" style="top: {{menuButtonTop}}px; height: {{menuButtonHeight}}px;">
-      <text class="share-icon">⋯</text>
-    </view>
-  </view>
-
-  <view class="product-image">
-    <text class="image-placeholder">👜</text>
-  </view>
-
-  <view class="product-info-section">
-    <text class="product-brand">{{product.brandName}}</text>
-    <text class="product-name">{{product.name}}</text>
-    <text class="product-name-en">{{product.nameEn}}</text>
-    <text class="product-article">货号: {{product.articleNo}}</text>
-  </view>
-
-  <view class="divider"></view>
-
-  <view class="sku-section">
-    <text class="section-title">选择规格</text>
-    <scroll-view class="sku-scroll" scroll-x class="no-scrollbar">
-      <view
-        class="sku-pill {{skuIndex === index ? 'active' : ''}}"
-        wx:for="{{product.skus}}"
-        wx:key="id"
-        data-index="{{index}}"
-        bindtap="onSkuTap"
-      >
-        {{item.color}}/{{item.size}}
+      <view class="nav-btn-circle">
+        <text class="nav-arrow">‹</text>
       </view>
-    </scroll-view>
+    </view>
+    <text class="nav-title" style="top: {{menuButtonTop}}px; height: {{menuButtonHeight}}px; line-height: {{menuButtonHeight}}px;">{{displayName || '商品详情'}}</text>
+    <view class="nav-right" style="top: {{menuButtonTop}}px; height: {{menuButtonHeight}}px;">
+      <view class="nav-btn-circle" bindtap="toggleFavorite">
+        <text class="nav-fav-icon">{{isFavorited ? '♥' : '♡'}}</text>
+      </view>
+    </view>
   </view>
 
-  <view class="divider"></view>
-
-  <view class="price-section">
-    <view class="section-header">
-      <text class="section-title">全球价格对比</text>
-      <view class="exchange-link" bindtap="goToExchange">去换算 ›</view>
+  <!-- Hero Image Carousel -->
+  <view class="hero-section">
+    <swiper class="hero-swiper" wx:if="{{images.length > 0}}" indicator-dots="{{false}}" circular="{{true}}" bindchange="onImageSwiper">
+      <swiper-item wx:for="{{images}}" wx:key="*this">
+        <image class="hero-img" src="{{item}}" mode="aspectFit" lazy-load="{{true}}" />
+      </swiper-item>
+    </swiper>
+    <view wx:else class="hero-placeholder">
+      <text class="hero-emoji">👜</text>
     </view>
-    <view class="price-list">
+    <!-- Image counter -->
+    <view wx:if="{{images.length > 1}}" class="hero-counter">{{imageIndex + 1}}/{{images.length}}</view>
+  </view>
+
+  <!-- Product Info Card -->
+  <view class="info-card">
+    <view class="info-top">
+      <view class="info-name-block">
+        <text class="info-name-cn">{{displayName}}</text>
+        <text wx:if="{{subName && subName !== displayName}}" class="info-name-en">{{subName}}</text>
+      </view>
+      <view class="info-brand-tag" wx:if="{{brandName}}">
+        <text class="brand-tag-text">{{brandName}}</text>
+      </view>
+    </view>
+
+    <view class="info-product-id">
+      <text class="product-id-label">货号：{{sku}}</text>
+    </view>
+
+    <view class="info-prices">
+      <view wx:if="{{cnOfficialPrice > 0}}" class="price-cn-row">
+        <view class="country-badge cn">中</view>
+        <text class="price-value-cn">¥{{cnPriceStr}}</text>
+        <text class="price-label">中国大陆官网价</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Global Price Comparison Card -->
+  <view class="price-card">
+    <view class="price-card-header">
+      <text class="price-card-title">全球价格对比</text>
+      <text class="price-card-subtitle">(折算人民币)</text>
+    </view>
+
+    <view class="channel-list">
       <view
-        class="price-row {{item.isLowest ? 'lowest-row' : ''}}"
-        wx:for="{{priceList}}"
+        class="channel-row {{item.isLowest ? 'lowest' : ''}}"
+        wx:for="{{priceChannels}}"
         wx:key="countryCode"
+        data-index="{{index}}"
+        bindtap="toggleChannelExpand"
       >
-        <view wx:if="{{item.isLowest}}" class="lowest-badge">最低价</view>
-        <view class="price-left">
-          <text class="country-flag">{{item.flag}}</text>
-          <view class="country-info">
-            <text class="country-name">{{item.countryName}}</text>
-            <text class="store-name">{{item.store}}</text>
+        <view class="channel-left">
+          <view class="country-flag">{{item.flag}}</view>
+          <view class="channel-info">
+            <text class="channel-country">{{item.countryName}}</text>
+            <text wx:if="{{item.storeName && item.storeName !== '日本官网'}}" class="channel-store-name">{{item.city}} · {{item.storeName}}</text>
           </view>
         </view>
-        <view class="price-right">
-          <text class="price-original">{{item.currencySymbol}}{{item.priceDisplay}}</text>
-          <text wx:if="{{item.cnyPrice > 0}}" class="price-cny">{{item.isLowest ? '约 ¥' + item.cnyPriceDisplay : '约 ¥' + item.cnyPriceDisplay}}</text>
+        <view class="channel-right">
+          <text class="channel-price">¥{{item.cnyStr}}</text>
+          <text class="channel-expand">{{expandedChannel === index ? '▲' : '▼'}}</text>
         </view>
-        <view class="stock-badge {{item.inStock ? 'stock-in' : 'stock-out'}}">
-          {{item.inStock ? '在售' : '缺货'}}
+
+        <!-- Expanded breakdown -->
+        <view wx:if="{{expandedChannel === index}}" class="channel-detail">
+          <view class="detail-line">
+            <text class="detail-label">{{item.currency}} {{item.priceStr}}</text>
+            <text class="detail-note">当地原价</text>
+          </view>
+          <view class="detail-line total">
+            <text class="detail-total">折算人民币</text>
+            <text class="detail-total-value">¥{{item.cnyStr}}</text>
+          </view>
+          <view wx:if="{{item.inStock}}" class="detail-stock">
+            <text class="stock-dot"></text>
+            <text class="stock-text">有货</text>
+          </view>
         </view>
       </view>
     </view>
   </view>
 
-  <view class="divider"></view>
+  <!-- Inventory Section (JP/KR only) -->
+  <view class="inventory-section">
+    <view class="inventory-card">
+      <view class="inventory-header">
+        <text class="inventory-title">门店库存</text>
+        <view class="country-tabs">
+          <view class="tab {{activeCountry === 'JP' ? 'active' : ''}}" data-country="JP" bindtap="switchCountry">日本</view>
+          <view wx:if="{{krInventories.length > 0}}" class="tab {{activeCountry === 'KR' ? 'active' : ''}}" data-country="KR" bindtap="switchCountry">韩国</view>
+        </view>
+      </view>
 
-  <view class="bottom-actions">
-    <view class="action-item" bindtap="toggleFavorite">
-      <svg class="action-icon" viewBox="0 0 14 14" fill="currentColor">
-        <path d="M7 12.5c-.2 0-.4-.1-.6-.2C3.2 10.2 1 8 1 5.5 1 3 2.8 1 5 1c.7 0 1.4.2 2 .5C7.6.6 8.8 0 10 0c2.2 0 4 1.3 4 3.5 0 2.5-2.2 4.7-5.4 7.3-.2.1-.4.2-.6.2z"/>
-      </svg>
-      <text class="action-label">{{isFavorited ? '已收藏' : '收藏'}}</text>
-    </view>
-    <view class="action-item" bindtap="goToExchange">
-      <svg class="action-icon" viewBox="0 0 14 14" fill="currentColor">
-        <path d="M1 5.5h8.5L7 8H1z"/>
-        <path d="M13 8.5H4.5L7 6H13z"/>
-      </svg>
-      <text class="action-label">汇率计算</text>
+      <!-- JP Inventory -->
+      <block wx:if="{{activeCountry === 'JP'}}">
+        <view wx:if="{{jpInventories.length > 0}}" class="inventory-list">
+          <view class="inventory-summary">
+            <text class="inv-summary-num">{{jpInventories.length}}</text>
+            <text class="inv-summary-text">家门店</text>
+          </view>
+          <view class="inv-divider"></view>
+          <scroll-view scroll-y class="inv-scroll {{inventoryExpanded ? 'expanded' : ''}}">
+            <view class="inv-store" wx:for="{{jpInventories}}" wx:key="storeName" wx:for-item="inv" wx:for-index="idx" wx:if="{{inventoryExpanded || idx < 3}}">
+              <view class="inv-store-info">
+                <view class="inv-store-city">{{inv.city}}</view>
+                <view class="inv-store-name">{{inv.storeName}}</view>
+                <view wx:if="{{inv.address}}" class="inv-store-addr">{{inv.address}}</view>
+              </view>
+              <view class="inv-status {{inv.inStock ? 'in' : 'out'}}">
+                {{inv.inStock ? '有货' : '无货'}}
+              </view>
+            </view>
+          </scroll-view>
+        </view>
+        <view wx:else class="inventory-empty">
+          <text class="empty-icon">📦</text>
+          <text class="empty-text">暂无门店库存</text>
+          <text class="empty-hint">该商品目前未在实体门店发售，可通过官网购买</text>
+        </view>
+      </block>
+
+      <!-- KR Inventory -->
+      <block wx:if="{{activeCountry === 'KR'}}">
+        <view wx:if="{{krInventories.length > 0}}" class="inventory-list">
+          <view class="inventory-summary">
+            <text class="inv-summary-num">{{krInventories.length}}</text>
+            <text class="inv-summary-text">家门店</text>
+          </view>
+          <view class="inv-divider"></view>
+          <scroll-view scroll-y class="inv-scroll {{inventoryExpanded ? 'expanded' : ''}}">
+            <view class="inv-store" wx:for="{{krInventories}}" wx:key="storeName" wx:for-item="inv" wx:for-index="idx" wx:if="{{inventoryExpanded || idx < 3}}">
+              <view class="inv-store-info">
+                <view class="inv-store-city">{{inv.city}}</view>
+                <view class="inv-store-name">{{inv.storeName}}</view>
+                <view wx:if="{{inv.address}}" class="inv-store-addr">{{inv.address}}</view>
+              </view>
+              <view class="inv-status {{inv.inStock ? 'in' : 'out'}}">
+                {{inv.inStock ? '有货' : '无货'}}
+              </view>
+            </view>
+          </scroll-view>
+        </view>
+        <view wx:else class="inventory-empty">
+          <text class="empty-icon">📦</text>
+          <text class="empty-text">暂无门店库存</text>
+          <text class="empty-hint">该商品目前未在实体门店发售，可通过官网购买</text>
+        </view>
+      </block>
+
+      <view class="inventory-note">
+        <text class="note-text">库存情况仅供参考</text>
+      </view>
+      <!-- Expand/collapse button -->
+      <view wx:if="{{((activeCountry === 'JP' && jpInventories.length > 3) || (activeCountry === 'KR' && krInventories.length > 3))}}" class="inventory-toggle" bindtap="toggleInventoryExpand">
+        <text class="toggle-text">{{inventoryExpanded ? '收起' : '展开全部'}}</text>
+        <text class="toggle-arrow">{{inventoryExpanded ? '▲' : '▼'}}</text>
+      </view>
     </view>
   </view>
 
-  <view class="bottom-space"></view>
+  <!-- Bottom Actions -->
+  <view class="bottom-section">
+    <view class="action-btns">
+      <view class="btn btn-ghost" bindtap="toggleFavorite">
+        <text class="btn-icon">{{isFavorited ? '❤️' : '🤍'}}</text>
+        <text class="btn-text">{{isFavorited ? '已收藏' : '收藏'}}</text>
+      </view>
+      <view class="btn btn-ghost" bindtap="showAddCompare">
+        <text class="btn-icon">📊</text>
+        <text class="btn-text">{{inCompare ? '对比中' : '加对比'}}</text>
+      </view>
+      <view class="btn btn-ghost" bindtap="showPriceAlert">
+        <text class="btn-icon">🔔</text>
+        <text class="btn-text">降价提醒</text>
+      </view>
+      <button class="btn btn-ghost btn-share" open-type="share">
+        <text class="btn-icon">📤</text>
+        <text class="btn-text">分享</text>
+      </button>
+      <view class="btn btn-copy" bindtap="copyLink">
+        <text class="btn-icon">⎘</text>
+        <text class="btn-text">复制链接</text>
+      </view>
+      <view class="btn btn-calc" bindtap="calculateFinalPrice">
+        <text class="btn-icon">🧮</text>
+        <text class="btn-text">计算到手价</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Bottom spacer for tabbar -->
+  <view class="bottom-spacer"></view>
 </view>
 
-<custom-tab-bar selected="-1"></custom-tab-bar>
+<!-- Loading state -->
+<view wx:else class="loading-page">
+  <text class="loading-text">加载中...</text>
+</view>
+
+<!-- 价格提醒弹窗 -->
+<view wx:if="{{showAlertDialog}}" class="dialog-mask" bindtap="closeAlertDialog">
+  <view class="dialog-box" catchtap="">
+    <view class="dialog-title">设置价格提醒</view>
+    <view class="dialog-desc">当日本到手价低于您设置的目标价格时，会在下次打开小程序时通知您。</view>
+    <view class="dialog-row">
+      <text class="dialog-label">当前日本到手价</text>
+      <text class="dialog-price-current">¥{{currentPriceStr || '--'}}</text>
+    </view>
+    <view class="dialog-row">
+      <text class="dialog-label">目标价格（人民币/元）</text>
+      <input class="dialog-input" type="digit" placeholder="请输入目标价格，如10000" value="{{targetPriceInput}}" bindinput="onTargetPriceInput"/>
+    </view>
+    <view class="dialog-actions">
+      <view class="dialog-btn dialog-btn-cancel" bindtap="closeAlertDialog">取消</view>
+      <view class="dialog-btn dialog-btn-confirm" bindtap="confirmPriceAlert">开启提醒</view>
+    </view>
+  </view>
+</view>

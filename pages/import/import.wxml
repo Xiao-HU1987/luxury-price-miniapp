@@ -1,0 +1,59 @@
+<!--pages/import/import.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">数据导入工具</text>
+    <text class="subtitle">将爬虫数据导入云数据库</text>
+  </view>
+
+  <view class="section">
+    <view class="section-title">步骤 1：清空旧数据</view>
+    <view class="desc">清空 products 和 price_stock 集合中的旧数据</view>
+    <button class="btn btn-danger" bindtap="clearData" disabled="{{clearing}}">
+      {{clearing ? '清空中...' : '清空旧数据'}}
+    </button>
+  </view>
+
+  <view class="section">
+    <view class="section-title">步骤 2：分批导入商品数据</view>
+    <view class="desc">共 {{totalParts}} 批，每批约 25 个商品，需依次导入</view>
+    
+    <view class="progress" wx:if="{{importing}}">
+      <view class="progress-bar" style="width: {{progress}}%"></view>
+      <text class="progress-text">第 {{currentPart}}/{{totalParts}} 批 - {{statusText}}</text>
+    </view>
+
+    <view class="batch-list">
+      <view class="batch-item {{importedParts[index] ? 'done' : ''}}" wx:for="{{parts}}" wx:key="index" wx:for-index="index">
+        <text class="batch-name">批次 {{index + 1}}</text>
+        <text class="batch-status">{{importedParts[index] ? '✓ 已导入' : '待导入'}}</text>
+      </view>
+    </view>
+
+    <button class="btn btn-primary" bindtap="importAll" disabled="{{importing}}">
+      {{importing ? '导入中...' : '一键全部导入'}}
+    </button>
+  </view>
+
+  <view class="section">
+    <view class="section-title">导入结果</view>
+    <view class="result" wx:if="{{result}}">
+      <text class="result-text">{{result}}</text>
+    </view>
+    <view class="empty" wx:else>
+      <text>暂无导入记录</text>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{importedCount > 0}}">
+    <view class="stat-box">
+      <view class="stat-item">
+        <text class="stat-num">{{importedCount}}</text>
+        <text class="stat-label">已导入商品</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-num">{{importedPriceCount}}</text>
+        <text class="stat-label">已导入价格</text>
+      </view>
+    </view>
+  </view>
+</view>

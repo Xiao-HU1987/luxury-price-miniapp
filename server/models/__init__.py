@@ -13,6 +13,7 @@ from models.favorite import Favorite, BrowseHistory
 from models.user_coupon import UserCoupon
 from models.splash_ad import SplashAd, SplashAdLog
 from models.vip import VipPlan, VipOrder
+from models.lv import LvInventory
 
 __all__ = [
     "User",
@@ -37,4 +38,5 @@ __all__ = [
     "SplashAdLog",
     "VipPlan",
     "VipOrder",
+    "LvInventory",
 ]
