@@ -3,7 +3,7 @@
  * 优先使用云数据库，fallback 到 mock 数据
  */
 
-const mock = require('../data/mock.js');
+const mock = require('./mock.js');
 
 // 检测是否在云开发环境
 function isCloudAvailable() {
@@ -109,8 +109,28 @@ function getPriceComparison(productId) {
   return mock.getPriceComparison(productId);
 }
 
-// 获取汇率 - 直接从 Frankfurter API 获取实时汇率
+// 获取汇率 - 优先通过云函数获取实时汇率（云端不受域名白名单限制）
+// 云函数不可用时，降级为本地请求 Frankfurter API；仍失败则用兜底汇率
 async function getExchangeRates() {
+  const fallbackRates = { CNY: 1, JPY: 21.58, KRW: 192.5 };
+
+  // 1. 优先走云函数（生产环境唯一合法途径）
+  if (wx.cloud) {
+    try {
+      const res = await wx.cloud.callFunction({ name: 'getExchangeRates' });
+      const r = res && res.result;
+      if (r && r.code === 0 && r.data && r.data.rates) {
+        return {
+          rates: { CNY: 1, JPY: r.data.rates.JPY || fallbackRates.JPY, KRW: r.data.rates.KRW || fallbackRates.KRW },
+          updateTime: r.data.updateTime || new Date().toISOString()
+        };
+      }
+    } catch (e) {
+      // 云函数失败，继续尝试本地请求
+    }
+  }
+
+  // 2. 降级：本地请求 Frankfurter API（仅限开发者工具中可用，线上会被域名校验拦截）
   return new Promise((resolve) => {
     wx.request({
       url: 'https://api.frankfurter.app/latest?from=CNY&to=JPY,KRW',
@@ -118,27 +138,20 @@ async function getExchangeRates() {
       timeout: 8000,
       success(res) {
         if (res.statusCode === 200 && res.data && res.data.rates) {
-          const rates = {
-            CNY: 1,
-            JPY: res.data.rates.JPY || 21.58,
-            KRW: res.data.rates.KRW || 192.5
-          };
           resolve({
-            rates,
+            rates: {
+              CNY: 1,
+              JPY: res.data.rates.JPY || fallbackRates.JPY,
+              KRW: res.data.rates.KRW || fallbackRates.KRW
+            },
             updateTime: new Date().toISOString()
           });
         } else {
-          resolve({
-            rates: { CNY: 1, JPY: 21.58, KRW: 192.5 },
-            updateTime: new Date().toISOString()
-          });
+          resolve({ rates: fallbackRates, updateTime: new Date().toISOString() });
         }
       },
       fail() {
-        resolve({
-          rates: { CNY: 1, JPY: 21.58, KRW: 192.5 },
-          updateTime: new Date().toISOString()
-        });
+        resolve({ rates: fallbackRates, updateTime: new Date().toISOString() });
       }
     });
   });

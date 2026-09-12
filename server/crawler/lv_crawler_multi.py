@@ -405,9 +405,17 @@ async def _stealth_page(page: Page):
 
 async def _safe_navigate(page: Page, url: str, wait_ms: int = 6000) -> bool:
     try:
-        await page.goto(url, timeout=60_000, wait_until="domcontentloaded")
-        # ===== 显式等待价格文本出现（最长 15 秒）=====
+        # Akamai JS 挑战会导致 domcontentloaded 事件延迟 60s+ 超时
+        # 改用 commit（服务器响应开始即返回），后续靠 wait_for_function 等待内容渲染
+        try:
+            await page.goto(url, timeout=30_000, wait_until="commit")
+        except Exception as goto_e:
+            # commit 超时则回退到 domcontentloaded（兼容旧逻辑）
+            logger.debug("goto commit 超时，回退 domcontentloaded: %s", str(goto_e)[:80])
+            await page.goto(url, timeout=60_000, wait_until="domcontentloaded")
+        # ===== 显式等待价格文本出现（最长 30 秒）=====
         # CN 站 Vue 渲染慢，需要约 12 秒才出现 .lv-price 文本；JP/KR 站 6-8 秒即可
+        # Akamai 挑战可能增加 10-20s 延迟，超时从 15s 提升至 30s
         # 用 wait_for_function 等到 .lv-price 元素存在且 innerText 含数字（避免匹配到空占位符）
         # 等到就立即继续（节省时间），超时也继续（不阻塞流程）
         try:
@@ -420,11 +428,11 @@ async def _safe_navigate(page: Page, url: str, wait_ms: int = 6000) -> bool:
                     }
                     return false;
                 }""",
-                timeout=15_000,
+                timeout=30_000,
             )
             logger.debug("价格元素文本已出现，继续后续流程")
         except Exception as e:
-            logger.warning("价格元素等待超时(15s)，回退到固定等待 %dms: %s", wait_ms, e)
+            logger.warning("价格元素等待超时(30s)，回退到固定等待 %dms: %s", wait_ms, e)
             await asyncio.sleep(wait_ms / 1000.0)
         # ===== 关闭营销弹窗 / 订阅弹窗（防爬攻防：韩国LV大量弹窗会破坏页面）=====
         try:
@@ -467,8 +475,10 @@ async def _safe_navigate(page: Page, url: str, wait_ms: int = 6000) -> bool:
             }''')
         except Exception:
             pass
-        await _scroll_page(page)
-        await asyncio.sleep(1.5)
+        # 先慢速浏览式滚动（模拟人看图片、描述），然后多停留几秒
+        await _scroll_page(page, scroll_style="browse")
+        # 模拟真人看完页面主体后的停留：4-9 秒（之前 1.5 秒太短）
+        await asyncio.sleep(random.uniform(4.0, 9.0))
         # 二次关闭弹窗（有些弹窗懒加载）
         try:
             await page.evaluate('''() => {
@@ -491,26 +501,61 @@ async def _safe_navigate(page: Page, url: str, wait_ms: int = 6000) -> bool:
             }''')
         except Exception:
             pass
+        # 最后再随机停留一下，模拟准备下一步操作
+        await asyncio.sleep(random.uniform(1.0, 3.5))
         return True
     except Exception as e:
         logger.warning("页面加载失败 %s: %s", url, e)
         return False
 
 
-async def _scroll_page(page: Page):
-    """模拟用户滚动，触发懒加载。"""
+async def _scroll_page(page: Page, scroll_style: str = "browse"):
+    """模拟用户滚动，触发懒加载（真人节奏优化版 2026-08-06）。
+
+    Args:
+        scroll_style: "browse" = 慢慢浏览（上下扫视）；"search" = 找面板（只滚到目标区域）
+    """
     try:
         viewport = page.viewport_size or {"height": 1000}
         height = viewport["height"]
+        max_y = await page.evaluate("document.body.scrollHeight - window.innerHeight")
+
+        if scroll_style == "search":
+            # 找面板模式：一次滚动到底，再滚回 1/3 处（快速定位）
+            await page.evaluate(f"window.scrollTo(0, {max(500, max_y // 3)})")
+            await asyncio.sleep(random.uniform(0.6, 1.5))
+            await page.evaluate(f"window.scrollTo(0, {max(1000, max_y * 2 // 3)})")
+            await asyncio.sleep(random.uniform(0.5, 1.2))
+            return
+
+        # browse 模式：真人慢慢浏览
+        # 1) 从上往下，小步滚动，每步停顿（模拟看内容）
         current = 0
-        while True:
-            current += height // 2
+        while current < max_y:
+            step = random.randint(180, 420)  # 每步滚动距离（随机，更像人）
+            current = min(current + step, max_y)
+            # 不是匀速滚，而是瞬时到位 + 停顿（浏览器真实用户操作）
             await page.evaluate(f"window.scrollTo(0, {current})")
-            await asyncio.sleep(0.4)
-            scrolled = await page.evaluate("window.scrollY")
-            max_y = await page.evaluate("document.body.scrollHeight - window.innerHeight")
-            if scrolled + 50 >= max_y:
-                break
+            # 停顿模拟阅读内容：0.8~2.0 秒，有时还会停下来看很久
+            pause = random.uniform(0.8, 2.0)
+            if random.random() < 0.15:   # 15% 概率停下来仔细看
+                pause *= random.uniform(2.0, 3.5)
+            await asyncio.sleep(pause)
+            # 偶尔往上滚一下（真人会回看）
+            if random.random() < 0.2 and current > 800:
+                back = random.randint(200, 500)
+                await page.evaluate(f"window.scrollTo(0, {max(0, current - back)})")
+                await asyncio.sleep(random.uniform(0.5, 1.5))
+                current = max(0, current - back)
+            # 偶尔停在顶部附近，模拟看标题和大图（只发生在第一次循环）
+            if current < 600 and random.random() < 0.3:
+                await page.evaluate("window.scrollTo(0, 0)")
+                await asyncio.sleep(random.uniform(1.0, 2.5))
+                current = 0
+
+        # 2) 滚回顶部附近（模拟准备找下一个操作按钮）
+        await page.evaluate(f"window.scrollTo(0, {random.randint(0, 300)})")
+        await asyncio.sleep(random.uniform(0.5, 1.2))
     except Exception:
         pass
 
@@ -626,9 +671,23 @@ class BrowserManager:
         return closed
 
     async def new_scoped_page(self) -> Page:
-        """申请一个新 page，自动注入 stealth，并强制清理超出上限的标签页。"""
+        """申请一个 page，自动注入 stealth，并强制清理超出上限的标签页。
+
+        CDP 模式下优先复用已有页面（已建立 Cookie 信任），避免新建页面被 Akamai 检测。
+        """
         # 先清理，确保不超过 MAX_PAGES
         await self._cleanup_extra_tabs(keep=self.MAX_PAGES - 1)
+
+        # CDP 模式：优先复用已有页面（已建立 Cookie 信任，Akamai 不会检测）
+        if not self._owned_persistent_ctx and self.ctx.pages:
+            page = self.ctx.pages[0]
+            await _stealth_page(page)
+            if page not in self._active_pages:
+                self._active_pages.append(page)
+            logger.debug("[BM] 复用已有 page（CDP模式），当前活跃: %d", len(self._active_pages))
+            return page
+
+        # persistent 模式或 CDP 无页面：创建新页面
         page = await self.ctx.new_page()
         await _stealth_page(page)
         self._active_pages.append(page)
@@ -871,7 +930,25 @@ _STORE_INVENTORY_CONFIG: Dict[str, Dict[str, Any]] = {
         "stock_low_keywords": ["在庫僅少"],
         # 用「日本」作为国家标识，避免「道」误匹配中国街道名（如"世纪大道"）
         "address_keywords": ['日本'],
-        "cities": ["東京", "大阪", "京都", "横浜", "名古屋", "神戸", "福岡"],
+        # 历史日本城市名单（13城市，与 lv_align_three_sites.JP_CITY_KEYWORDS 一致）
+        "cities": ["東京", "大阪", "京都", "横浜", "名古屋", "神戸", "福岡",
+                    "札幌", "仙台", "埼玉", "千葉", "広島", "沖縄"],
+        # 日本13城市坐标（用于地理位置搜索，绕过文本搜索补全失败问题）
+        "city_coords": {
+            "東京": (35.6762, 139.6503),
+            "大阪": (34.6937, 135.5023),
+            "京都": (35.0116, 135.7681),
+            "横浜": (35.4437, 139.638),
+            "名古屋": (35.1815, 136.9066),
+            "神戸": (34.6901, 135.1955),
+            "福岡": (33.5904, 130.4017),
+            "札幌": (43.0618, 141.3545),
+            "仙台": (38.2682, 140.8694),
+            "埼玉": (35.8617, 139.6455),
+            "千葉": (35.6074, 140.1065),
+            "広島": (34.3853, 132.4553),
+            "沖縄": (26.2125, 127.6811),
+        },
         "store_id_regex": r"japan/([^/?#]+)",
         # prefecture 后紧跟邮编（如"東京都 150-0001"），避免"表参道"等街道名误匹配
         "city_regex": r"([\u4e00-\u9fa5]+[都道府県])\s*\d{3}",
@@ -886,6 +963,13 @@ _STORE_INVENTORY_CONFIG: Dict[str, Dict[str, Any]] = {
         # 用「대한민국」作为国家标识，避免误匹配日本/中国门店
         "address_keywords": ['대한민국'],
         "cities": ["서울", "부산", "대구", "인천", "광주"],
+        "city_coords": {
+            "서울": (37.5665, 126.978),
+            "부산": (35.1796, 129.0756),
+            "대구": (35.8714, 128.6014),
+            "인천": (37.4563, 126.7052),
+            "광주": (35.1595, 126.8526),
+        },
         "store_id_regex": r"korea/([^/?#]+)|south-korea/([^/?#]+)",
         "city_regex": r"([\uac00-\ud7a3]+[시도])",
     },
@@ -964,54 +1048,204 @@ async def collect_store_inventories_multi(
             logger.debug("[%s] 关闭残留弹窗异常: %s", country, _e)
 
         # 第一步：找到并展开库存折叠面板
+        # 面板结构：<div class="lv-expandable-panel">
+        #   <button aria-expanded="false">ストアの在庫状況を確認する</button>
+        #   <div class="lv-expandable-panel__content" style="display:none;" aria-hidden="true">
+        #     <div class="lv-product-locate-in-store">
+        #       <button class="lv-product-locate-in-store__container">...</button>
+        # 关键：JS click() 无法正确触发 Vue 框架的展开事件，必须用 Playwright locator.click()
         panel_text = cfg["panel_text"]
-        expanded = await page.evaluate(r"""
+
+        # 0.5步：等待库存折叠面板渲染出现（SPA 页面价格元素先出现，库存面板可能延后渲染）
+        # 最长等待 25 秒，每 2.5 秒检查一次，检测到面板文本出现即立即继续
+        try:
+            await page.wait_for_function(
+                """(panelText) => {
+                    const panels = document.querySelectorAll('.lv-expandable-panel');
+                    for (const panel of panels) {
+                        if ((panel.innerText || '').includes(panelText)) return true;
+                    }
+                    // 兜底：检查页面是否包含库存面板文本（可能结构变化）
+                    const body = document.body ? document.body.innerText : '';
+                    return body.includes(panelText);
+                }""",
+                timeout=25_000,
+                arg=panel_text,
+            )
+            logger.debug("[%s] 库存折叠面板文本已出现", country)
+        except Exception as _panel_wait_e:
+            logger.warning("[%s] 库存折叠面板等待超时(25s): %s", country, str(_panel_wait_e)[:80])
+            # 最后兜底：输出页面状态用于诊断
+            try:
+                _diag = await page.evaluate("""() => {
+                    return {
+                        url: location.href,
+                        readyState: document.readyState,
+                        bodyLen: document.body ? document.body.innerText.length : 0,
+                        panelCount: document.querySelectorAll('.lv-expandable-panel').length,
+                        title: document.title.substring(0, 80),
+                    };
+                }""")
+                logger.warning("[%s] 页面诊断: %s", country, _diag)
+            except Exception:
+                pass
+
+        # 1a. 用 JS 定位面板并检查初始状态
+        panel_info = await page.evaluate(r"""
             (panelText) => {
                 const panels = document.querySelectorAll('.lv-expandable-panel');
-                let targetPanel = null;
                 for (const panel of panels) {
-                    if (panel.innerText.includes(panelText)) {
-                        targetPanel = panel;
-                        break;
+                    if ((panel.innerText||'').includes(panelText)) {
+                        const btn = panel.querySelector('button[aria-expanded]');
+                        const content = panel.querySelector('.lv-expandable-panel__content');
+                        return {
+                            found: true,
+                            isExpanded: btn ? btn.getAttribute('aria-expanded') === 'true' : false,
+                            contentVisible: content ? (content.getAttribute('aria-hidden') !== 'true' && content.style.display !== 'none') : false,
+                        };
                     }
                 }
-                if (!targetPanel) return { ok: false, reason: 'panel not found' };
-                targetPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                const btn = targetPanel.querySelector('button[aria-expanded]');
-                if (!btn) return { ok: false, reason: 'button not found' };
-                const isExpanded = btn.getAttribute('aria-expanded') === 'true';
-                if (!isExpanded) btn.click();
-                return { ok: true, was_expanded: isExpanded };
+                return { found: false };
             }
         """, panel_text)
-        if not expanded.get("ok"):
-            logger.warning("[%s] 未找到库存折叠面板: %s", country, expanded.get("reason"))
+        if not panel_info.get("found"):
+            logger.warning("[%s] 未找到库存折叠面板: %s", country, panel_text)
             return []
-        await page.wait_for_timeout(1500)
-        logger.info("[%s] 库存折叠面板已展开", country)
+
+        # === 模拟真人：找到面板后不会立即点击，先停一下看周边内容 ===
+        await asyncio.sleep(random.uniform(1.5, 4.0))
+
+        # 1b. 如果面板未展开，用 Playwright locator 点击面板标题按钮（不用JS click）
+        if not panel_info.get("isExpanded"):
+            # 用文本定位面板标题按钮（Playwright click 能正确触发 Vue 事件）
+            panel_btn = page.locator(f'.lv-expandable-panel button[aria-expanded]:has-text("{panel_text}")')
+            btn_count = await panel_btn.count()
+            if btn_count == 0:
+                # 回退：用更宽泛的选择器
+                panel_btn = page.locator(f'button[aria-expanded]:has-text("{panel_text}")')
+                btn_count = await panel_btn.count()
+            if btn_count == 0:
+                logger.warning("[%s] 未找到面板展开按钮: %s", country, panel_text)
+                return []
+            try:
+                await panel_btn.first.scroll_into_view_if_needed(timeout=5000)
+                # 模拟真人：滚到目标后会停一下看清楚再点（之前 300ms，现在 1-2.5 秒）
+                await page.wait_for_timeout(random.randint(800, 2500))
+                await panel_btn.first.click(timeout=5000)
+                logger.debug("[%s] 面板标题按钮已点击", country)
+            except Exception as click_err:
+                # 回退：JS click + dispatchEvent
+                logger.debug("[%s] Playwright click 失败，回退 JS: %s", country, click_err)
+                await page.evaluate(r"""
+                    (panelText) => {
+                        const panels = document.querySelectorAll('.lv-expandable-panel');
+                        for (const panel of panels) {
+                            if ((panel.innerText||'').includes(panelText)) {
+                                const btn = panel.querySelector('button[aria-expanded]');
+                                if (btn) {
+                                    btn.click();
+                                    // 同时 dispatch pointer 事件（Vue 可能监听 pointerdown）
+                                    btn.dispatchEvent(new PointerEvent('pointerdown', {bubbles:true}));
+                                    btn.dispatchEvent(new MouseEvent('click', {bubbles:true}));
+                                }
+                                return;
+                            }
+                        }
+                    }
+                """, panel_text)
+
+        # 1c. 等待面板内容展开（aria-hidden=false 或 display!=none）
+        # 模拟真人：面板展开后不会立刻操作，等动画完成 + 扫视内容
+        try:
+            await page.wait_for_function(
+                """(panelText) => {
+                    const panels = document.querySelectorAll('.lv-expandable-panel');
+                    for (const panel of panels) {
+                        if ((panel.innerText||'').includes(panelText)) {
+                            const content = panel.querySelector('.lv-expandable-panel__content');
+                            if (!content) return false;
+                            const hidden = content.getAttribute('aria-hidden') === 'true'
+                                        || content.style.display === 'none';
+                            if (hidden) return false;
+                            // 确认 locate-in-store 按钮存在且可见
+                            const btn = content.querySelector('.lv-product-locate-in-store__container');
+                            if (!btn) return false;
+                            const rect = btn.getBoundingClientRect();
+                            return rect.width > 0 && rect.height > 0;
+                        }
+                    }
+                    return false;
+                }""",
+                timeout=15_000,
+                arg=panel_text,
+            )
+            logger.info("[%s] 库存折叠面板已展开（内容可见）", country)
+        except Exception:
+            logger.warning("[%s] 面板内容展开等待超时(15s)，尝试强制点击", country)
+            # 最后手段：直接移除 display:none 强制显示
+            await page.evaluate(r"""
+                (panelText) => {
+                    const panels = document.querySelectorAll('.lv-expandable-panel');
+                    for (const panel of panels) {
+                        if ((panel.innerText||'').includes(panelText)) {
+                            const content = panel.querySelector('.lv-expandable-panel__content');
+                            if (content) {
+                                content.style.display = 'block';
+                                content.setAttribute('aria-hidden', 'false');
+                            }
+                        }
+                    }
+                }
+            """, panel_text)
+            await page.wait_for_timeout(1000)
+        # 面板展开后：模拟真人读一下内容（之前立即点击，现在增加等待）
+        await asyncio.sleep(random.uniform(2.5, 5.0))
 
         # 第二步：点击库存按钮打开弹窗
-        store_btn_visible = await page.evaluate(r"""
-            () => {
-                const btn = document.querySelector('.lv-product-locate-in-store__container');
-                if (!btn) return false;
-                btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                return true;
-            }
-        """)
-        if not store_btn_visible:
+        # 使用 Playwright locator.click() 而非 JS click()，确保元素可见且可交互
+        store_btn = page.locator('.lv-product-locate-in-store__container')
+        btn_count = await store_btn.count()
+        if btn_count == 0:
             logger.warning("[%s] 未找到库存按钮 .lv-product-locate-in-store__container", country)
             return []
-        await page.wait_for_timeout(1500)
-        await page.evaluate(r"""
-            () => {
+        try:
+            await store_btn.first.scroll_into_view_if_needed(timeout=5000)
+            # 模拟真人：滚到按钮后，看一下，再点击（之前 500ms）
+            await page.wait_for_timeout(random.randint(1200, 3500))
+            await store_btn.first.click(timeout=5000)
+        except Exception as click_err:
+            # 回退：用 JS click（不检查可见性，直接点击 DOM 元素）
+            logger.debug("[%s] Playwright click 失败，回退 JS click: %s", country, click_err)
+            clicked = await page.evaluate(r"""() => {
                 const btn = document.querySelector('.lv-product-locate-in-store__container');
-                if (btn) btn.click();
-            }
-        """)
-        await page.wait_for_timeout(3000)
-        await _disable_backdrop()
-        logger.info("[%s] 门店库存弹窗已打开", country)
+                if (btn) { btn.click(); return true; }
+                return false;
+            }""")
+            if not clicked:
+                logger.warning("[%s] 库存按钮无法点击", country)
+                return []
+        # 弹窗加载需要时间（Akamai 挑战后页面渲染较慢），渐进式等待
+        # 模拟真人：点击后会期待 1-2 秒弹出来，不会一直盯着看，增加心理预期等待
+        modal_ready = False
+        for wait_s in [4, 6, 8]:   # 之前 [3,4,5]，现在等待更久
+            await page.wait_for_timeout(wait_s * 1000)
+            await _disable_backdrop()
+            # 检查弹窗是否已加载
+            has_modal = await page.evaluate(r"""
+                () => {
+                    const modal = document.querySelector('.lv-locate-in-store__first-step-modal, .lv-modal__container, .lv-modal__content, .lv-address-search-form__input, input[type="text"]');
+                    return !!modal;
+                }
+            """)
+            if has_modal:
+                modal_ready = True
+                break
+            logger.debug("[%s] 弹窗未就绪，等待 %ds 后重试", country, wait_s)
+        if not modal_ready:
+            logger.warning("[%s] 弹窗等待 %ds 后仍未出现", country, 4 + 6 + 8)
+        logger.info("[%s] 门店库存弹窗已打开 (ready=%s)", country, modal_ready)
+        # 弹窗出现后：模拟真人看一下弹窗界面（之前立即操作）
+        await asyncio.sleep(random.uniform(2.0, 4.5))
 
         # 调试：输出弹窗DOM结构（确认选择器是否匹配）
         modal_debug = await page.evaluate(r"""
@@ -1049,9 +1283,31 @@ async def collect_store_inventories_multi(
                 logger.info("[%s]   input[%d]: placeholder=%s class=%s visible=%s",
                             country, i, inp.get("placeholder"), inp.get("className"), inp.get("visible"))
 
-        # 逐个城市搜索
-        for city in cities:
+        # === 授权地理位置权限（用于「現在地で検索」按钮）===
+        city_coords = cfg.get("city_coords", {})
+        if city_coords:
             try:
+                ctx = page.context
+                await ctx.grant_permissions(['geolocation'])
+                logger.info("[%s] 已授权地理位置权限", country)
+            except Exception as e:
+                logger.debug("[%s] 地理位置权限授权失败(非致命): %s", country, e)
+
+        # 逐个城市搜索（地理位置方式优先，文本搜索为备选）
+        total_cities = len(cities)
+        for city_idx, city in enumerate(cities, 1):
+            try:
+                # === 模拟真人：切换城市前的等待和停顿 ===
+                # 每 3-4 个城市模拟一次"停下来看一会"（人不会连续 13 个城市扫完不休息）
+                if city_idx > 1 and random.random() < 0.35:
+                    long_pause = random.uniform(4.0, 10.0)
+                    logger.info("[%s] 查看 %d/%d 城市，插入停顿 %.1fs（模拟阅读门店列表）",
+                                country, city_idx, total_cities, long_pause)
+                    await asyncio.sleep(long_pause)
+                else:
+                    # 普通间隔：模拟操作下一个城市前的短暂思考
+                    await asyncio.sleep(random.uniform(1.0, 3.5))
+
                 # 回到第一步（搜索页）
                 await page.evaluate(r"""
                     () => {
@@ -1063,253 +1319,163 @@ async def collect_store_inventories_multi(
                         }
                     }
                 """)
-                await page.wait_for_timeout(500)
+                # 从结果页切回搜索页：人会等动画完成一下（之前 500ms）
+                await page.wait_for_timeout(random.randint(700, 1600))
                 await _disable_backdrop()
 
-                # 清空并输入搜索词（使用实际class名）
-                search_input = page.locator(
-                    '.lv-address-search-form__input, '
-                    '.lv-locate-in-store__first-step-modal input[type="text"], '
-                    '.lv-locate-in-store__first-step-modal input:not([type]), '
-                    '.lv-modal__content input[type="text"], '
-                    '.lv-modal__content input:not([type])'
-                )
-                if await search_input.count() == 0:
-                    logger.info("[%s] 「%s」未找到搜索输入框，跳过", country, city)
-                    continue
+                stores: List[Dict[str, Any]] = []
+                search_method = ""
 
-                try:
-                    await search_input.first.click(timeout=3000)
-                except Exception:
-                    await search_input.first.click(force=True, timeout=3000)
-                await search_input.first.fill('')
-                await page.wait_for_timeout(200)
-                await search_input.first.type(city, delay=100)
-                await page.wait_for_timeout(2500)
-
-                # 从补全下拉列表中选择第一个匹配项（LV官网需要选择具体地址）
-                suggestion_selected = await page.evaluate(r"""
-                    () => {
-                        // 查找补全列表项（多种可能的选择器）
-                        const suggestions = document.querySelectorAll(
-                            '.lv-address-search-form__suggestions li, .lv-address-search-form__suggestion-item, .lv-suggestions li, [class*="suggestion"] li, [class*="autocomplete"] li, .lv-list-item'
-                        );
-                        // 同时检查所有可见的列表项
-                        const allListItems = document.querySelectorAll('li[role="option"], [role="listbox"] li, ul[class*="list"] li');
-                        const combined = suggestions.length > 0 ? suggestions : allListItems;
-                        if (combined.length > 0) {
-                            combined[0].click();
-                            return { ok: true, count: combined.length, text: combined[0].innerText.substring(0, 80) };
-                        }
-                        return { ok: false, count: 0, suggestionSelectors: suggestions.length, listItemSelectors: allListItems.length };
-                    }
-                """)
-                if suggestion_selected.get("ok"):
-                    logger.info("[%s] 「%s」选中补全项: %s",
-                                country, city, suggestion_selected.get("text", ""))
-                    await page.wait_for_timeout(1500)
-                else:
-                    logger.info("[%s] 「%s」无补全列表(suggestion=%s listItem=%s)，输出弹窗HTML前800字符:",
-                                country, city,
-                                suggestion_selected.get("suggestionSelectors"),
-                                suggestion_selected.get("listItemSelectors"))
-                    # 输出弹窗HTML用于调试
-                    modal_html = await page.evaluate(r"""
-                        () => {
-                            const modal = document.querySelector('.lv-modal__container, .lv-modal__content, .lv-locate-in-store__first-step-modal');
-                            return modal ? modal.innerHTML.substring(0, 800) : 'MODAL NOT FOUND';
-                        }
-                    """)
-                    logger.info("[%s] 弹窗HTML: %s", country, modal_html[:800])
-
-                # 点击搜索按钮
-                see_btn = page.locator('.lv-modal__footer button')
-                if await see_btn.count() == 0:
-                    # 尝试更宽泛的按钮选择器
-                    see_btn = page.locator('.lv-locate-in-store__first-step-modal button[type="submit"], '
-                                           'button:has-text("在庫"), button:has-text("確認"), '
-                                           'button:has-text("확인"), button:has-text("재고")')
-                if await see_btn.count() == 0:
-                    logger.info("[%s] 「%s」未找到搜索按钮", country, city)
-                    continue
-                btn_disabled = await see_btn.first.get_attribute('disabled')
-                if btn_disabled is not None:
-                    logger.info("[%s] 「%s」搜索后按钮仍禁用，跳过", country, city)
-                    continue
-
-                try:
-                    await see_btn.first.click(timeout=8000)
-                except Exception as click_err:
-                    logger.debug("[%s] 正常点击失败，force click: %s", country, click_err)
-                    await see_btn.first.click(force=True, timeout=5000)
-
-                # 自适应等待：等待门店卡片出现（最长15秒，渐进式）
-                stores = []
-                for attempt in range(3):
+                # === 方法1：地理位置搜索（主方案，绕过补全列表问题）===
+                coords = city_coords.get(city)
+                if coords:
                     try:
-                        timeout_s = 5 + attempt * 5
-                        await page.wait_for_function(
-                            f"""() => {{
-                                const second = document.querySelector('.lv-locate-in-store__second-step-modal');
-                                if (!second) return false;
-                                const cards = second.querySelectorAll('.lv-store-card-detailed');
-                                if (cards.length > 0) return true;
-                                const noResult = second.querySelector('[class*="no-result"], [class*="empty"], [class*="not-found"]');
-                                if (noResult) return true;
-                                return false;
-                            }}""",
-                            timeout=timeout_s * 1000,
-                        )
-                        break
-                    except Exception:
-                        if attempt < 2:
-                            logger.debug("[%s] 「%s」搜索结果等待超时(第%d次, %ds)，重试...",
-                                        country, city, attempt + 1, timeout_s)
-                            await page.wait_for_timeout(2000)
-                        else:
-                            logger.info("[%s] 「%s」搜索结果等待超时(%ds)，继续尝试", country, city, timeout_s)
+                        # 设置浏览器地理位置为当前城市坐标
+                        await page.context.set_geolocation({
+                            "latitude": coords[0],
+                            "longitude": coords[1],
+                        })
+                        # 坐标设置完后：模拟人点"当前位置"按钮前的犹豫（之前 300ms）
+                        await page.wait_for_timeout(random.randint(500, 1800))
 
-                # 从 DOM 提取门店列表
-                stores = await page.evaluate(r"""
-                    (cfg) => {
-                        const second = document.querySelector('.lv-locate-in-store__second-step-modal');
-                        if (!second) return [];
-                        const cards = second.querySelectorAll('.lv-store-card-detailed');
-                        const results = [];
-                        for (const card of cards) {
-                            const nameEl = card.querySelector('.lv-store-card-detailed__name');
-                            const name = nameEl ? nameEl.innerText.trim() : '';
-                            if (!name) continue;
+                        # 找到并点击「現在地で検索」按钮
+                        geo_btn = page.locator('.lv-store-geolocation__get-button')
+                        geo_count = await geo_btn.count()
+                        if geo_count > 0:
+                            geo_disabled = await geo_btn.first.get_attribute('disabled')
+                            if geo_disabled is None:
+                                # 先滚到视图（模拟视线）再点击
+                                try:
+                                    await geo_btn.first.scroll_into_view_if_needed(timeout=4000)
+                                    await page.wait_for_timeout(random.randint(400, 1400))
+                                except Exception:
+                                    pass
+                                await geo_btn.first.click(timeout=5000)
+                                search_method = "geolocation"
+                                logger.info("[%s] 「%s」已点击現在地検索 (%.4f, %.4f)",
+                                            country, city, coords[0], coords[1])
 
-                            const infoEl = card.querySelector('.lv-store-card-detailed__info');
-                            let address = '';
-                            if (infoEl) {
-                                address = infoEl.innerText.trim().replace(/\n/g, ' ');
-                            }
-                            if (!address) {
-                                const lines = card.innerText.trim().split('\n').map(s => s.trim()).filter(s => s);
-                                for (const l of lines) {
-                                    if (!name.includes(l)) { address = l; break; }
+                                # 等待门店卡片出现（最长20秒，渐进式）
+                                for attempt in range(3):
+                                    try:
+                                        timeout_s = 10 + attempt * 7   # 之前 8+6，适当增加
+                                        await page.wait_for_function(
+                                            """() => {
+                                                const second = document.querySelector('.lv-locate-in-store__second-step-modal');
+                                                if (!second) return false;
+                                                const cards = second.querySelectorAll('.lv-store-card-detailed');
+                                                if (cards.length > 0) return true;
+                                                const noResult = second.querySelector('[class*="no-result"], [class*="empty"], [class*="not-found"]');
+                                                if (noResult) return true;
+                                                return false;
+                                            }""",
+                                            timeout=timeout_s * 1000,
+                                        )
+                                        break
+                                    except Exception:
+                                        if attempt < 2:
+                                            logger.debug("[%s] 「%s」地理位置搜索等待超时(第%d次, %ds)",
+                                                        country, city, attempt + 1, timeout_s)
+                                            await page.wait_for_timeout(random.randint(1500, 3500))
+                                        else:
+                                            logger.info("[%s] 「%s」地理位置搜索等待超时(%ds)",
+                                                        country, city, timeout_s)
+
+                                # 从 DOM 提取门店列表前：模拟看一眼列表内容（之前立即提取）
+                                await asyncio.sleep(random.uniform(1.5, 4.0))
+                                stores = await _extract_stores_from_dom(page, cfg)
+                    except Exception as geo_e:
+                        logger.debug("[%s] 「%s」地理位置搜索异常: %s", country, city, geo_e)
+
+                # === 方法2：文本搜索（备选方案）===
+                if not stores:
+                    search_input = page.locator(
+                        '.lv-address-search-form__input, '
+                        '.lv-locate-in-store__first-step-modal input[type="text"], '
+                        '.lv-modal__content input[type="text"]'
+                    )
+                    if await search_input.count() > 0:
+                        try:
+                            await search_input.first.click(timeout=3000, force=True)
+                            # 模拟人打字：不是一次性 fill，而是增加随机等待（之前立即 fill）
+                            await asyncio.sleep(random.uniform(0.6, 1.8))
+                            await search_input.first.fill(city)
+                            # 打完字后：模拟等补全列表（之前 3s，现在放宽）
+                            await page.wait_for_timeout(random.randint(2500, 5500))
+
+                            # 尝试选择补全项
+                            suggestion_selected = await page.evaluate(r"""
+                                () => {
+                                    const modal = document.querySelector('.lv-modal__content') || document.querySelector('.lv-modal__container');
+                                    if (!modal) return { ok: false };
+                                    const sels = modal.querySelectorAll('[class*="suggestion"] li, [role="option"], .lv-address-search-form__suggestion-item');
+                                    if (sels.length > 0 && sels[0].getBoundingClientRect().width > 0) {
+                                        sels[0].click();
+                                        return { ok: true, text: (sels[0].innerText||'').substring(0, 80) };
+                                    }
+                                    return { ok: false };
                                 }
-                            }
+                            """)
+                            if suggestion_selected.get("ok"):
+                                logger.info("[%s] 「%s」选中补完項: %s",
+                                            country, city, suggestion_selected.get("text", ""))
+                                # 选中补全项后：等跳转/渲染（之前 1.5s）
+                                await page.wait_for_timeout(random.randint(1500, 3000))
 
-                            const stockEl = card.querySelector('.lv-store-card-detailed__stock');
-                            let stock_status = '';
-                            let in_stock = false;
-                            if (stockEl) {
-                                const raw = stockEl.innerText.trim();
-                                if (cfg.stock_in_keywords.some(k => raw.includes(k))) {
-                                    in_stock = true; stock_status = 'in_stock';
-                                } else if (cfg.stock_out_keywords.some(k => raw.includes(k))) {
-                                    in_stock = false; stock_status = 'out_of_stock';
-                                } else if (cfg.stock_low_keywords.some(k => raw.includes(k))) {
-                                    in_stock = true; stock_status = 'low_stock';
-                                } else { stock_status = raw; in_stock = false; }
-                            }
+                            # 点击搜索按钮
+                            search_btn = page.locator('.lv-address-search-form__button')
+                            if await search_btn.count() == 0:
+                                search_btn = page.locator('button:has-text("ストア検索"), button:has-text("在庫"), button:has-text("確認")')
+                            if await search_btn.count() > 0:
+                                btn_disabled = await search_btn.first.get_attribute('disabled')
+                                if btn_disabled is None:
+                                    # 先滚到视图，看一下再点（之前直接点）
+                                    try:
+                                        await search_btn.first.scroll_into_view_if_needed(timeout=4000)
+                                        await page.wait_for_timeout(random.randint(600, 1800))
+                                    except Exception:
+                                        pass
+                                    await search_btn.first.click(timeout=5000)
+                                    search_method = "text_search"
+                                    logger.info("[%s] 「%s」已点击搜索按钮", country, city)
 
-                            let store_id = '';
-                            const linkEl = card.querySelector('a[href*="point-of-sale"]');
-                            if (linkEl) {
-                                const href = linkEl.getAttribute('href') || '';
-                                const m = href.match(new RegExp(cfg.store_id_regex));
-                                if (m) store_id = m[1] || m[2] || '';
-                            }
-                            if (!store_id) store_id = name.substring(0, 64);
+                                    # 等待结果
+                                    for attempt in range(2):
+                                        try:
+                                            timeout_s = 10 + attempt * 8   # 之前 8+7
+                                            await page.wait_for_function(
+                                                """() => {
+                                                    const second = document.querySelector('.lv-locate-in-store__second-step-modal');
+                                                    if (!second) return false;
+                                                    const cards = second.querySelectorAll('.lv-store-card-detailed');
+                                                    if (cards.length > 0) return true;
+                                                    const noResult = second.querySelector('[class*="no-result"], [class*="empty"], [class*="not-found"]');
+                                                    if (noResult) return true;
+                                                    return false;
+                                                }""",
+                                                timeout=timeout_s * 1000,
+                                            )
+                                            break
+                                        except Exception:
+                                            if attempt == 0:
+                                                await page.wait_for_timeout(random.randint(2000, 4000))
 
-                            let store_city = '';
-                            const cityMatch = address.match(new RegExp(cfg.city_regex));
-                            if (cityMatch) store_city = cityMatch[1];
-
-                            results.push({
-                                store_id: store_id,
-                                store_name: name,
-                                store_address: address.substring(0, 255),
-                                store_city: store_city,
-                                in_stock: in_stock,
-                                stock_status: stock_status,
-                            });
-                        }
-                        return results;
-                    }
-                """, {
-                    "stock_in_keywords": cfg["stock_in_keywords"],
-                    "stock_out_keywords": cfg["stock_out_keywords"],
-                    "stock_low_keywords": cfg["stock_low_keywords"],
-                    "store_id_regex": cfg["store_id_regex"],
-                    "city_regex": cfg["city_regex"],
-                })
+                                    # 结果出来后：模拟看列表（之前立即提取）
+                                    await asyncio.sleep(random.uniform(1.5, 3.5))
+                                    stores = await _extract_stores_from_dom(page, cfg)
+                        except Exception as text_e:
+                            logger.debug("[%s] 「%s」文本搜索异常: %s", country, city, text_e)
 
                 # 只保留目标国家门店
                 target_stores = [s for s in stores if _is_target_store(s.get('store_address', ''))]
 
-                # 空结果重试：如果找到0家或门店异常少，等待后重试一次
+                # 空结果重试：等待后重新提取一次
                 if len(stores) == 0 and len(cities) > 1:
-                    logger.info("[%s] 「%s」首次搜索0家，等待3秒后重试...", country, city)
-                    await page.wait_for_timeout(3000)
-                    stores_retry = await page.evaluate(r"""
-                        (cfg) => {
-                            const second = document.querySelector('.lv-locate-in-store__second-step-modal');
-                            if (!second) return [];
-                            const cards = second.querySelectorAll('.lv-store-card-detailed');
-                            const results = [];
-                            for (const card of cards) {
-                                const nameEl = card.querySelector('.lv-store-card-detailed__name');
-                                const name = nameEl ? nameEl.innerText.trim() : '';
-                                if (!name) continue;
-                                const infoEl = card.querySelector('.lv-store-card-detailed__info');
-                                let address = '';
-                                if (infoEl) {
-                                    address = infoEl.innerText.trim().replace(/\n/g, ' ');
-                                }
-                                if (!address) {
-                                    const lines = card.innerText.trim().split('\n').map(s => s.trim()).filter(s => s);
-                                    for (const l of lines) {
-                                        if (!name.includes(l)) { address = l; break; }
-                                    }
-                                }
-                                const stockEl = card.querySelector('.lv-store-card-detailed__stock');
-                                let stock_status = '';
-                                let in_stock = false;
-                                if (stockEl) {
-                                    const raw = stockEl.innerText.trim();
-                                    if (cfg.stock_in_keywords.some(k => raw.includes(k))) {
-                                        in_stock = true; stock_status = 'in_stock';
-                                    } else if (cfg.stock_out_keywords.some(k => raw.includes(k))) {
-                                        in_stock = false; stock_status = 'out_of_stock';
-                                    } else if (cfg.stock_low_keywords.some(k => raw.includes(k))) {
-                                        in_stock = true; stock_status = 'low_stock';
-                                    } else { stock_status = raw; in_stock = false; }
-                                }
-                                let store_id = '';
-                                const linkEl = card.querySelector('a[href*="point-of-sale"]');
-                                if (linkEl) {
-                                    const href = linkEl.getAttribute('href') || '';
-                                    const m = href.match(new RegExp(cfg.store_id_regex));
-                                    if (m) store_id = m[1] || m[2] || '';
-                                }
-                                if (!store_id) store_id = name.substring(0, 64);
-                                let store_city = '';
-                                const cityMatch = address.match(new RegExp(cfg.city_regex));
-                                if (cityMatch) store_city = cityMatch[1];
-                                results.push({
-                                    store_id: store_id,
-                                    store_name: name,
-                                    store_address: address.substring(0, 255),
-                                    store_city: store_city,
-                                    in_stock: in_stock,
-                                    stock_status: stock_status,
-                                });
-                            }
-                            return results;
-                        }
-                    """, {
-                        "stock_in_keywords": cfg["stock_in_keywords"],
-                        "stock_out_keywords": cfg["stock_out_keywords"],
-                        "stock_low_keywords": cfg["stock_low_keywords"],
-                        "store_id_regex": cfg["store_id_regex"],
-                        "city_regex": cfg["city_regex"],
-                    })
-                    if len(stores_retry) > 0:
+                    wait_s = random.uniform(3.5, 7.0)   # 之前固定 3s
+                    logger.info("[%s] 「%s」首次搜索0家，等待%.1fs后重试...", country, city, wait_s)
+                    await asyncio.sleep(wait_s)
+                    stores_retry = await _extract_stores_from_dom(page, cfg)
+                    if stores_retry:
                         stores = stores_retry
                         target_stores = [s for s in stores if _is_target_store(s.get('store_address', ''))]
                         logger.info("[%s] 「%s」重试成功: %d 家门店", country, city, len(stores))
@@ -1320,11 +1486,14 @@ async def collect_store_inventories_multi(
                     if key and key not in all_stores:
                         all_stores[key] = s
 
-                logger.info("[%s] 搜索「%s」: 找到 %d 家门店（目标 %d 家）",
-                            country, city, len(stores), len(target_stores))
+                logger.info("[%s] 搜索「%s」[%d/%d,%s]: 找到 %d 家门店（目标 %d 家）",
+                            country, city, city_idx, total_cities, search_method or "failed",
+                            len(stores), len(target_stores))
 
             except Exception as e:
                 logger.info("[%s] 搜索 %s 失败: %s", country, city, e)
+                # 异常后多等一会（防止快速失败触发风控）
+                await asyncio.sleep(random.uniform(2.0, 5.0))
                 continue
 
     except Exception as e:
@@ -1333,6 +1502,78 @@ async def collect_store_inventories_multi(
     result = list(all_stores.values())
     logger.info("[%s] 门店库存抓取完成: %d 家门店", country, len(result))
     return result
+
+
+async def _extract_stores_from_dom(page: Page, cfg: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """从 DOM 的 second-step-modal 中提取门店列表（提取逻辑统一）。"""
+    return await page.evaluate(r"""
+        (cfg) => {
+            const second = document.querySelector('.lv-locate-in-store__second-step-modal');
+            if (!second) return [];
+            const cards = second.querySelectorAll('.lv-store-card-detailed');
+            const results = [];
+            for (const card of cards) {
+                const nameEl = card.querySelector('.lv-store-card-detailed__name');
+                const name = nameEl ? nameEl.innerText.trim() : '';
+                if (!name) continue;
+
+                const infoEl = card.querySelector('.lv-store-card-detailed__info');
+                let address = '';
+                if (infoEl) {
+                    address = infoEl.innerText.trim().replace(/\n/g, ' ');
+                }
+                if (!address) {
+                    const lines = card.innerText.trim().split('\n').map(s => s.trim()).filter(s => s);
+                    for (const l of lines) {
+                        if (!name.includes(l)) { address = l; break; }
+                    }
+                }
+
+                const stockEl = card.querySelector('.lv-store-card-detailed__stock');
+                let stock_status = '';
+                let in_stock = false;
+                if (stockEl) {
+                    const raw = stockEl.innerText.trim();
+                    if (cfg.stock_in_keywords.some(k => raw.includes(k))) {
+                        in_stock = true; stock_status = 'in_stock';
+                    } else if (cfg.stock_out_keywords.some(k => raw.includes(k))) {
+                        in_stock = false; stock_status = 'out_of_stock';
+                    } else if (cfg.stock_low_keywords.some(k => raw.includes(k))) {
+                        in_stock = true; stock_status = 'low_stock';
+                    } else { stock_status = raw; in_stock = false; }
+                }
+
+                let store_id = '';
+                const linkEl = card.querySelector('a[href*="point-of-sale"]');
+                if (linkEl) {
+                    const href = linkEl.getAttribute('href') || '';
+                    const m = href.match(new RegExp(cfg.store_id_regex));
+                    if (m) store_id = m[1] || m[2] || '';
+                }
+                if (!store_id) store_id = name.substring(0, 64);
+
+                let store_city = '';
+                const cityMatch = address.match(new RegExp(cfg.city_regex));
+                if (cityMatch) store_city = cityMatch[1];
+
+                results.push({
+                    store_id: store_id,
+                    store_name: name,
+                    store_address: address.substring(0, 255),
+                    store_city: store_city,
+                    in_stock: in_stock,
+                    stock_status: stock_status,
+                });
+            }
+            return results;
+        }
+    """, {
+        "stock_in_keywords": cfg["stock_in_keywords"],
+        "stock_out_keywords": cfg["stock_out_keywords"],
+        "stock_low_keywords": cfg["stock_low_keywords"],
+        "store_id_regex": cfg["store_id_regex"],
+        "city_regex": cfg["city_regex"],
+    })
 
 
 # ==================================================================
@@ -1864,6 +2105,7 @@ async def crawl_store_inventories_batch(
     adapter,
     limit: int = 0,
     skip_existing: bool = True,
+    sku_file: str = "",
 ) -> int:
     """批量补采门店库存（优化版）。
 
@@ -1874,35 +2116,70 @@ async def crawl_store_inventories_batch(
     4. 连续失败追踪 + 自适应冷却
     5. 错误后强制重建page
 
+    Args:
+        sku_file: 可选，指定一个 JSON 文件（list of {sku,url}）作为 SKU 白名单。
+                  传入时仅处理该文件中的 SKU，不再从 dedup 读取全量。
+                  适用于"仅采集男士SKU库存"这类定向任务。
+
     Returns:
         成功采集的 SKU 数
     """
     dirs = _ensure_dirs(country)
-    dedup_file = dirs["root"] / f"products_{country}_dedup.jsonl"
-    if not dedup_file.exists():
-        logger.error("[STORE-INV] %s 不存在，无法补采", dedup_file)
-        return 0
-
-    # 读取所有 SKU
     sku_list: List[Dict[str, str]] = []
-    with open(dedup_file, "r", encoding="utf-8") as f:
-        for line in f:
-            try:
-                obj = json.loads(line)
-                sku_id = obj.get("sku_id", "")
-                source_url = obj.get("source_url", "")
-                if sku_id and source_url:
+
+    if sku_file:
+        # === 定向模式：从外部 JSON 文件读取指定 SKU 列表 ===
+        sku_file_path = Path(sku_file)
+        if not sku_file_path.is_absolute():
+            sku_file_path = (BASE_DIR.parent / sku_file_path).resolve()
+        if not sku_file_path.exists():
+            logger.error("[STORE-INV] SKU 白名单文件不存在: %s", sku_file_path)
+            return 0
+        try:
+            with open(sku_file_path, "r", encoding="utf-8") as f:
+                raw_list = json.load(f)
+            for item in raw_list:
+                sku_id = (item.get("sku") or item.get("sku_id") or "").strip()
+                url = (item.get("url") or item.get("source_url") or "").strip()
+                if not sku_id:
+                    continue
+                if not url:
                     if country == "JP":
-                        source_url = f"https://jp.louisvuitton.com/jpn-jp/products/-/{sku_id}"
+                        url = f"https://jp.louisvuitton.com/jpn-jp/products/-/{sku_id}"
                     elif country == "KR":
-                        source_url = f"https://kr.louisvuitton.com/kor-kr/products/-/{sku_id}"
+                        url = f"https://kr.louisvuitton.com/kor-kr/products/-/{sku_id}"
                     elif country == "CN":
-                        source_url = f"https://cn.louisvuitton.com/chn-cn/products/-/{sku_id}"
-                    sku_list.append({"sku_id": sku_id, "source_url": source_url})
-            except Exception:
-                pass
-    logger.info("[STORE-INV] %s 共 %d 个 SKU 待处理", country, len(sku_list))
-    logger.info("[STORE-INV] URL已修正为 /-/ 格式")
+                        url = f"https://cn.louisvuitton.com/chn-cn/products/-/{sku_id}"
+                sku_list.append({"sku_id": sku_id, "source_url": url})
+            logger.info("[STORE-INV] 定向模式：从 %s 读取 %d 个 SKU",
+                        sku_file_path.name, len(sku_list))
+        except Exception as e:
+            logger.error("[STORE-INV] 读取 SKU 白名单失败: %s", e)
+            return 0
+    else:
+        # === 默认模式：从 dedup 文件读取全量 SKU ===
+        dedup_file = dirs["root"] / f"products_{country}_dedup.jsonl"
+        if not dedup_file.exists():
+            logger.error("[STORE-INV] %s 不存在，无法补采", dedup_file)
+            return 0
+        with open(dedup_file, "r", encoding="utf-8") as f:
+            for line in f:
+                try:
+                    obj = json.loads(line)
+                    sku_id = obj.get("sku_id", "")
+                    source_url = obj.get("source_url", "")
+                    if sku_id and source_url:
+                        if country == "JP":
+                            source_url = f"https://jp.louisvuitton.com/jpn-jp/products/-/{sku_id}"
+                        elif country == "KR":
+                            source_url = f"https://kr.louisvuitton.com/kor-kr/products/-/{sku_id}"
+                        elif country == "CN":
+                            source_url = f"https://cn.louisvuitton.com/chn-cn/products/-/{sku_id}"
+                        sku_list.append({"sku_id": sku_id, "source_url": source_url})
+                except Exception:
+                    pass
+        logger.info("[STORE-INV] %s 共 %d 个 SKU 待处理", country, len(sku_list))
+        logger.info("[STORE-INV] URL已修正为 /-/ 格式")
 
     # 跳过已有门店库存的 SKU
     inv_file = dirs["root"] / f"inventories_{country}_stores.jsonl"
@@ -1921,18 +2198,7 @@ async def crawl_store_inventories_batch(
                     len(existing_inv_skus))
 
     to_process = [s for s in sku_list if s["sku_id"].lower() not in existing_inv_skus]
-    if limit:
-        to_process = to_process[:limit]
-    logger.info("[STORE-INV] 实际需处理: %d 个 SKU", len(to_process))
-    if not to_process:
-        return 0
-
-    processed = 0
-    success = 0
-    consecutive_failures = 0
-    no_panel_count = 0
-    PAGE_LIFESPAN = 10
-    failed_skus: list = []  # 反爬失败SKU列表（用于后续重试）
+    logger.info("[STORE-INV] 排除已有库存后剩余: %d 个 SKU", len(to_process))
 
     # 无库存面板 SKU 记录文件（用于后续手动验证）
     no_panel_file = dirs["root"] / f"no_panel_skus_{country}.jsonl"
@@ -1949,12 +2215,38 @@ async def crawl_store_inventories_batch(
                 except Exception:
                     pass
 
-    # 已跳过的无面板 SKU 也从 to_process 中排除（避免重复扫描）
+    # 0 家门店 SKU 记录文件（有面板但无门店库存，避免重复扫描）
+    zero_store_file = dirs["root"] / f"zero_store_skus_{country}.jsonl"
+    zero_store_skus_existing: set = set()
+    if zero_store_file.exists():
+        with open(zero_store_file, "r", encoding="utf-8") as f:
+            for line in f:
+                try:
+                    obj = json.loads(line)
+                    sid = obj.get("sku_id", "")
+                    if sid:
+                        zero_store_skus_existing.add(sid.lower())
+                except Exception:
+                    pass
+
+    # 先排除无面板 SKU 和 0 家门店 SKU，再应用 limit（避免 limit 截取后又被过滤掉）
     to_process = [s for s in to_process
-                  if s["sku_id"].lower() not in no_panel_skus_existing]
-    logger.info("[STORE-INV] 排除已记录无面板SKU后，实际需处理: %d 个 SKU", len(to_process))
+                  if s["sku_id"].lower() not in no_panel_skus_existing
+                  and s["sku_id"].lower() not in zero_store_skus_existing]
+    logger.info("[STORE-INV] 排除无面板(%d)+零门店(%d)后: %d 个 SKU",
+                len(no_panel_skus_existing), len(zero_store_skus_existing), len(to_process))
+    if limit:
+        to_process = to_process[:limit]
+    logger.info("[STORE-INV] 实际需处理: %d 个 SKU", len(to_process))
     if not to_process:
         return 0
+
+    processed = 0
+    success = 0
+    consecutive_failures = 0
+    no_panel_count = 0
+    PAGE_LIFESPAN = 10
+    failed_skus: list = []  # 反爬失败SKU列表（用于后续重试）
 
     async with async_playwright() as pw:
         # === 统一通过 BrowserManager 获取浏览器单例（不再自行 connect_over_cdp）===
@@ -1998,6 +2290,42 @@ async def crawl_store_inventories_batch(
                         processed += 1
                         await asyncio.sleep(random.uniform(*adapter.request_interval_range))
                         continue
+
+                    # === 404 页面检测（变体SKU可能无独立详情页）===
+                    # 同一商品不同颜色共享详情页时，变体SKU用 /-/{sku} 格式访问会返回404
+                    # 页面标题为「ページが見つかりません」(JP) / 「페이지를 찾을 수 없습니다」(KR)
+                    # 这种情况下价格元素也不会加载，需在反爬检测前排除，避免误判为软封禁
+                    try:
+                        page_info = await page.evaluate(
+                            "() => {"
+                            "  const t = (document.title || '').trim();"
+                            "  const body = (document.body && document.body.innerText) || '';"
+                            "  const is404 = t.includes('ページが見つかりません')"
+                            "    || t.includes('페이지를 찾을 수 없')"
+                            "    || t.toLowerCase().includes('page not found')"
+                            "    || (body.length < 1000 && body.includes('404'));"
+                            "  return { title: t.substring(0, 80), body_len: body.length, is404: is404 };"
+                            "}"
+                        )
+                        if page_info.get("is404"):
+                            no_panel_count += 1
+                            no_panel_record = {
+                                "sku_id": sku_id,
+                                "country": country,
+                                "source_url": product_url,
+                                "reason": "page_not_found_404",
+                                "note": "变体SKU无独立详情页(404)，库存数据通过关联SKU已采集",
+                                "page_title": page_info.get("title", ""),
+                                "detected_at": datetime.now().isoformat(timespec="seconds"),
+                            }
+                            _append_jsonl(no_panel_file, no_panel_record)
+                            logger.info("[STORE-INV] %d/%d %s: 404(变体无独立页,已记录) #%d",
+                                        i, len(to_process), sku_id, no_panel_count)
+                            processed += 1
+                            await asyncio.sleep(random.uniform(*adapter.request_interval_range))
+                            continue
+                    except Exception as _e404:
+                        logger.debug("[STORE-INV] %s 404检测异常: %s", sku_id, _e404)
 
                     # === 反爬软封禁检测：检查价格元素是否加载成功 ===
                     # Akamai 软封禁时页面能加载但商品内容缺失（价格元素不存在）
@@ -2103,8 +2431,17 @@ async def crawl_store_inventories_batch(
                         logger.info("[STORE-INV] %d/%d %s: %d 家门店",
                                     i, len(to_process), sku_id, len(store_invs))
                     else:
-                        consecutive_failures += 1
-                        logger.info("[STORE-INV] %d/%d %s: 0 家门店",
+                        # 有面板但 0 家门店：记录到 zero_store 文件，避免重复扫描
+                        zero_store_record = {
+                            "sku_id": sku_id,
+                            "country": country,
+                            "source_url": product_url,
+                            "reason": "zero_stores_after_all_cities",
+                            "note": "有库存面板但所有城市均无门店库存，可能为线上专属",
+                            "detected_at": datetime.now().isoformat(timespec="seconds"),
+                        }
+                        _append_jsonl(zero_store_file, zero_store_record)
+                        logger.info("[STORE-INV] %d/%d %s: 0 家门店(已记录)",
                                     i, len(to_process), sku_id)
 
                 except Exception as e:
@@ -2235,6 +2572,10 @@ def main():
                         help="all 模式最多抓取多少个新详情（0=不限制）")
     parser.add_argument("--fetch-store-inventory", action="store_true",
                         help="single/all 模式下额外采集门店库存（DOM 交互，较慢）")
+    parser.add_argument("--sku-file", default="",
+                        help="store-inventory 模式可选：指定 JSON 文件（list of {sku,url}）"
+                             "作为 SKU 白名单，仅采集这些 SKU 的库存。"
+                             "示例：--sku-file data/lv/JP/men_pending_skus_JP.json")
     args = parser.parse_args()
 
     adapter = get_brand("LV", args.country)
@@ -2253,7 +2594,8 @@ def main():
         asyncio.run(crawl_list(args.country, adapter))
     elif args.mode == "store-inventory":
         asyncio.run(crawl_store_inventories_batch(args.country, adapter,
-                                                    limit=args.limit))
+                                                    limit=args.limit,
+                                                    sku_file=args.sku_file))
         # 采集结束后，汇总无面板 SKU（需人工验证）
         no_panel_count = globals().get('_LAST_NO_PANEL_COUNT', 0)
         no_panel_file = globals().get('_LAST_NO_PANEL_FILE', '')

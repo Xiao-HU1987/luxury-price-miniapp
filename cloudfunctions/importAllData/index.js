@@ -396,6 +396,95 @@ exports.main = async (event = {}) => {
     return result;
   }
 
+  // 从云存储导入数据：下载 JSON 文件 → 解析 → 导入
+  // fileID: 云存储文件 ID，如 'cloud://env-id.xxx/import/chunk_000.json'
+  if (action === 'import-from-storage') {
+    const fileID = event.fileID;
+    const partIndex = event.partIndex || 0;
+    const clear = event.clear === true; // 默认不先清空，支持增量导入
+
+    if (!fileID) {
+      return { code: -1, message: '缺少 fileID 参数' };
+    }
+
+    console.log(`[import-from-storage] 下载文件: ${fileID}`);
+
+    // 下载文件
+    const downloadRes = await cloud.downloadFile({ fileID });
+    if (!downloadRes || !downloadRes.fileContent) {
+      return { code: -1, message: '下载文件失败' };
+    }
+
+    let data;
+    try {
+      const content = downloadRes.fileContent.toString('utf-8');
+      data = JSON.parse(content);
+    } catch (e) {
+      return { code: -1, message: '解析 JSON 失败: ' + e.message };
+    }
+
+    const products = data.products || [];
+    const priceStocks = data.priceStocks || [];
+
+    console.log(`[import-from-storage] 解析完成: ${products.length} products, ${priceStocks.length} priceStocks`);
+
+    if (clear) {
+      console.log('[import-from-storage] 清空现有数据...');
+      await clearCollection('products');
+      await clearCollection('price_stock');
+    }
+
+    // slug 去重（与 import-data 逻辑一致）
+    const slugMap = {};
+    for (const p of products) {
+      const key = p.slug || p.productId || '';
+      if (!key) continue;
+      if (!slugMap[key]) {
+        slugMap[key] = p;
+      } else if (p.mainImage && !slugMap[key].mainImage) {
+        slugMap[key] = p;
+      }
+    }
+    const dedupedProducts = Object.values(slugMap);
+    const dedupedIds = new Set(dedupedProducts.map(p => p.productId));
+    const dedupedPS = priceStocks.filter(ps => dedupedIds.has(ps.productId));
+
+    console.log(`[import-from-storage] 去重后: ${dedupedProducts.length} products, ${dedupedPS.length} priceStocks`);
+
+    // 分批写入 products
+    const PRODUCT_PART_SIZE = 30;
+    let productInserted = 0;
+    for (let i = 0; i < dedupedProducts.length; i += PRODUCT_PART_SIZE) {
+      const chunk = dedupedProducts.slice(i, i + PRODUCT_PART_SIZE);
+      const toInsert = chunk.map(p => ({ ...p, createTime: db.serverDate() }));
+      const result = await batchInsert('products', toInsert);
+      productInserted += (result && result.added) || chunk.length;
+    }
+
+    // 分批写入 price_stocks
+    const PS_PART_SIZE = 50;
+    let psInserted = 0;
+    for (let i = 0; i < dedupedPS.length; i += PS_PART_SIZE) {
+      const chunk = dedupedPS.slice(i, i + PS_PART_SIZE);
+      const toInsert = chunk.map(ps => ({ ...ps, priceUpdateTime: db.serverDate() }));
+      const result = await batchInsert('price_stock', toInsert);
+      psInserted += (result && result.added) || chunk.length;
+    }
+
+    return {
+      action: 'import-from-storage',
+      partIndex,
+      fileID,
+      clear,
+      receivedProducts: products.length,
+      receivedPriceStocks: priceStocks.length,
+      dedupedProducts: dedupedProducts.length,
+      dedupedPriceStocks: dedupedPS.length,
+      products: { inserted: productInserted },
+      priceStocks: { inserted: psInserted }
+    };
+  }
+
   // 过滤：只导入包包类商品，通过 slug 黑名单排除非包包类
   const HANDCBAG_PRODUCTS = PRODUCTS.filter(isHandbag);
   

@@ -74,13 +74,25 @@ exports.main = async (event, context) => {
       updateTime: p.updateTime || ''
     };
 
-    // 获取所有价格和库存
-    const priceStockRes = await db.collection('price_stock')
-      .where({ productId })
-      .get();
+    // 获取所有价格和库存（分页拉取，云数据库单次最多100条）
+    const priceStockCol = db.collection('price_stock');
+    const MAX_QUERY = 100;
+    let allPriceStocks = [];
+    let offset = 0;
+    while (true) {
+      const pageRes = await priceStockCol
+        .where({ productId })
+        .skip(offset)
+        .limit(MAX_QUERY)
+        .get();
+      const batch = pageRes.data || [];
+      allPriceStocks = allPriceStocks.concat(batch);
+      if (batch.length < MAX_QUERY) break;
+      offset += MAX_QUERY;
+    }
 
     // 构建价格库存列表（规范字段）
-    const priceStocks = priceStockRes.data.map(ps => ({
+    const priceStocks = allPriceStocks.map(ps => ({
       productId: ps.productId,
       countryCode: ps.countryCode,
       localPrice: ps.localPrice,

@@ -45,7 +45,10 @@ exports.main = async (event, context) => {
 
     switch (action) {
       case 'getProfile':
-        return { code: 0, data: userDoc || { favorites: [], viewHistory: [], calcHistory: [], priceAlerts: [], compareList: [], settings: {} };
+        return {
+          code: 0,
+          data: userDoc || { favorites: [], viewHistory: [], calcHistory: [], priceAlerts: [], compareList: [], settings: {} }
+        };
 
       case 'toggleFavorite': {
         const { productId } = data;

@@ -11,12 +11,11 @@
 set -e
 
 PORT=${1:-9333}
-PROXY="http://127.0.0.1:7890"
 CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 USER_DATA_DIR="$HOME/Library/Application Support/Google/Chrome-LV-Crawler"
 LOG_FILE="/tmp/chrome-lv-crawler.log"
 
-# 启动 Chrome 的函数
+# 启动 Chrome 的函数（直连模式，不使用代理——VPN代理IP会被Akamai封禁）
 start_chrome() {
     echo "🛑 关闭旧 Chrome 进程..."
     pkill -f "Google Chrome" 2>/dev/null || true
@@ -25,11 +24,11 @@ start_chrome() {
     rm -f "$USER_DATA_DIR/SingletonLock" 2>/dev/null || true
     mkdir -p "$USER_DATA_DIR"
 
-    echo "🚀 启动 Chrome (CDP port=$PORT, proxy=$PROXY)..."
+    echo "🚀 启动 Chrome (CDP port=$PORT, 直连模式无代理)..."
     echo "   用户数据目录: $USER_DATA_DIR"
+    echo "   说明: VPN代理IP(203.10.99.75)被Akamai封禁，直连(上海移动住宅IP)可绕过"
     nohup "$CHROME_BIN" \
         --remote-debugging-port=$PORT \
-        --proxy-server="$PROXY" \
         --disable-blink-features=AutomationControlled \
         --user-data-dir="$USER_DATA_DIR" \
         --no-first-run \
@@ -75,7 +74,7 @@ run_crawler() {
     cd "$(dirname "$0")/server"
     env -u HTTP_PROXY -u HTTPS_PROXY -u http_proxy -u https_proxy \
         -u all_proxy -u ALL_PROXY -u SOCKS_PROXY -u socks_proxy \
-        venv/bin/python3.11 -m crawler.lv_crawler "$@"
+        venv/bin/python3.11 -m crawler.lv_crawler_multi "$@"
 }
 
 # 检查状态

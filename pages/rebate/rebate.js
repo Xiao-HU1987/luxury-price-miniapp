@@ -209,7 +209,9 @@ Page({
     const paymentRate = data.selectedPayment.rate;
     const exchangeRate = parseFloat(data.exchangeRateInput) || 0;
 
-    const taxAmount = price * (taxRate / 100);
+    // 海外官网价格均为含税价：先倒推免税价，再按免税价计算税额（退税金额=含税价-免税价）
+    const basePrice = price / (1 + taxRate / 100);
+    const taxAmount = price - basePrice;
     const rebateAmount = price * (rebateRate / 100);
     const paymentFee = price * (paymentRate / 100);
     const discountedPrice = price - taxAmount - rebateAmount;

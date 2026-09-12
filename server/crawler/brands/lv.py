@@ -75,27 +75,39 @@ class LVAdapter(BrandAdapter):
             "load_more_button": "button:has-text('さらに表示する')",
         }
 
-    # ===== 反爬策略 =====
+    # ===== 反爬策略（真人节奏优化版，2026-08-06 中国联通切换后调参）=====
+    # 设计理念：真人浏览LV官网的典型节奏
+    #   - 打开详情页 → 看图片/价格 → 滚动看描述 → 找门店库存按钮
+    #   → 点开弹窗 → 逐个城市查库存（约2-3分钟/SKU）
+    #   → 休息一会再看下一个（避免1分钟内连刷多个商品页）
+    # 实测 Akamai 软封禁触发阈值：15分钟内约 8-10 个详情页+库存操作
 
     @property
     def batch_size(self) -> int:
-        return 10
+        """每批次处理 SKU 数：真人一次不会连续看超过4个包"""
+        return 4
 
     @property
     def request_interval_range(self) -> tuple[float, float]:
-        return (5.0, 12.0)
+        """SKU 之间的间隔（秒）：模拟人思考/对比/切页面的时间
+        之前 (5,12) 太机械，Akamai 一眼看穿；现在放宽到 20-45 秒"""
+        return (20.0, 45.0)
 
     @property
     def batch_cooldown_range(self) -> tuple[float, float]:
-        return (240, 360)
+        """批次之间的长休息（秒）：看完4个包，模拟起身倒水/刷手机一会
+        之前 (240,360)=4-6分太短；现在 10-18 分基本不会触发风控"""
+        return (600.0, 1080.0)
 
     @property
     def blocked_cooldown(self) -> int:
-        return 600
+        """被封禁后的冷却时间（秒）：Akamai 住宅IP封禁通常 30-90 分钟，取 45 分钟保守值"""
+        return 2700
 
     @property
     def max_consecutive_blocks(self) -> int:
-        return 3
+        """连续被封次数阈值：连续2次封就进入长冷却，避免死磕"""
+        return 2
 
     # ===== 数据过滤 =====
 

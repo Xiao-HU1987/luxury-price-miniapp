@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-05T11:38:01.613181",
-  "total_skus": 574,
+  "generated_at": "2026-08-06T00:42:46.530641",
+  "total_skus": 588,
   "brand": "Louis Vuitton",
   "field_order": [
     "brand",
@@ -42,22 +42,22 @@
     "threshold_high_confidence": 0.9,
     "threshold_manual_review_range_min": 0.7,
     "threshold_manual_review_range_max_exclusive": 0.9,
-    "manual_review_count": 0
+    "manual_review_count": 8
   },
   "coverage": {
     "cn": 346,
-    "jp": 242,
+    "jp": 378,
     "kr": 483,
-    "all_three": 138,
-    "cn_jp_only": 77,
+    "all_three": 244,
+    "cn_jp_only": 78,
     "has_store_data": 244,
     "has_store_stock": 224,
-    "has_image": 573,
+    "has_image": 588,
     "has_phash": 573,
     "has_name_en": 138,
     "has_name_cn": 346,
     "has_store_channel": 244,
-    "online_only": 330,
+    "online_only": 344,
     "store_in_stock": 224,
     "store_out_of_stock": 20
   }

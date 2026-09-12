@@ -115,7 +115,7 @@ Page({
 
   _getPriceStocksFromMock(productId) {
     try {
-      const mock = require('../../data/mock.js');
+      const mock = require('../../utils/mock.js');
       if (mock.PRICE_STOCK && Array.isArray(mock.PRICE_STOCK)) {
         return mock.PRICE_STOCK.filter(ps => ps.productId === productId && ps.stockStatus === 'available');
       }

@@ -68,11 +68,12 @@ INVENTORY_API_TEMPLATE = (
     "https://api.louisvuitton.com/api/jpn-jp/catalog/inventory/{sku_id}"
 )
 
-# ==================== 抓取节奏 ====================
-# 列表页加载后等待时间（毫秒），确保 AJAX 全部返回
+# ==================== 抓取节奏（真人节奏优化版 2026-08-06）====================
+# 列表页加载后等待时间（毫秒）：列表页内容少，8秒足够，但确保懒加载完成
 LIST_PAGE_WAIT_MS = 8000
-# 详情页加载后等待时间（毫秒）
-DETAIL_PAGE_WAIT_MS = 8000
+# 详情页加载后等待时间（毫秒）：模拟真人看完图片/价格再滚动的时间
+# 之前 8000ms 太匆忙；现在 12-18 秒让页面完全渲染 + 模拟看图片
+DETAIL_PAGE_WAIT_MS = 15000
 # 两次请求之间的间隔（秒）— 已改为随机区间，此值为最小值
 REQUEST_INTERVAL_MIN_SEC = 3.0
 REQUEST_INTERVAL_MAX_SEC = 8.0
@@ -80,20 +81,21 @@ REQUEST_INTERVAL_MAX_SEC = 8.0
 REQUEST_INTERVAL_SEC = 3.0
 
 # 模拟用户行为：滚动到页底（部分站点懒加载）
+# 真人滚动节奏：不会匀速800px/400ms，改成缓慢多步、中间停留
 SCROLL_TO_BOTTOM = True
-SCROLL_STEP_PX = 800
-SCROLL_INTERVAL_MS = 400
+SCROLL_STEP_PX = 300         # 每步滚动距离更小，更像人
+SCROLL_INTERVAL_MS = 1200    # 每步停顿更长，模拟看内容
 
-# ==================== 反爬策略 ====================
+# ==================== 反爬策略（真人节奏优化版 2026-08-06）====================
 # 分批爬取：每批商品数量，超过后关闭 tab、清除 cookies、冷却等待
 BATCH_SIZE = 15
 # 批次间冷却时间（秒）— 随机区间
 BATCH_COOLDOWN_MIN_SEC = 180    # 3 分钟
 BATCH_COOLDOWN_MAX_SEC = 300    # 5 分钟
 # 每隔 N 个商品插入一次长暂停（模拟用户思考）
-LONG_PAUSE_EVERY = 5
-LONG_PAUSE_MIN_SEC = 20         # 20 秒
-LONG_PAUSE_MAX_SEC = 60         # 60 秒
+LONG_PAUSE_EVERY = 3            # 之前5个太长；每3个停一次更符合真人节奏
+LONG_PAUSE_MIN_SEC = 45         # 45 秒 - 喝口水、翻评论
+LONG_PAUSE_MAX_SEC = 120        # 2 分钟 - 被打断处理别的事
 # 被反爬拦截后的等待时间（秒）
 BLOCK_COOLDOWN_SEC = 600        # 10 分钟
 # 连续被拦截多少次后放弃

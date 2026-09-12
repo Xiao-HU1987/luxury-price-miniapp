@@ -66,7 +66,9 @@ exports.main = async (event, context) => {
     }
 
     const rawPrice = price;
-    const refundAmount = rawPrice * (refundRate / 100);
+    // 海外官网价格均为含税价：先倒推免税价，再按免税价计算税额（退税额=含税价-免税价）
+    const basePrice = rawPrice / (1 + refundRate / 100);
+    const refundAmount = rawPrice - basePrice;
     const rebateAmount = rawPrice * (rebateRate / 100);
     const afterDiscount = rawPrice - refundAmount - rebateAmount;
     const feeAmount = afterDiscount * channelFee;

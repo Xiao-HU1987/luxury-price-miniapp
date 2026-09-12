@@ -8,6 +8,10 @@
       },
       {
         "type": "folder",
+        "value": "data"
+      },
+      {
+        "type": "folder",
         "value": "admin"
       },
       {
@@ -27,6 +31,14 @@
         "value": "node_modules"
       },
       {
+        "type": "folder",
+        "value": "logs"
+      },
+      {
+        "type": "folder",
+        "value": ".git"
+      },
+      {
         "type": "file",
         "value": ".gitignore"
       },
@@ -37,6 +49,34 @@
       {
         "type": "file",
         "value": "package.json"
+      },
+      {
+        "type": "file",
+        "value": "package-lock.json"
+      },
+      {
+        "type": "file",
+        "value": "database.db"
+      },
+      {
+        "type": "file",
+        "value": "Dockerfile"
+      },
+      {
+        "type": "file",
+        "value": "SECURITY.md"
+      },
+      {
+        "type": "file",
+        "value": "analyze_lv_data.py"
+      },
+      {
+        "type": "file",
+        "value": "start_lv_chrome.sh"
+      },
+      {
+        "type": "file",
+        "value": ".DS_Store"
       }
     ],
     "include": []
