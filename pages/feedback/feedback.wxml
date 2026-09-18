@@ -1,0 +1,58 @@
+<view class="page">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-inner">
+      <view class="nav-back" bindtap="goBack">‹</view>
+      <text class="nav-title">意见反馈</text>
+      <view class="nav-right"></view>
+    </view>
+  </view>
+
+  <view class="content">
+    <view class="card">
+      <view class="section">
+        <view class="section-header">
+          <text class="section-label">反馈内容</text>
+          <text class="section-required">*</text>
+        </view>
+        <textarea
+          class="feedback-input"
+          placeholder="请描述您遇到的问题或建议（如价格信息、汇率、功能建议等）"
+          placeholder-class="placeholder"
+          value="{{content}}"
+          maxlength="500"
+          bindinput="onContentInput"
+        />
+        <text class="char-count">{{content.length}}/500</text>
+      </view>
+
+      <view class="divider"></view>
+
+      <view class="section">
+        <view class="section-header">
+          <text class="section-label">您的微信号</text>
+          <text class="section-required">*</text>
+        </view>
+        <view class="input-wrap">
+          <input
+            class="contact-input"
+            placeholder="便于我们与您联系反馈处理结果"
+            placeholder-class="placeholder"
+            value="{{contact}}"
+            maxlength="50"
+            bindinput="onContactInput"
+          />
+        </view>
+        <view class="contact-tip">您的信息仅用于本次反馈沟通，不会对外公开</view>
+      </view>
+    </view>
+
+    <button class="submit-btn" bindtap="onSubmit" loading="{{submitting}}" disabled="{{submitting}}">
+      确认发送
+    </button>
+
+    <view class="footer-tip">
+      <text>您的每一条建议我们都认真对待，帮助比惠变得更好</text>
+    </view>
+  </view>
+</view>

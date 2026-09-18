@@ -102,23 +102,23 @@
             <text class="rate-currency-code">{{item.currency}}</text>
           </view>
           <view class="rate-base-info">
-            <text class="rate-base-label">1 CNY =</text>
-            <text class="rate-base-value">{{item.baseRate}}</text>
-            <text class="rate-base-unit">{{item.currency}}</text>
+            <text class="rate-base-label">1 {{item.currency}} =</text>
+            <text class="rate-base-value">{{item.jpyToCny || item.krwToCny}}</text>
+            <text class="rate-base-unit">CNY</text>
           </view>
         </view>
 
         <view class="rate-exchange-row">
           <view class="rate-exchange-item">
-            <text class="exchange-label">1 CNY 兑换</text>
-            <text class="exchange-value">{{item.cnyToJpy || item.cnyToKrw}}</text>
-            <text class="exchange-unit">{{item.currency}}</text>
-          </view>
-          <view class="exchange-divider"></view>
-          <view class="rate-exchange-item">
             <text class="exchange-label">1 {{item.currency}} 兑换</text>
             <text class="exchange-value">{{item.jpyToCny || item.krwToCny}}</text>
             <text class="exchange-unit">CNY</text>
+          </view>
+          <view class="exchange-divider"></view>
+          <view class="rate-exchange-item">
+            <text class="exchange-label">1 CNY 兑换</text>
+            <text class="exchange-value">{{item.cnyToJpy || item.cnyToKrw}}</text>
+            <text class="exchange-unit">{{item.currency}}</text>
           </view>
         </view>
       </view>

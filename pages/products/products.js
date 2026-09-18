@@ -42,12 +42,13 @@ Page({
     const that = this;
     request.get('/api/product/brands').then(data => {
       if (data && Array.isArray(data)) {
+        // 兼容云函数返回（brandId/brandName）与旧后端（brand_id/name_cn）
         const brands = data.map(b => ({
-          id: b.brand_id,
-          name: b.name,
-          nameCn: b.name_cn,
-          logo: b.logo
-        }));
+          id: b.brandId || b.brand_id,
+          name: b.brandName || b.name,
+          nameCn: b.brandName || b.name_cn || b.name,
+          logo: b.logo || ''
+        })).filter(b => b.id);
         that.setData({ brands });
       }
     }).catch(() => {});
@@ -73,58 +74,47 @@ Page({
     const that = this;
     const { keyword, brandId, category, country, sortBy } = this.data;
 
-    const params = { page: 1, page_size: 50 };
-    if (keyword) params.keyword = keyword;
-    if (brandId) params.brand_id = brandId;
-    if (category) params.category_id = category;
-    if (country) params.country = country;
+    const params = { page: 1, pageSize: 50, keyword, brandId };
     request.get('/api/product/search', params).then((data) => {
       if (data && data.list) {
         const rates = that.data.exchangeRates;
-        let processed = data.list.map(p => {
-          const cnPrice = p.min_cn_price || 0;
-          const jpPrice = p.min_jp_price || 0;
-          
-          let lowestCny = cnPrice > 0 ? cnPrice : Infinity;
-          let lowestPrice = cnPrice;
-          let lowestCurrency = 'CNY';
-          let lowestCountry = 'CN';
-          
-          if (rates && rates.rates && jpPrice > 0) {
-            const jpCny = jpPrice / (rates.rates.JPY || 1);
-            if (jpCny < lowestCny) {
-              lowestCny = jpCny;
-              lowestPrice = jpPrice;
-              lowestCurrency = 'JPY';
-              lowestCountry = 'JP';
-            }
-          }
-          
-          if (lowestCny === Infinity) lowestCny = 0;
-          
+        const formatPrice = (n) => n > 0 ? String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '';
+        const processed = data.list.map(p => {
+          // 云函数返回驼峰字段（productId/cnOfficialPrice/jpCnyPrice/krCnyPrice/countryCount）
+          const cnPrice = p.cnOfficialPrice || 0;
+          const jpCny = p.jpCnyPrice || 0;
+          const krCny = p.krCnyPrice || 0;
           return {
-            id: p.spu_id,
-            brandId: p.brand_id,
-            brandName: p.brand_name,
-            name: p.name_cn || p.name || p.name_en || '',
-            nameEn: p.name,
-            image: p.image || '',
-            lowestPrice: lowestPrice,
-            lowestCurrency: lowestCurrency,
-            lowestCountry: lowestCountry,
-            lowestCny: lowestCny,
-            lowestCnyDisplay: Math.round(lowestCny).toString(),
-            skuCount: p.sku_count || 0,
-            countryCount: p.country_count || 0
+            id: p.productId,
+            productId: p.productId,
+            brandId: p.brandId || '',
+            brandName: p.brandName || '',
+            name: p.nameCn || p.nameJp || p.nameEn || '',
+            nameEn: p.nameEn || '',
+            image: p.mainImage || '',
+            cnPriceStr: formatPrice(cnPrice),
+            jpPrice: p.jpPrice || 0,
+            jpCnyPrice: jpCny,
+            jpCnyStr: formatPrice(jpCny),
+            jpPriceCnyStr: formatPrice(jpCny),
+            krPrice: p.krPrice || 0,
+            krCnyPrice: krCny,
+            krCnyStr: formatPrice(krCny),
+            bestGlobalPrice: p.bestGlobalPrice || 0,
+            bestCountry: p.bestCountry || '',
+            countryCount: p.countryCount || 0,
+            skuCount: p.countryCount || 0,
+            hasJpPrice: jpCny > 0,
+            hasKrPrice: krCny > 0
           };
         });
-        
+
         if (sortBy === 'price-low') {
-          processed.sort((a, b) => a.lowestCny - b.lowestCny);
+          processed.sort((a, b) => (a.jpCnyPrice || 0) - (b.jpCnyPrice || 0));
         } else if (sortBy === 'price-high') {
-          processed.sort((a, b) => b.lowestCny - a.lowestCny);
+          processed.sort((a, b) => (b.jpCnyPrice || 0) - (a.jpCnyPrice || 0));
         }
-        
+
         that.setData({ products: processed });
       }
     }).catch(() => {});

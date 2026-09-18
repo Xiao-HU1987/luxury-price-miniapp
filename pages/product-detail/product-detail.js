@@ -125,7 +125,8 @@ Page({
   _mapProductInfo(product) {
     const productId = product.productId || '';
     const slug = product.slug || '';
-    const sku = (slug || productId).toUpperCase().replace(/^SPU-LV-/, '');
+    // 货号必须使用官方货号（productId，如 M13089），不能用 URL 段 slug（含 nvprod）
+    const sku = (productId || slug).toUpperCase().replace(/^SPU-LV-/, '');
     
     const nameCn = product.nameCn || '';
     const nameJp = product.nameJp || '';
@@ -464,10 +465,21 @@ Page({
   calculateFinalPrice() {
     const { productId } = this.data;
     if (!productId) return;
-    
+
     // rebate 是 tabBar 页面，不能用 navigateTo
-    // 用全局变量传递 productId，在 rebate 的 onShow 中读取
-    app.globalData.pendingProductId = productId;
+    // 从已聚合的价格渠道中取 JP 或 KR 的当地价（官网/门店均可），直接传递给计算器
+    const jpChannel = this.data.priceChannels.find(function (c) { return c.countryCode === 'JP' && c.localPrice > 0; });
+    const krChannel = this.data.priceChannels.find(function (c) { return c.countryCode === 'KR' && c.localPrice > 0; });
+    const channel = jpChannel || krChannel;
+
+    const pendingCalc = channel ? {
+      productId,
+      displayName: this.data.displayName || '',
+      mainImage: this.data.mainImage || '',
+      countryCode: channel.countryCode,
+      price: channel.localPrice
+    } : { productId };
+    app.globalData.pendingCalcData = pendingCalc;
     wx.switchTab({
       url: '/pages/rebate/rebate'
     });

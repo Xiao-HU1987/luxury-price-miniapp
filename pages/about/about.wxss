@@ -1,0 +1,176 @@
+.page {
+  min-height: 100vh;
+  background: #F7F6F4;
+}
+
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #FFFFFF;
+  border-bottom: 1rpx solid #F0ECE8;
+  box-sizing: border-box;
+}
+
+.nav-inner {
+  height: 88rpx;
+  padding: 0 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-back {
+  width: 60rpx;
+  font-size: 48rpx;
+  font-weight: 300;
+  color: #2C2C2C;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.nav-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #2C2C2C;
+  letter-spacing: 1rpx;
+}
+
+.nav-right {
+  width: 60rpx;
+}
+
+/* Hero 区 */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80rpx 32rpx 60rpx;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F7F6F4 100%);
+}
+
+.logo {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 32rpx;
+  background: linear-gradient(135deg, #FF7A45, #C8553D);
+  color: #FFFFFF;
+  font-size: 44rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 24rpx rgba(200, 85, 61, 0.25);
+}
+
+.app-name {
+  margin-top: 24rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #2C2C2C;
+}
+
+.version {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 卡片 */
+.card {
+  margin: 0 24rpx 40rpx;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 16rpx 32rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.03);
+}
+
+.section {
+  padding: 32rpx 0;
+}
+
+.section-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #2C2C2C;
+  margin-bottom: 16rpx;
+}
+
+.content-text {
+  font-size: 26rpx;
+  line-height: 1.7;
+  color: #666;
+}
+
+.content-text.small {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.divider {
+  height: 1rpx;
+  background: #F0ECE8;
+}
+
+/* 联系行 */
+.contact-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #F7F7F7;
+}
+
+.contact-row:last-of-type {
+  border-bottom: none;
+}
+
+.contact-label {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.contact-value {
+  font-size: 28rpx;
+  color: #2C2C2C;
+  font-weight: 500;
+}
+
+.contact-tip {
+  font-size: 22rpx;
+  color: #B8B8B8;
+  padding-top: 8rpx;
+}
+
+/* 菜单行 */
+.menu-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 0;
+  cursor: pointer;
+}
+
+.menu-row:active {
+  opacity: 0.6;
+}
+
+.menu-label {
+  font-size: 28rpx;
+  color: #2C2C2C;
+}
+
+.menu-arrow {
+  font-size: 32rpx;
+  color: #C0C0C0;
+}
+
+.footer {
+  padding: 30rpx 0 80rpx;
+  text-align: center;
+}
+
+.footer-text {
+  font-size: 22rpx;
+  color: #B8B8B8;
+}

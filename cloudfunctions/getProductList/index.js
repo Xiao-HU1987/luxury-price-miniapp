@@ -7,8 +7,25 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
 const _ = db.command;
 
-const JPY_RATE = 21.58;
-const KRW_RATE = 192.5;
+const FALLBACK_RATES = { CNY: 1, JPY: 21.58, KRW: 192.5 };
+
+// 从 exchange_rates 集合读取最新汇率（getExchangeRates 每次抓取后写入）
+// 未找到时使用内置兜底，保证接口可用
+async function getLatestRates() {
+  try {
+    const res = await db.collection('exchange_rates')
+      .orderBy('updateTime', 'desc')
+      .limit(1)
+      .get();
+    if (res.data && res.data.length > 0 && res.data[0].rates) {
+      const r = res.data[0].rates;
+      return { CNY: 1, JPY: r.JPY || FALLBACK_RATES.JPY, KRW: r.KRW || FALLBACK_RATES.KRW };
+    }
+  } catch (e) {
+    // 集合不存在等错误，走兜底
+  }
+  return FALLBACK_RATES;
+}
 
 // 非包包类商品关键词黑名单（slug 中包含这些词的都不是包包）
 // 与 importAllData 保持一致，作为防御性兜底过滤
@@ -122,17 +139,41 @@ exports.main = async (event, context) => {
     const startIdx = (page - 1) * pageSize;
     const products = filteredProducts.slice(startIdx, startIdx + pageSize);
 
+    // 读取最新实时汇率（1 CNY = x 外币），用于动态换算人民币价格
+    const latestRates = await getLatestRates();
+    const jpyRate = latestRates.JPY || FALLBACK_RATES.JPY;
+    const krwRate = latestRates.KRW || FALLBACK_RATES.KRW;
+
     // 直接使用 products 集合中冗余存储的价格字段（避免 price_stock 的 100 条限制）
     const list = products.map(p => {
       const cnOfficialPrice = p.cnOfficialPrice || 0;
       const hasCnPrice = p.hasCnPrice || cnOfficialPrice > 0;
-      const jpCnyPrice = p.jpCnyPrice || 0;
-      const krCnyPrice = p.krCnyPrice || 0;
-      const bestGlobalPrice = p.bestGlobalPrice || 0;
-      const bestCountry = p.bestCountry || '';
-      const countryCount = p.countryCount || (
-        (hasCnPrice ? 1 : 0) + (jpCnyPrice > 0 ? 1 : 0) + (krCnyPrice > 0 ? 1 : 0)
-      );
+      // 真实来源判定：数据库 jpCnyPrice/krCnyPrice 已按 source_jp/source_kr 生成（为0表示官网无真实在售价，如推算价）
+      // 有真实价格时用最新汇率动态换算，避免旧汇率失真
+      const hasJp = (p.jpCnyPrice || 0) > 0;
+      const hasKr = (p.krCnyPrice || 0) > 0;
+      let jpCnyPrice = 0;
+      if (hasJp && p.jpPrice && p.jpPrice > 0 && jpyRate > 0) {
+        jpCnyPrice = Math.round(p.jpPrice / jpyRate);
+      } else {
+        jpCnyPrice = 0;
+      }
+      let krCnyPrice = 0;
+      if (hasKr && p.krPrice && p.krPrice > 0 && krwRate > 0) {
+        krCnyPrice = Math.round(p.krPrice / krwRate);
+      } else {
+        krCnyPrice = 0;
+      }
+      // 动态计算比价国家/最优价/最优国家，不信任数据库冗余旧值（可能与实时汇率不一致）
+      const priceEntries = [];
+      if (hasCnPrice) priceEntries.push({ country: 'CN', price: cnOfficialPrice });
+      if (jpCnyPrice > 0) priceEntries.push({ country: 'JP', price: jpCnyPrice });
+      if (krCnyPrice > 0) priceEntries.push({ country: 'KR', price: krCnyPrice });
+      priceEntries.sort((a, b) => a.price - b.price);
+      const bestGlobalPrice = priceEntries.length > 0 ? priceEntries[0].price : 0;
+      const bestCountry = priceEntries.length > 0 ? priceEntries[0].country : '';
+      const countryCount = priceEntries.length;
+      const countries = priceEntries.map(e => e.country);
 
       return {
         productId: p.productId,
@@ -151,7 +192,7 @@ exports.main = async (event, context) => {
         krCnyPrice: krCnyPrice,
         bestGlobalPrice,
         bestCountry,
-        countries: bestCountry ? [bestCountry] : [],
+        countries: countries,
         countryCount
       };
     });

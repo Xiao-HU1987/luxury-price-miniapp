@@ -126,6 +126,6 @@
   </view>
 
   <view class="footer">
-    <text class="app-version">比惠 v1.0.0</text>
+    <text class="app-version">比惠 v1.1.1</text>
   </view>
 </view>

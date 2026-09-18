@@ -103,26 +103,69 @@ Page({
       this.getTabBar().setData({ selected: 2 });
     }
     this.refreshExchangeRate();
-    
-    // 检查是否有待加载的商品（从商品详情页跳转过来）
-    const pendingProductId = app.globalData.pendingProductId;
-    if (pendingProductId) {
-      app.globalData.pendingProductId = null;
-      this.loadProductData(pendingProductId);
-    } else {
-      this.calculate();
+
+    // 检查是否有从商品详情页直接传递的价格数据（优先，无需云函数回填）
+    const pendingCalc = app.globalData.pendingCalcData;
+    if (pendingCalc && pendingCalc.productId) {
+      app.globalData.pendingCalcData = null;
+      this._applyPendingCalc(pendingCalc);
     }
+    // 兼容旧链路：仅传了 productId（无价格）时走云函数回填
+    else {
+      const pendingProductId = app.globalData.pendingProductId;
+      if (pendingProductId) {
+        app.globalData.pendingProductId = null;
+        this.loadProductData(pendingProductId);
+      } else {
+        this.calculate();
+      }
+    }
+  },
+
+  _applyPendingCalc(pendingCalc) {
+    const country = COUNTRY_PRESETS.find(function (c) {
+      return c.code === pendingCalc.countryCode;
+    }) || COUNTRY_PRESETS[0];
+
+    // 尝试用全局汇率同步填充（异步刷新前保证计算可用）
+    let initRate = '';
+    const globalRates = app.globalData.exchangeRates;
+    if (globalRates && globalRates.rates) {
+      const rate = globalRates.rates[country.currency] || 0; // 1 CNY = rate 外币
+      const cnyPerUnit = rate > 0 ? 1 / rate : 0;
+      if (cnyPerUnit > 0) initRate = cnyPerUnit.toFixed(4);
+    }
+
+    this.setData({
+      productInfo: {
+        productId: pendingCalc.productId,
+        nameCn: pendingCalc.displayName || '',
+        mainImage: pendingCalc.mainImage || ''
+      },
+      selectedCountryCode: country.code,
+      selectedCountry: country,
+      taxRateInput: String(country.taxRate),
+      priceInput: pendingCalc.price ? String(pendingCalc.price) : '',
+      exchangeRateInput: initRate,
+      exchangeRateDisplay: initRate || '—',
+      rateSource: 'global',
+      exchangeRateEditing: false
+    }, function () {
+      this.calculate();
+    });
   },
 
   refreshExchangeRate() {
     const country = this.data.selectedCountry;
     dataService.getExchangeRates().then(data => {
       if (data && data.rates) {
-        const rate = data.rates[country.currency] || 0;
+        // 云端语义：1 CNY = x 外币；展示/输入语义：1 外币 = x 人民币
+        const rate = data.rates[country.currency] || 0; // 1 CNY = rate 外币
+        const cnyPerUnit = rate > 0 ? 1 / rate : 0;     // 1 外币 = cnyPerUnit 人民币
         if (this.data.rateSource === 'global') {
           this.setData({
-            exchangeRateInput: rate > 0 ? String(rate) : '',
-            exchangeRateDisplay: this.formatRate(rate, country.currency)
+            exchangeRateInput: cnyPerUnit > 0 ? cnyPerUnit.toFixed(4) : '',
+            exchangeRateDisplay: this.formatRate(cnyPerUnit, 'CNY')
           });
         }
       }
@@ -197,7 +240,7 @@ Page({
     const val = parseFloat(this.data.exchangeRateInput) || 0;
     this.setData({
       exchangeRateEditing: false,
-      exchangeRateDisplay: this.formatRate(val, this.data.selectedCountry.currency)
+      exchangeRateDisplay: this.formatRate(val, 'CNY')
     });
   },
 
@@ -207,7 +250,8 @@ Page({
     const taxRate = parseFloat(data.taxRateInput) || 0;
     const rebateRate = parseFloat(data.rebateRateInput) || 0;
     const paymentRate = data.selectedPayment.rate;
-    const exchangeRate = parseFloat(data.exchangeRateInput) || 0;
+    // 汇率语义：1 外币 = x 人民币（用户输入与展示方向一致）
+    const cnyPerUnit = parseFloat(data.exchangeRateInput) || 0;
 
     // 海外官网价格均为含税价：先倒推免税价，再按免税价计算税额（退税金额=含税价-免税价）
     const basePrice = price / (1 + taxRate / 100);
@@ -216,7 +260,7 @@ Page({
     const paymentFee = price * (paymentRate / 100);
     const discountedPrice = price - taxAmount - rebateAmount;
     const finalForeignCost = discountedPrice + paymentFee;
-    const finalCny = exchangeRate > 0 ? finalForeignCost / exchangeRate : 0;
+    const finalCny = cnyPerUnit > 0 ? finalForeignCost * cnyPerUnit : 0;
 
     const symbol = data.selectedCountry.symbol;
 

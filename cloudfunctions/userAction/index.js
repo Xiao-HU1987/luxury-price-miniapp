@@ -23,6 +23,15 @@ const _ = db.command;
 
 const COLLECTION = 'user_favorites';
 
+// 确保集合存在（已存在则忽略错误，幂等）
+async function ensureCollection(name) {
+  try {
+    await db.createCollection(name);
+  } catch (e) {
+    // 集合已存在或权限限制，均忽略
+  }
+}
+
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext();
   const { action, ...data } = event;
@@ -32,6 +41,8 @@ exports.main = async (event, context) => {
   }
 
   try {
+    // 确保用户集合存在（首次调用时自动创建，避免 collection not exists）
+    await ensureCollection(COLLECTION);
     // 获取用户文档
     const userRes = await db.collection(COLLECTION)
       .where({ _openid: OPENID })
@@ -47,6 +58,7 @@ exports.main = async (event, context) => {
       case 'getProfile':
         return {
           code: 0,
+          _openid: OPENID,
           data: userDoc || { favorites: [], viewHistory: [], calcHistory: [], priceAlerts: [], compareList: [], settings: {} }
         };
 
@@ -303,6 +315,25 @@ exports.main = async (event, context) => {
           } catch (e) { console.warn('compare联查失败', e); }
         }
         return { code: 0, data: list, count: list.length };
+      }
+
+      case 'submitFeedback': {
+        const { content, contact } = data;
+        if (!content || !content.trim()) {
+          return { code: -1, message: '缺少反馈内容' };
+        }
+        // 确保反馈集合存在
+        await ensureCollection('user_feedback');
+        await db.collection('user_feedback').add({
+          data: {
+            openid: OPENID,
+            content: String(content).trim(),
+            contact: String(contact || '').trim(),
+            status: 'pending',
+            createTime: db.serverDate()
+          }
+        });
+        return { code: 0 };
       }
 
       case 'getFavorites': {

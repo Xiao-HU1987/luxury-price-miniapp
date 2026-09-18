@@ -192,13 +192,22 @@ def update_aligned(merged_jp: dict, merged_kr: dict):
 
 
 def fix_jp_prices(unified: dict):
-    """补充 JP 5 个 SKU 缺失的价格，从其他国价格推算"""
+    """补充指定 SKU 缺失的 JP 价格，从其他国价格推算。
+    注意：已从 merge 主流程移除——推算价可能误导"该国有价"判断（source_jp=False 时不应展示）。
+    如需使用，请传入显式 SKU 白名单，切勿全量推算。"""
     # 使用实时汇率: 1 JPY ≈ 0.048 CNY, 1 KRW ≈ 0.0052 CNY
     # 从 CN 价格反推 JPY: JPY = CNY / 0.048
     # 从 KR 价格反推 JPY: JPY = KRW * 0.0052 / 0.048
 
+    FIX_TARGETS = set()
+    if not FIX_TARGETS:
+        logger.info("fix_jp_prices 已停用（无目标 SKU），跳过推算")
+        return
+
     fixed = []
     for sid, u in unified.items():
+        if sid not in FIX_TARGETS:
+            continue
         price_jp = u.get("price_jp", 0) or 0
         if price_jp == 0:
             inferred = None
@@ -330,11 +339,7 @@ def main():
     logger.info("\n--- 更新 products_unified ---")
     unified = update_aligned(merged_jp_map, merged_kr_map)
 
-    # 5. 补充 JP 缺失价格
-    logger.info("\n--- 补充 JP 缺失价格 ---")
-    fix_jp_prices(unified)
-
-    # 6. 更新价格对比
+    # 5. 更新价格对比
     logger.info("\n--- 更新 price_comparison ---")
     update_price_comparison(unified)
 

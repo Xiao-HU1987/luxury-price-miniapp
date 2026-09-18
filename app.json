@@ -10,6 +10,8 @@
     "pages/favorites/favorites",
     "pages/history/history",
     "pages/privacy/privacy",
+    "pages/about/about",
+    "pages/feedback/feedback",
     "pages/compare/compare",
     "pages/price-alerts/price-alerts"
   ],

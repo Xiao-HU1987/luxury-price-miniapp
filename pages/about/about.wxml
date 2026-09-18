@@ -1,0 +1,59 @@
+<view class="page">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-inner">
+      <view class="nav-back" bindtap="goBack">‹</view>
+      <text class="nav-title">关于比惠</text>
+      <view class="nav-right"></view>
+    </view>
+  </view>
+
+  <!-- Logo 区 -->
+  <view class="hero">
+    <view class="logo">比惠</view>
+    <view class="app-name">比惠更惠 · 全球奢侈品比价</view>
+    <view class="version">版本 v{{version}}</view>
+  </view>
+
+  <!-- 应用信息 -->
+  <view class="card">
+    <view class="section">
+      <view class="section-title">应用简介</view>
+      <view class="content-text">
+        比惠是全球奢侈品价格对比工具，覆盖中国、日本、韩国官方渠道价格与门店库存，支持实时汇率换算、到手价计算、价格提醒等功能，帮助您以更优价格选购心仪商品。
+      </view>
+    </view>
+    <view class="divider"></view>
+    <view class="section">
+      <view class="section-title">联系方式</view>
+      <view class="contact-row" bindtap="onCopyWeChat">
+        <text class="contact-label">客服微信</text>
+        <text class="contact-value">{{contactWeChat}}</text>
+      </view>
+      <view class="contact-row" bindtap="onCopyEmail">
+        <text class="contact-label">邮箱</text>
+        <text class="contact-value">{{contactEmail}}</text>
+      </view>
+      <view class="contact-tip">点击可复制联系方式</view>
+    </view>
+    <view class="divider"></view>
+    <view class="section">
+      <view class="section-title">协议与政策</view>
+      <view class="menu-row" bindtap="onOpenPrivacy">
+        <text class="menu-label">隐私政策</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+    <view class="divider"></view>
+    <view class="section">
+      <view class="section-title">免责声明</view>
+      <view class="content-text small">
+        本应用所展示的价格与库存信息来源于各品牌官方网站公开信息，汇率数据来源于公开市场数据，仅供参考。实际购买价格请以官网及门店为准。
+      </view>
+    </view>
+  </view>
+
+  <view class="footer">
+    <text class="footer-text">© 2026 比惠 · 让比价更简单</text>
+  </view>
+</view>

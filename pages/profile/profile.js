@@ -33,7 +33,22 @@ Page({
     this.setData({ userInfo, isLoggedIn });
     if (isLoggedIn) {
       this.loadUserData();
+    } else {
+      // 未登录也展示本地缓存的收藏（本地收藏不依赖登录）
+      this.loadLocalFavorites();
     }
+  },
+
+  // 未登录时读取本地收藏
+  loadLocalFavorites() {
+    const localFavs = wx.getStorageSync('favorites') || [];
+    if (localFavs.length === 0) {
+      this.setData({ favorites: [], favoritesCount: 0 });
+      return;
+    }
+    // 复用详情加载逻辑展示本地收藏
+    this.loadFavoriteDetails(localFavs.slice(0, 20));
+    this.setData({ favoritesCount: localFavs.length });
   },
 
   onLoginTap() {
@@ -240,8 +255,11 @@ Page({
 
   onSettingTap(e) {
     const id = e.currentTarget.dataset.id;
-    const map = { about: '关于比惠', feedback: '意见反馈' };
-    wx.showToast({ title: map[id] || id, icon: 'none' });
+    if (id === 'about') {
+      wx.navigateTo({ url: '/pages/about/about' });
+    } else if (id === 'feedback') {
+      wx.navigateTo({ url: '/pages/feedback/feedback' });
+    }
   },
 
   copyUserId() {

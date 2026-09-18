@@ -106,7 +106,7 @@
       <view class="field">
         <view class="field-label-row">
           <text class="field-label-text">汇率</text>
-          <text class="rate-hint">1 CNY = {{exchangeRateDisplay}} {{selectedCountry.currency}} · {{rateSource === 'global' ? '自动获取' : '已手动修改'}}</text>
+          <text class="rate-hint">1 {{selectedCountry.currency}} = {{exchangeRateDisplay}} CNY · {{rateSource === 'global' ? '自动获取' : '已手动修改'}}</text>
         </view>
         <block wx:if="{{exchangeRateEditing}}">
           <view class="input-wrap">
@@ -120,7 +120,7 @@
               bindinput="onExchangeRateInput"
               bindblur="onExchangeRateBlur"
             />
-            <text class="input-suffix">{{selectedCountry.currency}}/CNY</text>
+            <text class="input-suffix">CNY</text>
           </view>
         </block>
         <block wx:else>

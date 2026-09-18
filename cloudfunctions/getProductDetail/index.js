@@ -6,8 +6,24 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 
 const db = cloud.database();
 
-const JPY_RATE = 21.58;
-const KRW_RATE = 192.5;
+const FALLBACK_RATES = { CNY: 1, JPY: 21.58, KRW: 192.5 };
+
+// 从 exchange_rates 集合读取最新汇率（getExchangeRates 每次抓取后写入）
+async function getLatestRates() {
+  try {
+    const res = await db.collection('exchange_rates')
+      .orderBy('updateTime', 'desc')
+      .limit(1)
+      .get();
+    if (res.data && res.data.length > 0 && res.data[0].rates) {
+      const r = res.data[0].rates;
+      return { CNY: 1, JPY: r.JPY || FALLBACK_RATES.JPY, KRW: r.KRW || FALLBACK_RATES.KRW };
+    }
+  } catch (e) {
+    // 集合不存在等错误，走兜底
+  }
+  return FALLBACK_RATES;
+}
 
 // 非包包类商品关键词黑名单（与 importAllData/getProductList 保持一致）
 const NON_BAG_KEYWORDS = [
@@ -91,17 +107,27 @@ exports.main = async (event, context) => {
       offset += MAX_QUERY;
     }
 
-    // 构建价格库存列表（规范字段）
-    const priceStocks = allPriceStocks.map(ps => ({
-      productId: ps.productId,
-      countryCode: ps.countryCode,
-      localPrice: ps.localPrice,
-      currency: ps.currency,
-      cnyPrice: ps.cnyPrice || Math.round(ps.localPrice / (ps.currency === 'JPY' ? JPY_RATE : ps.currency === 'KRW' ? KRW_RATE : 1)),
-      stockStatus: ps.stockStatus,
-      storeInfo: ps.storeInfo || { city: '', storeName: '', address: '' },
-      priceUpdateTime: ps.updateTime || ps.createTime || ''
-    }));
+    // 构建价格库存列表（规范字段），人民币价按最新实时汇率动态换算
+    const latestRates = await getLatestRates();
+    const jpyRate = latestRates.JPY || FALLBACK_RATES.JPY;
+    const krwRate = latestRates.KRW || FALLBACK_RATES.KRW;
+
+    const priceStocks = allPriceStocks.map(ps => {
+      const rate = ps.currency === 'JPY' ? jpyRate : ps.currency === 'KRW' ? krwRate : 1;
+      const dynamicCny = ps.localPrice && ps.localPrice > 0 && rate > 0
+        ? Math.round(ps.localPrice / rate)
+        : 0;
+      return {
+        productId: ps.productId,
+        countryCode: ps.countryCode,
+        localPrice: ps.localPrice,
+        currency: ps.currency,
+        cnyPrice: dynamicCny || ps.cnyPrice || 0,
+        stockStatus: ps.stockStatus,
+        storeInfo: ps.storeInfo || { city: '', storeName: '', address: '' },
+        priceUpdateTime: ps.updateTime || ps.createTime || ''
+      };
+    });
 
     return {
       code: 0,
