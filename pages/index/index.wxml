@@ -1,0 +1,98 @@
+<view class="page">
+  <view class="header-fixed" style="padding-top: {{statusBarHeight}}px; height: {{headerHeight}}px;">
+    <view class="header-inner" style="height: {{headerInnerHeight}}px;">
+      <text class="app-name">比惠</text>
+      <text class="app-subtitle">全球奢侈品比价</text>
+    </view>
+
+    <view class="search-wrap">
+      <view class="search-box">
+        <text class="search-ico">🔍</text>
+        <input
+          class="search-input"
+          placeholder="搜索品牌、商品名称、货号"
+          value="{{searchKeyword}}"
+          bindinput="onSearchInput"
+          bindconfirm="onSearchConfirm"
+          confirm-type="search"
+        />
+        <!-- 刷新/回首页：清空关键词并恢复比价首页列表 -->
+        <view class="search-reset" bindtap="onResetSearch" hover-class="search-reset-hover">
+          <text class="search-reset-ico">↻</text>
+        </view>
+      </view>
+    </view>
+
+    <scroll-view wx:if="{{hotKeywords.length}}" class="hot-row" scroll-x="{{true}}" show-scrollbar="{{false}}">
+      <view class="hot-list">
+        <text
+          wx:for="{{hotKeywords}}"
+          wx:key="*this"
+          class="hot-tag"
+          data-keyword="{{item}}"
+          bindtap="onHotKeywordTap"
+        >{{item}}</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="list-wrap" style="padding-top: {{headerHeight}}px;">
+    <view wx:if="{{loading && !loaded}}" class="state-box">
+      <text class="state-ico">⏳</text>
+      <text class="state-text">加载中...</text>
+    </view>
+    <view wx:elif="{{!loaded || products.length === 0}}" class="state-box">
+      <text class="state-ico">📦</text>
+      <text class="state-text">暂无商品</text>
+      <text class="state-hint">下拉刷新试试</text>
+    </view>
+
+    <block wx:else>
+      <view
+        wx:for="{{products}}"
+        wx:key="productId"
+        class="card"
+        data-id="{{item.productId}}"
+        bindtap="onProductTap"
+      >
+        <view class="card-img">
+          <image
+            wx:if="{{item.mainImage && !item.imageError}}"
+            src="{{item.mainImage}}"
+            mode="aspectFill"
+            lazy-load="{{true}}"
+            class="card-img-real"
+            data-id="{{item.productId}}"
+            binderror="onImageError"
+          />
+          <view wx:else class="card-img-fb">
+            <text class="img-fb-ico">👜</text>
+          </view>
+          <text class="card-badge">{{item.countryCount}}国比价</text>
+        </view>
+        <view class="card-info">
+          <text class="card-brand">{{item.brandName}}</text>
+          <text class="card-name">{{item.displayName || item.nameCn}}</text>
+          <text wx:if="{{item.subName}}" class="card-sub-name">{{item.subName}}</text>
+          <view class="card-prices">
+            <view wx:if="{{item.hasCnPrice}}" class="price-unit">
+              <text class="price-flag cn">中</text>
+              <text class="price-num red">¥{{item.cnPriceStr}}</text>
+            </view>
+            <view wx:if="{{item.hasJpPrice}}" class="price-unit">
+              <text class="price-flag jp">日</text>
+              <text class="price-num accent">¥{{item.jpCnyStr}}</text>
+            </view>
+            <view wx:if="{{item.hasKrPrice}}" class="price-unit">
+              <text class="price-flag kr">韩</text>
+              <text class="price-num accent">¥{{item.krCnyStr}}</text>
+            </view>
+          </view>
+          <text class="card-tag">到手价</text>
+        </view>
+      </view>
+    </block>
+
+    <view class="bottom-gap"></view>
+  </view>
+</view>

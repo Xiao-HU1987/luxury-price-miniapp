@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>比惠 - Splash</title>
+    <style id="theme-vars">
+/* ========================================
+   比惠 Brand Design Tokens
+   Luxury Price Comparison Mini-Program
+   Japanese Minimalist Style
+   ======================================== */
+
+:root {
+  /* ---- Semantic Aliases for Tailwind @theme bridge ---- */
+  --background:  #FFFFFF;
+  --foreground:  #2C2C2C;
+  --primary:     #C8553D;
+  --primary-foreground: #FFFFFF;
+  --accent:      #C8553D;
+  --accent-foreground: #FFFFFF;
+  --muted:       #F0EFED;
+  --muted-foreground: #8C8C8C;
+  --border:      #E8E6E3;
+  --input:       #E8E6E3;
+  --ring:        #C8553D;
+  --card:        #FFFFFF;
+  --card-foreground: #2C2C2C;
+  --secondary:   #F8F7F6;
+  --secondary-foreground: #5C5C5C;
+  --destructive: #C83D3D;
+  --destructive-foreground: #FFFFFF;
+
+  /* ---- Color Palette ---- */
+  --color-bg:           #FFFFFF;
+  --color-bg-secondary: #F7F5F2;
+  --color-bg-card:      #FFFFFF;
+  --color-bg-overlay:   rgba(0, 0, 0, 0.45);
+
+  --color-text-primary:   #2C2C2C;
+  --color-text-secondary: #6B6B6B;
+  --color-text-tertiary:  #9E9E9E;
+  --color-text-inverse:   #FFFFFF;
+
+  --color-accent:          #C8553D;
+  --color-accent-light:    #E8765F;
+  --color-accent-pale:     #FFF0ED;
+  --color-accent-dark:     #A3422F;
+
+  --color-gold:            #C5A47E;
+  --color-gold-light:      #E8D5B7;
+  --color-gold-dark:       #9E835A;
+
+  --color-border:          #E8E4E0;
+  --color-border-light:    #F0ECE8;
+  --color-divider:         #ECECEC;
+
+  --color-success:         #4CAF50;
+  --color-danger:          #E53935;
+  --color-flag-cn:         #DE2910;
+  --color-flag-jp:         #C8553D;
+
+  /* ---- Typography ---- */
+  --font-sans:  'Inter', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Noto Serif SC', 'Songti SC', Georgia, serif;
+
+  --text-xs:    0.625rem;   /* 10px */
+  --text-sm:    0.75rem;    /* 12px */
+  --text-base:  0.875rem;   /* 14px */
+  --text-md:    1rem;       /* 16px */
+  --text-lg:    1.125rem;   /* 18px */
+  --text-xl:    1.25rem;    /* 20px */
+  --text-2xl:   1.5rem;     /* 24px */
+  --text-3xl:   1.875rem;   /* 30px */
+
+  --leading-tight:  1.25;
+  --leading-normal: 1.5;
+  --leading-loose:  1.75;
+
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.02em;
+
+  /* ---- Spacing ---- */
+  --space-1:  0.25rem;  /* 4px */
+  --space-2:  0.5rem;   /* 8px */
+  --space-3:  0.75rem;  /* 12px */
+  --space-4:  1rem;     /* 16px */
+  --space-5:  1.25rem;  /* 20px */
+  --space-6:  1.5rem;   /* 24px */
+  --space-8:  2rem;     /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+
+  /* ---- Border Radius ---- */
+  --radius-sm:   6px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-full: 9999px;
+
+  /* ---- Shadows ---- */
+  --shadow-sm:   0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md:   0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg:   0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.06);
+
+  /* ---- Transitions ---- */
+  --transition-fast:   150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow:   350ms ease;
+
+  /* ---- Z-index ---- */
+  --z-tab-bar: 100;
+  --z-nav-bar: 200;
+  --z-overlay: 300;
+  --z-modal:   400;
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius-lg);
+    --radius-xl: var(--radius-xl);
+  }
+  @layer base {
+    body { background: var(--background); color: var(--foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--background); }
+      .text-background { color: var(--background); }
+      .border-background { border-color: var(--background); }
+      .ring-background { --tw-ring-color: var(--background); }
+      .bg-foreground { background-color: var(--foreground); }
+      .text-foreground { color: var(--foreground); }
+      .border-foreground { border-color: var(--foreground); }
+      .ring-foreground { --tw-ring-color: var(--foreground); }
+      .bg-card { background-color: var(--card); }
+      .text-card { color: var(--card); }
+      .border-card { border-color: var(--card); }
+      .ring-card { --tw-ring-color: var(--card); }
+      .bg-card-foreground { background-color: var(--card-foreground); }
+      .text-card-foreground { color: var(--card-foreground); }
+      .border-card-foreground { border-color: var(--card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--card-foreground); }
+      .bg-primary { background-color: var(--primary); }
+      .text-primary { color: var(--primary); }
+      .border-primary { border-color: var(--primary); }
+      .ring-primary { --tw-ring-color: var(--primary); }
+      .bg-primary-foreground { background-color: var(--primary-foreground); }
+      .text-primary-foreground { color: var(--primary-foreground); }
+      .border-primary-foreground { border-color: var(--primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--primary-foreground); }
+      .bg-secondary { background-color: var(--secondary); }
+      .text-secondary { color: var(--secondary); }
+      .border-secondary { border-color: var(--secondary); }
+      .ring-secondary { --tw-ring-color: var(--secondary); }
+      .bg-secondary-foreground { background-color: var(--secondary-foreground); }
+      .text-secondary-foreground { color: var(--secondary-foreground); }
+      .border-secondary-foreground { border-color: var(--secondary-foreground); }
+      .ring-secondary-foreground { --tw-ring-color: var(--secondary-foreground); }
+      .bg-muted { background-color: var(--muted); }
+      .text-muted { color: var(--muted); }
+      .border-muted { border-color: var(--muted); }
+      .ring-muted { --tw-ring-color: var(--muted); }
+      .bg-muted-foreground { background-color: var(--muted-foreground); }
+      .text-muted-foreground { color: var(--muted-foreground); }
+      .border-muted-foreground { border-color: var(--muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--muted-foreground); }
+      .bg-accent { background-color: var(--accent); }
+      .text-accent { color: var(--accent); }
+      .border-accent { border-color: var(--accent); }
+      .ring-accent { --tw-ring-color: var(--accent); }
+      .bg-accent-foreground { background-color: var(--accent-foreground); }
+      .text-accent-foreground { color: var(--accent-foreground); }
+      .border-accent-foreground { border-color: var(--accent-foreground); }
+      .ring-accent-foreground { --tw-ring-color: var(--accent-foreground); }
+      .bg-destructive { background-color: var(--destructive); }
+      .text-destructive { color: var(--destructive); }
+      .border-destructive { border-color: var(--destructive); }
+      .ring-destructive { --tw-ring-color: var(--destructive); }
+      .bg-destructive-foreground { background-color: var(--destructive-foreground); }
+      .text-destructive-foreground { color: var(--destructive-foreground); }
+      .border-destructive-foreground { border-color: var(--destructive-foreground); }
+      .ring-destructive-foreground { --tw-ring-color: var(--destructive-foreground); }
+      .bg-border { background-color: var(--border); }
+      .text-border { color: var(--border); }
+      .border-border { border-color: var(--border); }
+      .ring-border { --tw-ring-color: var(--border); }
+      .bg-input { background-color: var(--input); }
+      .text-input { color: var(--input); }
+      .border-input { border-color: var(--input); }
+      .ring-input { --tw-ring-color: var(--input); }
+      .bg-ring { background-color: var(--ring); }
+      .text-ring { color: var(--ring); }
+      .border-ring { border-color: var(--ring); }
+      .ring-ring { --tw-ring-color: var(--ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased" style="background: #111111;">
+
+    <!-- Mobile Frame -->
+    <div style="max-width: 375px; margin: 0 auto; min-height: 812px; background: #1A1A1A; position: relative; overflow-x: hidden;">
+
+        <div style="display: flex; flex-direction: column; align-items: stretch; min-height: 812px;">
+
+            <!-- ============================================ -->
+            <!-- STATE 1: Ad Splash (top half, ~406px)       -->
+            <!-- ============================================ -->
+            <div style="position: relative; width: 100%; height: 406px; flex-shrink: 0; overflow: hidden;">
+
+                <span class="splash-state-label">State 1 &mdash; Ad Splash</span>
+
+                <!-- Background image with dark overlay -->
+                <div style="position: absolute; inset: 0; background-image: url('../assets/hero-luxury-bags.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
+                <div style="position: absolute; inset: 0; background: rgba(0, 0, 0, 0.5);"></div>
+
+                <!-- Skip button — top right -->
+                <div style="position: absolute; top: 16px; right: 20px; z-index: 10;">
+                    <a href="index.html" class="skip-btn" data-dom-id="enter-index">3s 跳过</a>
+                </div>
+
+                <!-- Centered brand content -->
+                <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5;">
+                    <div class="brand-name">比惠</div>
+                    <div class="brand-subtitle">全球奢侈品比价</div>
+                </div>
+
+                <!-- Bottom loading spinner line -->
+                <div class="spinner-line"></div>
+
+            </div>
+
+            <!-- Divider between states -->
+            <div class="state-divider"></div>
+
+            <!-- ============================================ -->
+            <!-- STATE 2: Loading Splash (bottom half, ~406px)  -->
+            <!-- ============================================ -->
+            <div style="position: relative; width: 100%; flex: 1; overflow: hidden; background: linear-gradient(180deg, #1A1A1A 0%, #2C2C2C 100%); display: flex; flex-direction: column; align-items: center; justify-content: center;">
+
+                <span class="splash-state-label">State 2 &mdash; Loading Splash</span>
+
+                <!-- Centered brand content -->
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div class="brand-name">比惠</div>
+                    <div class="brand-subtitle">全球奢侈品比价</div>
+
+                    <!-- Minimal loading dots animation -->
+                    <div class="loading-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>lucide.createIcons();</script>
+
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+
+      /* ---- Splash-specific styles ---- */
+
+      /* State labels */
+      .splash-state-label {
+        font-family: var(--font-sans);
+        font-size: var(--text-xs);
+        color: rgba(255, 255, 255, 0.35);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        position: absolute;
+        top: 16px;
+        left: 20px;
+        z-index: 10;
+      }
+
+      /* Loading spinner line (State 1 bottom) */
+      .spinner-line {
+        width: 40px;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 1px;
+        overflow: hidden;
+        position: absolute;
+        bottom: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .spinner-line::after {
+        content: '';
+        display: block;
+        width: 16px;
+        height: 100%;
+        background: var(--color-accent);
+        border-radius: 1px;
+        animation: slide 1.2s ease-in-out infinite;
+      }
+      @keyframes slide {
+        0%   { transform: translateX(-16px); }
+        50%  { transform: translateX(40px); }
+        100% { transform: translateX(-16px); }
+      }
+
+      /* Terracotta dot pulse (State 2) */
+      .loading-dots {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 32px;
+      }
+      .loading-dots span {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--color-accent);
+        animation: pulse 1.6s ease-in-out infinite;
+      }
+      .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+      .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+      @keyframes pulse {
+        0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+        40%           { opacity: 1;   transform: scale(1);   }
+      }
+
+      /* Divider between states */
+      .state-divider {
+        width: 1px;
+        background: rgba(255, 255, 255, 0.08);
+        align-self: stretch;
+        flex-shrink: 0;
+      }
+
+      /* Brand name styling */
+      .brand-name {
+        font-family: var(--font-sans);
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--color-text-inverse);
+        letter-spacing: 12px;
+        text-indent: 12px;
+        line-height: var(--leading-tight);
+      }
+
+      .brand-subtitle {
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        color: rgba(255, 255, 255, 0.45);
+        letter-spacing: 0.15em;
+        text-indent: 0.15em;
+        margin-top: 12px;
+        font-weight: 400;
+      }
+
+      /* Skip button */
+      .skip-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 16px;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: var(--radius-full);
+        color: rgba(255, 255, 255, 0.7);
+        font-family: var(--font-sans);
+        font-size: var(--text-xs);
+        letter-spacing: 0.06em;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background var(--transition-fast), color var(--transition-fast);
+      }
+      .skip-btn:hover {
+        background: rgba(0, 0, 0, 0.7);
+        color: rgba(255, 255, 255, 0.9);
+      }
+    </style>
+</body>
+</html>

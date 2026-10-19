@@ -1,0 +1,175 @@
+<view class="page">
+  <view class="nav-bar" style="position: fixed; top: 0; left: 0; right: 0; height: {{navBarTotalHeight}}px; padding-top: {{statusBarHeight}}px; padding-bottom: {{navBottomExtra}}px; box-sizing: border-box; background: #FFFFFF; z-index: 50;">
+    <view class="nav-back" style="top: {{menuButtonTop}}px; height: {{menuButtonHeight}}px; line-height: {{menuButtonHeight}}px;" bindtap="goBack">‹</view>
+    <text class="nav-title">到手价计算器</text>
+  </view>
+
+  <view style="height: {{contentPaddingTop}}px;"></view>
+  <view class="content">
+    <!-- 商品信息卡片（从详情页跳转时显示） -->
+    <view wx:if="{{productInfo}}" class="card product-info-card">
+      <image wx:if="{{productInfo.mainImage}}" class="product-info-img" src="{{productInfo.mainImage}}" mode="aspectFill"/>
+      <view wx:else class="product-info-img placeholder">👜</view>
+      <view class="product-info-detail">
+        <text class="product-info-name">{{productInfo.nameCn}}</text>
+        <text class="product-info-id">{{productInfo.productId}}</text>
+      </view>
+    </view>
+
+    <!-- 输入区卡片 -->
+    <view class="card input-card">
+      <!-- 购买地选择器 -->
+      <view class="field">
+        <view class="field-label">购买地</view>
+        <scroll-view class="scroll-row" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+          <view class="tag-list">
+            <view
+              class="tag-item {{selectedCountryCode === item.code ? 'active' : ''}}"
+              wx:for="{{countries}}"
+              wx:key="code"
+              data-code="{{item.code}}"
+              bindtap="onCountryTap"
+            >
+              <text class="tag-flag">{{item.flag}}</text>
+              <text class="tag-name">{{item.name}}</text>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+
+      <!-- 商品价格输入框 -->
+      <view class="field">
+        <view class="field-label">商品价格</view>
+        <view class="input-wrap">
+          <text class="input-prefix">{{selectedCountry.symbol}}</text>
+          <input
+            class="text-input"
+            type="digit"
+            placeholder="请输入商品价格"
+            placeholder-class="input-placeholder"
+            value="{{priceInput}}"
+            bindinput="onPriceInput"
+          />
+        </view>
+      </view>
+
+      <!-- 付款方式选择器 -->
+      <view class="field">
+        <view class="field-label">付款方式</view>
+        <scroll-view class="scroll-row" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+          <view class="tag-list">
+            <view
+              class="tag-item tag-payment {{selectedPaymentCode === item.code ? 'active' : ''}}"
+              wx:for="{{payments}}"
+              wx:key="code"
+              data-code="{{item.code}}"
+              bindtap="onPaymentTap"
+            >
+              <text class="tag-name">{{item.name}}</text>
+              <text class="tag-rate">{{item.rate}}%</text>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+
+      <!-- 退税率输入框 -->
+      <view class="field">
+        <view class="field-label">退税点位</view>
+        <view class="input-wrap">
+          <input
+            class="text-input"
+            type="digit"
+            placeholder="默认国家预设值"
+            placeholder-class="input-placeholder"
+            value="{{taxRateInput}}"
+            bindinput="onTaxRateInput"
+          />
+          <text class="input-suffix">%</text>
+        </view>
+      </view>
+
+      <!-- 返点率输入框 -->
+      <view class="field">
+        <view class="field-label">返点点位</view>
+        <view class="input-wrap">
+          <input
+            class="text-input"
+            type="digit"
+            placeholder="默认 0"
+            placeholder-class="input-placeholder"
+            value="{{rebateRateInput}}"
+            bindinput="onRebateRateInput"
+          />
+          <text class="input-suffix">%</text>
+        </view>
+      </view>
+
+      <!-- 汇率 -->
+      <view class="field">
+        <view class="field-label-row">
+          <text class="field-label-text">汇率</text>
+          <text class="rate-hint">1 {{selectedCountry.currency}} = {{exchangeRateDisplay}} CNY · {{rateSource === 'global' ? '自动获取' : '已手动修改'}}</text>
+        </view>
+        <block wx:if="{{exchangeRateEditing}}">
+          <view class="input-wrap">
+            <input
+              class="text-input"
+              type="digit"
+              placeholder="输入汇率"
+              placeholder-class="input-placeholder"
+              value="{{exchangeRateInput}}"
+              focus="{{true}}"
+              bindinput="onExchangeRateInput"
+              bindblur="onExchangeRateBlur"
+            />
+            <text class="input-suffix">CNY</text>
+          </view>
+        </block>
+        <block wx:else>
+          <view class="rate-display" bindtap="onExchangeRateTap">
+            <text class="rate-display-value">{{exchangeRateDisplay}}</text>
+            <text class="rate-edit-icon">点击修改 ✎</text>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <!-- 计算结果卡片 -->
+    <view class="card result-card">
+      <view class="result-header">
+        <text class="result-title">计算明细</text>
+        <text class="result-currency">币种：{{selectedCountry.currency}}</text>
+      </view>
+      <view class="result-row">
+        <text class="result-label">商品原价</text>
+        <text class="result-value">{{result.priceStr}}</text>
+      </view>
+      <view class="result-row">
+        <text class="result-label green">退税优惠</text>
+        <text class="result-value green">{{result.taxAmountStr}}</text>
+      </view>
+      <view class="result-row">
+        <text class="result-label green">返点优惠</text>
+        <text class="result-value green">{{result.rebateAmountStr}}</text>
+      </view>
+      <view class="result-row">
+        <text class="result-label orange">支付手续费</text>
+        <text class="result-value orange">{{result.paymentFeeStr}}</text>
+      </view>
+      <view class="divider"></view>
+      <view class="final-row">
+        <text class="final-label">到手价</text>
+        <view class="final-value-wrap">
+          <text class="final-currency">¥</text>
+          <text class="final-value">{{result.finalCnyStr}}</text>
+        </view>
+      </view>
+      <view class="savings-row" wx:if="{{result.savings > 0}}">
+        <text class="savings-text">比中国官网省 ¥{{result.savingsStr}}</text>
+      </view>
+    </view>
+
+    <!-- 底部TabBar占位 -->
+    <view class="tabbar-placeholder"></view>
+  </view>
+</view>

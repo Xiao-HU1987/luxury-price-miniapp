@@ -1,0 +1,60 @@
+{
+  "pages": [
+    "pages/splash/splash",
+    "pages/index/index",
+    "pages/rebate/rebate",
+    "pages/tools/tools",
+    "pages/profile/profile",
+    "pages/products/products",
+    "pages/product-detail/product-detail",
+    "pages/favorites/favorites",
+    "pages/history/history",
+    "pages/privacy/privacy",
+    "pages/about/about",
+    "pages/feedback/feedback",
+    "pages/compare/compare",
+    "pages/price-alerts/price-alerts"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTitleText": "比惠",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F5F5F5"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#FF6600",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "比价",
+        "iconPath": "images/tab/compare.png",
+        "selectedIconPath": "images/tab/compare_active.png"
+      },
+      {
+        "pagePath": "pages/rebate/rebate",
+        "text": "计算器",
+        "iconPath": "images/tab/coupon.png",
+        "selectedIconPath": "images/tab/coupon_active.png"
+      },
+      {
+        "pagePath": "pages/tools/tools",
+        "text": "工具",
+        "iconPath": "images/tab/exchange.png",
+        "selectedIconPath": "images/tab/exchange_active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/tab/profile.png",
+        "selectedIconPath": "images/tab/profile_active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

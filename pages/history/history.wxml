@@ -1,0 +1,75 @@
+<view class="page">
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-inner">
+      <view class="nav-back" bindtap="goBack">‹</view>
+      <view class="nav-title"><text>浏览历史</text></view>
+      <view class="nav-right"></view>
+    </view>
+  </view>
+
+  <view class="list-header" wx:if="{{!loading && !empty}}">
+    <text class="list-total" wx:if="{{!selectMode}}">共 {{list.length}} 条记录</text>
+    <text class="list-total" wx:else>已选 {{selectedIds.length}} 项</text>
+    <text class="clear-link" wx:if="{{!selectMode}}" bindtap="startClear">清理</text>
+    <text class="clear-link" wx:else bindtap="cancelSelect">取消</text>
+  </view>
+
+  <view class="content" wx:if="{{!loading}}">
+    <view class="empty" wx:if="{{empty}}">
+      <text class="empty-icon">🕐</text>
+      <text class="empty-text">暂无浏览记录</text>
+      <text class="empty-hint">去看看喜欢的商品吧</text>
+    </view>
+
+    <view class="list" wx:else>
+      <view
+        wx:for="{{list}}"
+        wx:key="id"
+        class="history-card"
+        bindtap="onItemTap"
+        data-id="{{item.id}}"
+      >
+        <view wx:if="{{selectMode}}" class="check-box">
+          <view class="check {{item.selected ? 'on' : ''}}">
+            <text wx:if="{{item.selected}}">✓</text>
+          </view>
+        </view>
+        <image
+          wx:if="{{item.image}}"
+          class="product-img"
+          src="{{item.image}}"
+          mode="aspectFill"
+          data-index="{{index}}"
+          binderror="onImageError"
+        />
+        <view wx:else class="product-img placeholder">
+          <text class="img-placeholder">👜</text>
+        </view>
+        <view class="product-info">
+          <text class="brand-name">{{item.brandName || ''}}</text>
+          <text class="product-name">{{item.name || '商品已下架'}}</text>
+          <view class="price-row-card">
+            <view class="price-flags">
+              <view class="price-cn" wx:if="{{item.hasCn}}">
+                <text class="flag-cn">中</text>
+                <text class="price-num red">¥{{item.cnPriceStr}}</text>
+              </view>
+              <view class="price-jp" wx:if="{{item.hasJp}}">
+                <text class="flag-jp">日</text>
+                <text class="price-num accent">¥{{item.jpCnyStr}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <view class="delete-bar" wx:if="{{selectMode && list.length > 0}}">
+    <button class="delete-btn" bindtap="onDeleteSelected" disabled="{{selectedIds.length === 0}}">删除 ({{selectedIds.length}})</button>
+  </view>
+</view>

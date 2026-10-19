@@ -1,0 +1,12 @@
+{
+  "name": "bihui-scripts",
+  "version": "1.0.0",
+  "description": "比惠小程序 - 本地脚本工具",
+  "private": true,
+  "scripts": {
+    "import": "node scripts/import_to_cloud.js"
+  },
+  "dependencies": {
+    "@cloudbase/manager-node": "^3.9.0"
+  }
+}

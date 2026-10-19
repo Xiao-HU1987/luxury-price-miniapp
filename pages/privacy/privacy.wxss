@@ -1,0 +1,107 @@
+.privacy-page {
+  background: #f5f5f5;
+  min-height: 100vh;
+  padding-bottom: 60rpx;
+}
+
+/* 统一二级页导航（返回圆形按钮 + 居中标题 + 底部1px分割线） */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #FFFFFF;
+  border-bottom: 1rpx solid #F0ECE8;
+  box-sizing: border-box;
+  display: block;
+  align-items: initial;
+  justify-content: initial;
+}
+
+.nav-inner {
+  height: 88rpx;
+  padding: 0 40rpx;
+  position: relative;
+  box-sizing: border-box;
+  text-align: center;
+  line-height: 88rpx;
+}
+
+.nav-back {
+  position: absolute;
+  left: 40rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  background: #F5F3F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34rpx;
+  color: #2C2C2C;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* 标题容器用块级 view + width:100% + text-align:center 才能真正居中（<text> 行内元素不响应 width） */
+.nav-title {
+  width: 100%;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #2C2C2C;
+  letter-spacing: 1rpx;
+  white-space: nowrap;
+}
+
+.nav-right {
+  position: absolute;
+  right: 40rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60rpx;
+}
+
+.section {
+  background: #ffffff;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  margin: 16rpx 24rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 16rpx;
+}
+
+.update-time {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.content {
+  font-size: 28rpx;
+  color: #666666;
+  line-height: 1.8;
+}
+
+.list-item {
+  font-size: 26rpx;
+  color: #666666;
+  line-height: 1.6;
+  margin-top: 12rpx;
+  padding-left: 16rpx;
+}
+
+.footer {
+  text-align: center;
+  padding: 30rpx 0;
+}
+
+.footer-text {
+  font-size: 24rpx;
+  color: #999999;
+}

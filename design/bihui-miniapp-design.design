@@ -1,0 +1,435 @@
+{
+  "data": [
+    {
+      "id": "page-index",
+      "title": "比价首页",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1751817600000,
+      "canvasData": {
+        "x": 0,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/index.html",
+        "interactions": [
+          {
+            "domId": "link-product-detail",
+            "targetPageId": "page-product-detail"
+          },
+          {
+            "domId": "nav-exchange",
+            "targetPageId": "page-exchange",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-profile",
+            "targetPageId": "page-profile",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-rebate",
+            "targetPageId": "page-rebate",
+            "hideEdge": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-coming-soon",
+      "title": "功能开发中",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1784205000000,
+      "canvasData": {
+        "x": 0,
+        "y": 2376,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/coming-soon.html",
+        "interactions": [
+          {
+            "domId": "nav-index",
+            "targetPageId": "page-index",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-exchange",
+            "targetPageId": "page-exchange",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-profile",
+            "targetPageId": "page-profile",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-rebate",
+            "targetPageId": "page-coming-soon",
+            "hideEdge": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-splash",
+      "title": "开屏页",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1751817550000,
+      "canvasData": {
+        "x": 420,
+        "y": 2376,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/splash.html",
+        "interactions": [
+          {
+            "domId": "enter-index",
+            "targetPageId": "page-index",
+            "hideEdge": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-products",
+      "title": "搜索结果",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1751818400000,
+      "canvasData": {
+        "x": 0,
+        "y": 1770,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/products.html",
+        "interactions": [
+          {
+            "domId": "back-index",
+            "targetPageId": "page-index",
+            "hideEdge": true
+          },
+          {
+            "domId": "link-product-detail",
+            "targetPageId": "page-product-detail"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-product-detail",
+      "title": "商品详情",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1751817660000,
+      "canvasData": {
+        "x": 420,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/product-detail.html",
+        "interactions": [
+          {
+            "domId": "back-index",
+            "targetPageId": "page-index",
+            "hideEdge": true
+          },
+          {
+            "domId": "link-exchange",
+            "targetPageId": "page-exchange",
+            "hideEdge": true
+          },
+          {
+            "domId": "link-buyer",
+            "targetPageId": "page-buyer",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-index",
+            "targetPageId": "page-index",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-exchange",
+            "targetPageId": "page-exchange",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-rebate",
+            "targetPageId": "page-rebate",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-profile",
+            "targetPageId": "page-profile",
+            "hideEdge": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-exchange",
+      "title": "汇率换算",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1751817720000,
+      "canvasData": {
+        "x": 840,
+        "y": 2376,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/exchange.html",
+        "interactions": [
+          {
+            "domId": "nav-index",
+            "targetPageId": "page-index",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-profile",
+            "targetPageId": "page-profile",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-rebate",
+            "targetPageId": "page-rebate",
+            "hideEdge": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-profile",
+      "title": "个人中心",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1751817840000,
+      "canvasData": {
+        "x": 1260,
+        "y": 2376,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/profile.html",
+        "interactions": [
+          {
+            "domId": "nav-index",
+            "targetPageId": "page-index",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-exchange",
+            "targetPageId": "page-exchange",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-rebate",
+            "targetPageId": "page-rebate",
+            "hideEdge": true
+          },
+          {
+            "domId": "link-coming-soon-orders",
+            "targetPageId": "page-coming-soon",
+            "hideEdge": true
+          },
+          {
+            "domId": "link-coming-soon-coupons",
+            "targetPageId": "page-coming-soon",
+            "hideEdge": true
+          },
+          {
+            "domId": "link-coming-soon-demands",
+            "targetPageId": "page-coming-soon",
+            "hideEdge": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-favorites",
+      "title": "我的收藏",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1751818600000,
+      "canvasData": {
+        "x": 0,
+        "y": 1180,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/favorites.html",
+        "interactions": [
+          {
+            "domId": "back-profile",
+            "targetPageId": "page-profile",
+            "hideEdge": true
+          },
+          {
+            "domId": "link-product-detail",
+            "targetPageId": "page-product-detail"
+          },
+          {
+            "domId": "nav-index",
+            "targetPageId": "page-index",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-exchange",
+            "targetPageId": "page-exchange",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-rebate",
+            "targetPageId": "page-rebate",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-profile",
+            "targetPageId": "page-profile",
+            "hideEdge": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-history",
+      "title": "浏览历史",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1751818700000,
+      "canvasData": {
+        "x": 0,
+        "y": 590,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/history.html",
+        "interactions": [
+          {
+            "domId": "back-profile",
+            "targetPageId": "page-profile",
+            "hideEdge": true
+          },
+          {
+            "domId": "link-product-detail",
+            "targetPageId": "page-product-detail"
+          },
+          {
+            "domId": "nav-index",
+            "targetPageId": "page-index",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-exchange",
+            "targetPageId": "page-exchange",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-rebate",
+            "targetPageId": "page-rebate",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-profile",
+            "targetPageId": "page-profile",
+            "hideEdge": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-stores",
+      "title": "门店",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1751818100000,
+      "canvasData": {
+        "x": 1680,
+        "y": 2376,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/stores.html",
+        "interactions": [
+          {
+            "domId": "back-index",
+            "targetPageId": "page-index",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-exchange",
+            "targetPageId": "page-exchange",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-profile",
+            "targetPageId": "page-profile",
+            "hideEdge": true
+          },
+          {
+            "domId": "nav-rebate",
+            "targetPageId": "page-rebate",
+            "hideEdge": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "image-001",
+      "title": "奢侈品手袋",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1751818000000,
+      "canvasData": {
+        "x": 0,
+        "y": 3108
+      },
+      "devMetadata": {
+        "imageSrc": "assets/hero-luxury-bags.jpg"
+      }
+    },
+    {
+      "id": "image-002",
+      "title": "VIP金色背景",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1751818010000,
+      "canvasData": {
+        "x": 420,
+        "y": 3108
+      },
+      "devMetadata": {
+        "imageSrc": "assets/hero-vip-gold.jpg"
+      }
+    },
+    {
+      "id": "image-003",
+      "title": "东京门店",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1751818020000,
+      "canvasData": {
+        "x": 840,
+        "y": 3108
+      },
+      "devMetadata": {
+        "imageSrc": "assets/store-tokyo.jpg"
+      }
+    }
+  ],
+  "config": {
+    "autoLayout": true,
+    "deviceType": "mobile",
+    "projectName": "比惠小程序界面设计",
+    "designLibrary": null,
+    "showEdge": true,
+    "visualEditorEnabled": true
+  }
+}

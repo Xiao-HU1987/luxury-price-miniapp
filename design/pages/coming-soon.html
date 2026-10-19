@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>功能开发中 - 比惠</title>
+    <style id="theme-vars">
+/* ========================================
+   比惠 Brand Design Tokens
+   Luxury Price Comparison Mini-Program
+   Japanese Minimalist Style
+   ======================================== */
+
+:root {
+  /* ---- Semantic Aliases for Tailwind @theme bridge ---- */
+  --background:  #FFFFFF;
+  --foreground:  #2C2C2C;
+  --primary:     #C8553D;
+  --primary-foreground: #FFFFFF;
+  --accent:      #C8553D;
+  --accent-foreground: #FFFFFF;
+  --muted:       #F0EFED;
+  --muted-foreground: #8C8C8C;
+  --border:      #E8E6E3;
+  --input:       #E8E6E3;
+  --ring:        #C8553D;
+  --card:        #FFFFFF;
+  --card-foreground: #2C2C2C;
+  --secondary:   #F8F7F6;
+  --secondary-foreground: #5C5C5C;
+  --destructive: #C83D3D;
+  --destructive-foreground: #FFFFFF;
+
+  /* ---- Color Palette ---- */
+  --color-bg:           #FFFFFF;
+  --color-bg-secondary: #F7F5F2;
+  --color-bg-card:      #FFFFFF;
+  --color-bg-overlay:   rgba(0, 0, 0, 0.45);
+
+  --color-text-primary:   #2C2C2C;
+  --color-text-secondary: #6B6B6B;
+  --color-text-tertiary:  #9E9E9E;
+  --color-text-inverse:   #FFFFFF;
+
+  --color-accent:          #C8553D;
+  --color-accent-light:    #E8765F;
+  --color-accent-pale:     #FFF0ED;
+  --color-accent-dark:     #A3422F;
+
+  --color-gold:            #C5A47E;
+  --color-gold-light:      #E8D5B7;
+  --color-gold-dark:       #9E835A;
+
+  --color-border:          #E8E4E0;
+  --color-border-light:    #F0ECE8;
+  --color-divider:         #ECECEC;
+
+  --color-success:         #4CAF50;
+  --color-danger:          #E53935;
+  --color-flag-cn:         #DE2910;
+  --color-flag-jp:         #C8553D;
+
+  /* ---- Typography ---- */
+  --font-sans:  'Inter', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Noto Serif SC', 'Songti SC', Georgia, serif;
+
+  --text-xs:    0.625rem;   /* 10px */
+  --text-sm:    0.75rem;    /* 12px */
+  --text-base:  0.875rem;   /* 14px */
+  --text-md:    1rem;       /* 16px */
+  --text-lg:    1.125rem;   /* 18px */
+  --text-xl:    1.25rem;    /* 20px */
+  --text-2xl:   1.5rem;     /* 24px */
+  --text-3xl:   1.875rem;   /* 30px */
+
+  --leading-tight:  1.25;
+  --leading-normal: 1.5;
+  --leading-loose:  1.75;
+
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.02em;
+
+  /* ---- Spacing ---- */
+  --space-1:  0.25rem;  /* 4px */
+  --space-2:  0.5rem;   /* 8px */
+  --space-3:  0.75rem;  /* 12px */
+  --space-4:  1rem;     /* 16px */
+  --space-5:  1.25rem;  /* 20px */
+  --space-6:  1.5rem;   /* 24px */
+  --space-8:  2rem;     /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+
+  /* ---- Border Radius ---- */
+  --radius-sm:   6px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-full: 9999px;
+
+  /* ---- Shadows ---- */
+  --shadow-sm:   0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md:   0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg:   0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.06);
+
+  /* ---- Transitions ---- */
+  --transition-fast:   150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow:   350ms ease;
+
+  /* ---- Z-index ---- */
+  --z-tab-bar: 100;
+  --z-nav-bar: 200;
+  --z-overlay: 300;
+  --z-modal:   400;
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius-lg);
+    --radius-xl: var(--radius-xl);
+  }
+  @layer base {
+    body { background: var(--background); color: var(--foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--background); }
+      .text-background { color: var(--background); }
+      .border-background { border-color: var(--background); }
+      .ring-background { --tw-ring-color: var(--background); }
+      .bg-foreground { background-color: var(--foreground); }
+      .text-foreground { color: var(--foreground); }
+      .border-foreground { border-color: var(--foreground); }
+      .ring-foreground { --tw-ring-color: var(--foreground); }
+      .bg-card { background-color: var(--card); }
+      .text-card { color: var(--card); }
+      .border-card { border-color: var(--card); }
+      .ring-card { --tw-ring-color: var(--card); }
+      .bg-card-foreground { background-color: var(--card-foreground); }
+      .text-card-foreground { color: var(--card-foreground); }
+      .border-card-foreground { border-color: var(--card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--card-foreground); }
+      .bg-primary { background-color: var(--primary); }
+      .text-primary { color: var(--primary); }
+      .border-primary { border-color: var(--primary); }
+      .ring-primary { --tw-ring-color: var(--primary); }
+      .bg-primary-foreground { background-color: var(--primary-foreground); }
+      .text-primary-foreground { color: var(--primary-foreground); }
+      .border-primary-foreground { border-color: var(--primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--primary-foreground); }
+      .bg-secondary { background-color: var(--secondary); }
+      .text-secondary { color: var(--secondary); }
+      .border-secondary { border-color: var(--secondary); }
+      .ring-secondary { --tw-ring-color: var(--secondary); }
+      .bg-secondary-foreground { background-color: var(--secondary-foreground); }
+      .text-secondary-foreground { color: var(--secondary-foreground); }
+      .border-secondary-foreground { border-color: var(--secondary-foreground); }
+      .ring-secondary-foreground { --tw-ring-color: var(--secondary-foreground); }
+      .bg-muted { background-color: var(--muted); }
+      .text-muted { color: var(--muted); }
+      .border-muted { border-color: var(--muted); }
+      .ring-muted { --tw-ring-color: var(--muted); }
+      .bg-muted-foreground { background-color: var(--muted-foreground); }
+      .text-muted-foreground { color: var(--muted-foreground); }
+      .border-muted-foreground { border-color: var(--muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--muted-foreground); }
+      .bg-accent { background-color: var(--accent); }
+      .text-accent { color: var(--accent); }
+      .border-accent { border-color: var(--accent); }
+      .ring-accent { --tw-ring-color: var(--accent); }
+      .bg-accent-foreground { background-color: var(--accent-foreground); }
+      .text-accent-foreground { color: var(--accent-foreground); }
+      .border-accent-foreground { border-color: var(--accent-foreground); }
+      .ring-accent-foreground { --tw-ring-color: var(--accent-foreground); }
+      .bg-destructive { background-color: var(--destructive); }
+      .text-destructive { color: var(--destructive); }
+      .border-destructive { border-color: var(--destructive); }
+      .ring-destructive { --tw-ring-color: var(--destructive); }
+      .bg-destructive-foreground { background-color: var(--destructive-foreground); }
+      .text-destructive-foreground { color: var(--destructive-foreground); }
+      .border-destructive-foreground { border-color: var(--destructive-foreground); }
+      .ring-destructive-foreground { --tw-ring-color: var(--destructive-foreground); }
+      .bg-border { background-color: var(--border); }
+      .text-border { color: var(--border); }
+      .border-border { border-color: var(--border); }
+      .ring-border { --tw-ring-color: var(--border); }
+      .bg-input { background-color: var(--input); }
+      .text-input { color: var(--input); }
+      .border-input { border-color: var(--input); }
+      .ring-input { --tw-ring-color: var(--input); }
+      .bg-ring { background-color: var(--ring); }
+      .text-ring { color: var(--ring); }
+      .border-ring { border-color: var(--ring); }
+      .ring-ring { --tw-ring-color: var(--ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    <style>.dock-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:375px;display:flex;flex-direction:row;align-items:center;justify-content:space-around;height:52px;background:#fff;border-top:1px solid #E8E6E3;padding-bottom:env(safe-area-inset-bottom,0);z-index:100}.dock-item{display:flex;flex-direction:row;align-items:center;gap:4px;cursor:pointer;color:#BFBFBF;transition:color 150ms ease;padding:0;-webkit-tap-highlight-color:transparent}.dock-item svg{display:block;flex-shrink:0}.dock-item span{font-size:10px;font-weight:500;letter-spacing:.02em;font-family:'Inter','Noto Sans SC',-apple-system,BlinkMacSystemFont,sans-serif;white-space:nowrap}.dock-item.active{color:#C8553D}.dock-item.active span{font-weight:600}</style>
+</head>
+<body>
+
+<div style="max-width: 375px; margin: 0 auto; background: #FFFFFF; position: relative; overflow-x: hidden; box-shadow: 0 0 40px rgba(0,0,0,0.08); display: flex; flex-direction: column; min-height: 100vh;">
+
+  <!-- Nav Bar -->
+  <div style="padding: 52px 16px 12px; text-align: center; border-bottom: 1px solid #E8E6E3; background: #FFFFFF; position: sticky; top: 0; z-index: 100;">
+    <span style="font-size: 17px; font-weight: 600; color: #2C2C2C;"></span>
+  </div>
+
+  <!-- Content -->
+  <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 32px;">
+    <div style="width: 64px; height: 64px; border-radius: 50%; background: #F8F7F6; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+      <span style="font-size: 28px;">⚙️</span>
+    </div>
+    <p style="font-size: 17px; font-weight: 600; color: #2C2C2C; margin: 0 0 8px;">功能开发中</p>
+    <p style="font-size: 14px; color: #8C8C8C; margin: 0; text-align: center; line-height: 1.6;">该功能正在紧锣密鼓地开发中<br>敬请期待</p>
+  </div>
+
+  <div style="position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:375px;display:flex;flex-direction:row;align-items:center;justify-content:space-around;height:52px;background:#fff;border-top:1px solid #E8E6E3;padding-bottom:env(safe-area-inset-bottom,0);z-index:100">
+    <div style="display:flex;flex-direction:row;align-items:center;gap:4px;cursor:pointer;color:#BFBFBF" data-dom-id="nav-index">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x=".5" y="8" width="3" height="6" rx=".7"/><rect x="5.5" y="5" width="3" height="9" rx=".7"/><rect x="10.5" y="1.5" width="3" height="12.5" rx=".7"/></svg>
+      <span style="font-size:10px;font-weight:500;letter-spacing:.02em;font-family:'Inter','Noto Sans SC',-apple-system,sans-serif;white-space:nowrap">比价</span>
+    </div>
+    <div style="display:flex;flex-direction:row;align-items:center;gap:4px;cursor:pointer;color:#BFBFBF" data-dom-id="nav-exchange">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M1 5.5h8.5L7 8H1z"/><path d="M13 8.5H4.5L7 6H13z"/></svg>
+      <span style="font-size:10px;font-weight:500;letter-spacing:.02em;font-family:'Inter','Noto Sans SC',-apple-system,sans-serif;white-space:nowrap">汇率</span>
+    </div>
+    <div style="display:flex;flex-direction:row;align-items:center;gap:4px;cursor:pointer;color:#C8553D" data-dom-id="nav-rebate">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M10 .5L1 9.5h9l3-4.5L10 .5z"/></svg>
+      <span style="font-size:10px;font-weight:600;letter-spacing:.02em;font-family:'Inter','Noto Sans SC',-apple-system,sans-serif;white-space:nowrap">优惠</span>
+    </div>
+    <div style="display:flex;flex-direction:row;align-items:center;gap:4px;cursor:pointer;color:#BFBFBF" data-dom-id="nav-profile">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><circle cx="7" cy="4" r="3"/><path d="M1 13.5C1 10.5 3.5 8.5 7 8.5S13 10.5 13 13.5H1z"/></svg>
+      <span style="font-size:10px;font-weight:500;letter-spacing:.02em;font-family:'Inter','Noto Sans SC',-apple-system,sans-serif;white-space:nowrap">我的</span>
+    </div>
+  </div>
+
+</div>
+
+    <style>
+  body { margin: 0; padding: 0; background: #F0EDEA; font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+</body>
+</html>

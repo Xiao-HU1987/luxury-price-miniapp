@@ -1,0 +1,293 @@
+.page {
+  min-height: 100vh;
+  background: #FFFFFF;
+  padding-bottom: 160rpx;
+}
+
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #FFFFFF;
+  border-bottom: 1rpx solid #F0ECE8;
+  box-sizing: border-box;
+  display: block;
+  align-items: initial;
+  justify-content: initial;
+}
+
+.nav-inner {
+  height: 88rpx;
+  padding: 0 40rpx;
+  position: relative;
+  box-sizing: border-box;
+  text-align: center;
+  line-height: 88rpx;
+}
+
+.nav-back {
+  position: absolute;
+  left: 40rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  background: #F5F3F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34rpx;
+  color: #2C2C2C;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* 标题容器用块级 view + width:100% + text-align:center 才能真正居中（<text> 行内元素不响应 width） */
+.nav-title {
+  width: 100%;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #2C2C2C;
+  letter-spacing: 1rpx;
+  white-space: nowrap;
+}
+
+/* 右侧占位：与左侧返回按钮对称，绝对定位不影响标题居中 */
+.nav-right {
+  position: absolute;
+  right: 40rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60rpx;
+}
+
+/* 列表头部：记录数 + 清理/取消 */
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 40rpx 8rpx;
+  background: #FFFFFF;
+}
+
+.list-total {
+  font-size: 24rpx;
+  color: #9E9E9E;
+}
+
+.clear-link {
+  font-size: 28rpx;
+  color: #C8553D;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.clear-link:active {
+  opacity: 0.6;
+}
+
+.content {
+  padding: 32rpx 32rpx 80rpx;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 200rpx 0;
+}
+
+.empty-icon {
+  font-size: 120rpx;
+}
+
+.empty-text {
+  margin-top: 30rpx;
+  font-size: 32rpx;
+  color: #666;
+}
+
+.empty-hint {
+  margin-top: 16rpx;
+  font-size: 26rpx;
+  color: #999;
+}
+
+.history-card {
+  background: #FFFFFF;
+  border: 1rpx solid #E8E4E0;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  display: flex;
+  gap: 28rpx;
+  cursor: pointer;
+  position: relative;
+}
+
+.history-card:active {
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.08);
+}
+
+.product-img {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 16rpx;
+  flex-shrink: 0;
+}
+
+.product-img.placeholder {
+  background: #F7F5F2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img-placeholder {
+  font-size: 64rpx;
+}
+
+.product-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.brand-name {
+  font-size: 22rpx;
+  color: #9E9E9E;
+  margin-bottom: 6rpx;
+  text-transform: uppercase;
+  letter-spacing: 1rpx;
+}
+
+.product-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #2C2C2C;
+  margin-bottom: 4rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.price-row-card {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: 16rpx;
+}
+
+.price-flags {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.price-cn, .price-jp {
+  display: flex;
+  align-items: center;
+}
+
+.flag-cn, .flag-jp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 8rpx;
+  font-size: 22rpx;
+  font-weight: 700;
+  margin-right: 8rpx;
+}
+
+.flag-cn {
+  background: #FFEBEE;
+  color: #DE2910;
+}
+
+.flag-jp {
+  background: #FFF0ED;
+  color: #C8553D;
+}
+
+.price-num {
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.price-num.red {
+  color: #DE2910;
+}
+
+.price-num.accent {
+  color: #C8553D;
+}
+
+/* 多选模式：勾选圆框 */
+.check-box {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.check {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  border: 2rpx solid #D8D4D0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  color: #FFFFFF;
+}
+
+.check.on {
+  background: #C8553D;
+  border-color: #C8553D;
+}
+
+/* 底部批量删除按钮 */
+.delete-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16rpx 32rpx;
+  padding-bottom: calc(16rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+  background: #FFFFFF;
+  box-shadow: 0 -4rpx 16rpx rgba(0, 0, 0, 0.06);
+  z-index: 200;
+}
+
+.delete-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  background: #C8553D;
+  color: #FFFFFF;
+  font-size: 30rpx;
+  font-weight: 600;
+  border-radius: 44rpx;
+  padding: 0;
+  text-align: center;
+}
+
+.delete-btn[disabled] {
+  background: #E8D9D4;
+  color: #FFFFFF;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 200rpx;
+  color: #999;
+  font-size: 28rpx;
+}

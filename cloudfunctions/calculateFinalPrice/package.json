@@ -1,0 +1,9 @@
+{
+  "name": "calculateFinalPrice",
+  "version": "1.0.0",
+  "description": "到手价计算器",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

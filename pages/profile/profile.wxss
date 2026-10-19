@@ -1,0 +1,283 @@
+.page {
+  min-height: 100vh;
+  background: #F5F3F0;
+}
+
+.page .profile-header {
+  background: #1A1A1A;
+  padding-top: 32rpx;
+  padding-right: 32rpx;
+  padding-bottom: 32rpx;
+  padding-left: 32rpx;
+}
+
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+/* 头像底纹：橙色渐变圆形，比头像（112rpx）正好大 3px（6rpx），不随内容拉伸 */
+.avatar-ring {
+  width: 124rpx;
+  height: 124rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F4A261, #E76F51, #C8553D);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.avatar {
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 999rpx;
+  background: #2C2C2C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatar-icon {
+  font-size: 56rpx;
+  color: #888888;
+}
+
+.avatar-btn {
+  width: 112rpx;
+  height: 112rpx;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  line-height: normal;
+  flex-shrink: 0;
+}
+
+.avatar-btn::after {
+  border: none;
+}
+
+.avatar-img {
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 999rpx;
+}
+
+.nickname-input {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  min-width: 200rpx;
+}
+
+.login-arrow {
+  font-size: 40rpx;
+  color: rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
+}
+
+.user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-name-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  flex-wrap: wrap;
+}
+
+.nickname {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.vip-pill {
+  background: linear-gradient(135deg, #D4A574, #C8993E);
+  color: #FFFFFF;
+  font-size: 20rpx;
+  font-weight: 600;
+  padding: 2rpx 16rpx;
+  border-radius: 999rpx;
+  letter-spacing: 1rpx;
+}
+
+.user-id {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  margin-top: 12rpx;
+}
+
+.id-text {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.copy-tip {
+  font-size: 24rpx;
+  color: #C8553D;
+  font-weight: 500;
+}
+
+.edit-btn {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 40rpx;
+  flex-shrink: 0;
+}
+
+.phone-bind-card {
+  margin: -40rpx 24rpx 0;
+  position: relative;
+  z-index: 10;
+  background: #FDF7ED;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.phone-bind-content {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.phone-bind-icon {
+  font-size: 36rpx;
+}
+
+.phone-bind-text {
+  font-size: 26rpx;
+  color: #2C2C2C;
+}
+
+.phone-bind-btn {
+  background: #C8553D;
+  color: #FFFFFF;
+  border-radius: 40rpx;
+  padding: 12rpx 32rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  letter-spacing: 1rpx;
+}
+
+.menu-section {
+  margin: 24rpx;
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  overflow: hidden;
+  box-shadow: 0 1rpx 6rpx rgba(0, 0, 0, 0.04);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 32rpx;
+  transition: background-color 0.15s ease;
+}
+
+.menu-item:active {
+  background-color: #f9f9f9;
+}
+
+.menu-icon {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 28rpx;
+  flex-shrink: 0;
+  font-size: 32rpx;
+}
+
+.menu-icon.accent {
+  background: #FFF0ED;
+}
+
+.menu-icon.gray {
+  background: #F5F5F5;
+}
+
+.menu-text {
+  flex: 1;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #2C2C2C;
+}
+
+.menu-arrow {
+  color: #CCCCCC;
+  font-size: 36rpx;
+}
+
+.menu-divider {
+  height: 1rpx;
+  background: #f5f5f5;
+  margin: 0 32rpx;
+}
+
+.footer {
+  text-align: center;
+  padding: 48rpx 0;
+  padding-bottom: calc(32rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(32rpx + env(safe-area-inset-bottom));
+}
+
+.app-version {
+  font-size: 22rpx;
+  color: #AAAAAA;
+}
+
+/* 数据统计 */
+.stats-row {
+  display: flex;
+  align-items: center;
+  margin-top: 24rpx;
+  padding: 24rpx 0;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16rpx;
+}
+
+.stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.stat-num {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.stat-divider {
+  width: 1rpx;
+  height: 60rpx;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* 菜单计数 */
+.menu-count {
+  font-size: 24rpx;
+  color: #999;
+  margin-right: 8rpx;
+}
